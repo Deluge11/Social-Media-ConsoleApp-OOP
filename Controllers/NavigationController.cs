@@ -40,6 +40,14 @@ namespace SocialApp.Controllers
             {
                 AuthenticatePageStack.Push(next);
             }
+            if(next is IScrollPage scrollPage)
+            {
+                scrollPage.ResetStart();
+            }
+            if (next is IScrollCursor scrollCursorPage)
+            {
+                scrollCursorPage.ResetCursor();
+            }
         }
         public void GoBack()
         {
@@ -62,5 +70,10 @@ namespace SocialApp.Controllers
             return Appstate.IsAuthenticated ? AppPageStack.Count : AuthenticatePageStack.Count;
         }
 
+        public void ClearStack()
+        {
+            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            stack.Clear();
+        }
     }
 }

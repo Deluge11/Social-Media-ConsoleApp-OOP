@@ -1,5 +1,6 @@
 ﻿using SocialApp;
 using SocialApp.Controllers;
+using SocialApp.Interfaces;
 using SocialApp.Pages;
 using SocialApp.Scripts;
 using SocialApp.Services;
@@ -36,6 +37,9 @@ authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 //============================================//
 homePage.AddPage(profilePage);
+homePage.AddPage(profilePage);
+homePage.AddPage(profilePage);
+homePage.AddPage(profilePage);
 homePage.AddPage(postPage);
 homePage.AddPage(friendPage);
 homePage.AddPage(chatPage);
@@ -48,10 +52,9 @@ friendPage.AddPage(sendFriendRequestPage);
 friendPage.AddPage(friendRequestPage);
 //============================================//
 
-
-var navigationController = new NavigationController(appState);
-var inputController = new InputController(navigationController);
-var renderController = new RendererController(navigationController);
+INavigationController navigationController = new NavigationController(appState);
+IInputController inputController = new InputController(navigationController);
+IRendererController renderController = new RendererController(navigationController);
 
 navigationController.SetDefaultAppPage(homePage);
 navigationController.SetDefaultAuthPage(authenticationPage);

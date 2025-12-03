@@ -12,5 +12,8 @@ namespace SocialApp.Interfaces
         void GoBack();
         IPage GetCurrentPage();
         int GetStackCount();
+        void SetDefaultAppPage(IPage homePage);
+        void SetDefaultAuthPage(IPage authenticationPage);
+        public void ClearStack();
     }
 }

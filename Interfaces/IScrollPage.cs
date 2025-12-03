@@ -11,5 +11,6 @@ namespace SocialApp.Interfaces
         int Start { get; }
         void ScrollUp();
         void ScrollDown();
+        void ResetStart();
     }
 }

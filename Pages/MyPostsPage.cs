@@ -28,17 +28,13 @@ namespace SocialApp.Pages
         public void ScrollDown()
         {
             string username = AppState.User.Name;
-            if (Start >= PostServices.GetMyPostsCount(username) - 3)
-                return;
-
-            Start++;
+            if (Start < PostServices.GetMyPostsCount(username) - 3)
+                Start++;
         }
         public void ScrollUp()
         {
-            if (Start <= 0)
-                return;
-
-            Start--;
+            if (Start > 0)
+                Start--;
         }
         public void SetPageContent()
         {
@@ -96,6 +92,9 @@ namespace SocialApp.Pages
 
             PostServices.AddNewPost(AppState.User.Name, post);
         }
-
+        public void ResetStart()
+        {
+            Start = 0;
+        }
     }
 }

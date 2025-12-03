@@ -67,6 +67,9 @@ namespace SocialApp.Pages
                 ContentGrids[9] = friendList[Start + 2];
             }
         }
-
+        public void ResetStart()
+        {
+            Start = 0;
+        }
     }
 }

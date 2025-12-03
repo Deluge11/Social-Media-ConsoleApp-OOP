@@ -94,5 +94,14 @@ namespace SocialApp.Pages
 
             return new MessagesPage(AppState, MessageServices, chatId, friendsList[Cursor]);
         }
+        public void ResetCursor()
+        {
+            Cursor = 0;
+        }
+
+        public void ResetStart()
+        {
+            Start = 0;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace SocialApp.Interfaces
     interface IScrollCursor : IScrollPage
     {
         int Cursor { get; }
+        void ResetCursor();
     }
 }

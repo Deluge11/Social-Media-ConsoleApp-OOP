@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class AuthenticatePage : IPage, IScrollCursor, IAction , IActionPage
+    public class AuthenticatePage : IPage, IScrollCursor, IAction, IActionPage
     {
         public string PageName { get; } = "Authentication Page";
         public string DefaultMassage { get; } = "There is no scripts";
@@ -17,8 +17,7 @@ namespace SocialApp.Pages
         public int Start { get; private set; }
         public int Cursor { get; private set; }
         public List<IAction> Actions { get; } = new();
-
-        public string ActionName { get; } = "Sign Up/Sign In";
+        public string ActionName { get; } = "Take action";
 
         public void Action()
         {
@@ -72,6 +71,16 @@ namespace SocialApp.Pages
         public void AddAction(IAction action)
         {
             Actions.Add(action);
+        }
+
+        public void ResetCursor()
+        {
+            Cursor = 0;
+        }
+
+        public void ResetStart()
+        {
+            Start = 0;
         }
     }
 }

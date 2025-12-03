@@ -105,9 +105,11 @@ namespace SocialApp.Pages
             {
                 ContentGrids[5] = massageList[Start - 2].MsgString;
             }
+        }
 
-
-
+        public void ResetStart()
+        {
+            Start = 0;
         }
 
     }

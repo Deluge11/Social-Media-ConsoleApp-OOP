@@ -78,5 +78,13 @@ namespace SocialApp.Pages
         {
             return Pages[Cursor];
         }
+        public void ResetCursor()
+        {
+            Cursor = 0;
+        }
+        public void ResetStart()
+        {
+            Start = 0;
+        }
     }
 }

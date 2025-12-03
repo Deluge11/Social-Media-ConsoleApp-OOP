@@ -86,7 +86,6 @@ namespace SocialApp.Pages
 
             }
         }
-
         public void Action()
         {
             string username = AppState.User.Name;
@@ -94,6 +93,14 @@ namespace SocialApp.Pages
             Post post = postsIdList[Cursor];
 
             PostServices.TogglePostLike(username, post.Id);
+        }
+        public void ResetCursor()
+        {
+            Cursor = 0;
+        }
+        public void ResetStart()
+        {
+            Start = 0;
         }
 
     }

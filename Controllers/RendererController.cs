@@ -81,8 +81,8 @@ namespace SocialApp.Controllers
 
             if(currentPage is IScrollPage)
             {
-                Console.WriteLine("| Press W to scroll up");
-                Console.WriteLine("| Press S to scroll down");
+                Console.WriteLine("| Press W to Scroll up");
+                Console.WriteLine("| Press S to Scroll down");
             }
             if (currentPage is IAction action)
             {
@@ -92,7 +92,8 @@ namespace SocialApp.Controllers
             {
                 Console.WriteLine($"| Press X to go next page");
             }
-            Console.WriteLine($"| Press Q key to return");
+            Console.WriteLine($"| Press B to Return");
+            Console.WriteLine($"| Press G to Exit");
         }
         protected void SetBoardContent()
         {

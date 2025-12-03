@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class FriendsPage : IPage, IScrollCursor, IRootPage , IManagePages
+    public class FriendsPage : IPage, IScrollCursor, IRootPage, IManagePages
     {
         public string PageName { get; private set; } = "Friends Page";
         public string[] ContentGrids { get; private set; } = new string[12];
-        public int Start { get; private set; }
-        public int Cursor { get; private set; }
+        public int Start { get; set; }
+        public int Cursor { get; set; }
         public List<IPage> Pages { get; } = new();
         public AppState AppState { get; }
 
@@ -67,6 +67,14 @@ namespace SocialApp.Pages
         public IPage Next()
         {
             return Pages[Cursor];
+        }
+        public void ResetCursor()
+        {
+            Cursor = 0;
+        }
+        public void ResetStart()
+        {
+            Start = 0;
         }
     }
 }

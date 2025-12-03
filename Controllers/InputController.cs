@@ -17,7 +17,6 @@ namespace SocialApp.Controllers
         public INavigationController NavigationController { get; }
 
 
-
         public void TakeAction(char key)
         {
             IPage page = NavigationController.GetCurrentPage();
@@ -27,27 +26,27 @@ namespace SocialApp.Controllers
                 if (key == 'w')
                 {
                     scrollPage.ScrollUp();
-                    return;
                 }
                 if (key == 's')
                 {
                     scrollPage.ScrollDown();
-                    return;
                 }
             }
             if (page is IAction actionPage && key == 'x')
             {
                 actionPage.Action();
-                return;
             }
-            if (page is IRootPage rootPage && key == 'x')
+            else if (page is IRootPage rootPage && key == 'x')
             {
                 NavigationController.GoNext(rootPage.Next());
-                return;
             }
-            if(key == 'q')
+            if (key == 'b')
             {
                 NavigationController.GoBack();
+            }
+            if (key == 'g')
+            {
+                NavigationController.ClearStack();
             }
         }
     }
