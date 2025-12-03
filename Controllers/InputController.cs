@@ -45,8 +45,10 @@ namespace SocialApp.Controllers
                 NavigationController.GoNext(rootPage.Next());
                 return;
             }
-
-            NavigationController.GoBack();
+            if(key == 'q')
+            {
+                NavigationController.GoBack();
+            }
         }
     }
 }

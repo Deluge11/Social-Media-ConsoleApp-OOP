@@ -92,7 +92,7 @@ namespace SocialApp.Controllers
             {
                 Console.WriteLine($"| Press X to go next page");
             }
-            Console.WriteLine($"| Press other key to return");
+            Console.WriteLine($"| Press Q key to return");
         }
         protected void SetBoardContent()
         {
