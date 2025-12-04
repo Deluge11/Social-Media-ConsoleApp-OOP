@@ -109,7 +109,7 @@ namespace SocialApp.Pages
 
         public void ResetStart()
         {
-            Start = 0;
+            Start = MessageServices.GetChatMessagesCount(ChatId) - 1;
         }
 
     }

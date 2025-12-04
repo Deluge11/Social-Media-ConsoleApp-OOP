@@ -1,7 +1,9 @@
 ﻿using SocialApp.Interfaces;
+using SocialApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,9 @@ namespace SocialApp.Controllers
         private const int Row4 = 20;
 
         private const int Width = 75;
+
+        private const int GridWidth = 20;
+        private const int GridHeight = 4;
 
         private char[][] Board = new char[26][];
 
@@ -42,44 +47,19 @@ namespace SocialApp.Controllers
         public void Print()
         {
             Console.Clear();
-
             SetBoardDefault();
             SetBoardContent();
             SetHorizontalLine(6);
+            BoardProcess();
 
-            for (int h = 0; h < Board.Length; h++)
-            {
-                for (int w = 0; w < Width; w++)
-                {
-                    if (h == 0 || h == Board.Length - 1)
-                    {
-                        if (w == 0 || w == Width - 1)
-                        {
-                            Console.Write('*');
-                        }
-                        else
-                        {
-                            Console.Write('-');
-                        }
-                    }
-                    else if (w == 0 || w == Width - 1)
-                    {
-                        Console.Write('|');
-                    }
-                    else
-                    {
-                        Console.Write(Board[h][w]);
-                    }
-                }
-                Console.WriteLine();
-            }
+
             PrintControlKeys();
         }
         protected void PrintControlKeys()
         {
             IPage currentPage = NavigationController.GetCurrentPage();
 
-            if(currentPage is IScrollPage)
+            if (currentPage is IScrollPage)
             {
                 Console.WriteLine("| Press W to Scroll up");
                 Console.WriteLine("| Press S to Scroll down");
@@ -116,12 +96,7 @@ namespace SocialApp.Controllers
             SetGrid(content[10], Row4, Col2);
             SetGrid(content[11], Row4, Col3);
 
-            if (currentPage is IScrollCursor dynamicPage && currentPage is IScrollPage scrollingPage)
-            {
-                int rowPos = dynamicPage.Cursor - scrollingPage.Start + 1;
-                SetCursor(content[3 * rowPos], rowPos);
-            }
-
+            SetCursor();
         }
         protected void SetBoardDefault()
         {
@@ -133,9 +108,39 @@ namespace SocialApp.Controllers
                 }
             }
         }
-        protected void SetCursor(string content, int pos)
+        protected void SetCursor()
         {
-            if (string.IsNullOrEmpty(content))
+            IPage currentPage = NavigationController.GetCurrentPage();
+
+            if (currentPage is not IScrollCursor)
+            {
+                return;
+            }
+
+            int curserPosition = GetCursorPosition();
+            string contentLength = GetContentLength(curserPosition);
+            SetCursorOnBoard(contentLength, curserPosition);
+        }
+
+        protected string GetContentLength(int rowPosition)
+        {
+            IPage currentPage = NavigationController.GetCurrentPage();
+            var contents = currentPage.ContentGrids;
+            return contents[3 * rowPosition];
+        }
+
+        protected int GetCursorPosition()
+        {
+            IPage currentPage = NavigationController.GetCurrentPage();
+            if (currentPage is not IScrollCursor dynamicPage)
+                return -1;
+
+            return dynamicPage.Cursor - dynamicPage.Start + 1;
+        }
+
+        protected void SetCursorOnBoard(string content, int pos)
+        {
+            if (string.IsNullOrEmpty(content.Trim()))
             {
                 return;
             }
@@ -168,13 +173,13 @@ namespace SocialApp.Controllers
         {
             int startW = w;
             int startH = h;
-            int nextW = w + 20;
+            int maxW = w + GridWidth;
 
             for (int x = 0; x < content.Length; x++, w++)
             {
                 if (h - startH == 5) continue;
 
-                if (h - startH == 4 && nextW - w == 4)
+                if (h - startH == 4 && maxW - w == 4)
                 {
                     content = "...";
                     x = 0;
@@ -186,21 +191,26 @@ namespace SocialApp.Controllers
                     w = startW;
                     x += 2;
                 }
-                else if (w == nextW)
+                else if (w == maxW)
                 {
                     h++;
                     w = startW;
 
-                    if (content[x] != ' ')
+                    if (content[x - 1] != ' ' && content[x] != ' ')
                     {
                         Board[h][w] = '-';
                         w++;
+                    }
+                    if (content[x] == ' ')
+                    {
+                        x++;
                     }
                 }
 
                 Board[h][w] = content[x];
             }
         }
+
         protected void SetHorizontalLine(int row)
         {
             for (int i = 0; i < Board[row].Length; i++)
@@ -213,6 +223,36 @@ namespace SocialApp.Controllers
                 {
                     Board[row][i] = '-';
                 }
+            }
+        }
+
+        protected void BoardProcess()
+        {
+            for (int h = 0; h < Board.Length; h++)
+            {
+                for (int w = 0; w < Width; w++)
+                {
+                    if (h == 0 || h == Board.Length - 1)
+                    {
+                        if (w == 0 || w == Width - 1)
+                        {
+                            Console.Write('*');
+                        }
+                        else
+                        {
+                            Console.Write('-');
+                        }
+                    }
+                    else if (w == 0 || w == Width - 1)
+                    {
+                        Console.Write('|');
+                    }
+                    else
+                    {
+                        Console.Write(Board[h][w]);
+                    }
+                }
+                Console.WriteLine();
             }
         }
     }
