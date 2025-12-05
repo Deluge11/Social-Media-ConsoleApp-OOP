@@ -47,14 +47,20 @@ namespace SocialApp.Controllers
         public void Print()
         {
             Console.Clear();
-            SetBoardDefault();
-            SetBoardContent();
-            SetHorizontalLine(6);
-            BoardProcess();
 
-
+            BoardProcessing();
+            PrintBoard();
             PrintControlKeys();
         }
+
+        protected void BoardProcessing()
+        {
+            SetBoardDefault();
+            SetBoardGrids();
+            SetCursor();
+            SetHorizontalLine(6);
+        }
+
         protected void PrintControlKeys()
         {
             IPage currentPage = NavigationController.GetCurrentPage();
@@ -75,7 +81,7 @@ namespace SocialApp.Controllers
             Console.WriteLine($"| Press B to Return");
             Console.WriteLine($"| Press G to Exit");
         }
-        protected void SetBoardContent()
+        protected void SetBoardGrids()
         {
             IPage currentPage = NavigationController.GetCurrentPage();
 
@@ -95,8 +101,6 @@ namespace SocialApp.Controllers
             SetGrid(content[9], Row4, Col1);
             SetGrid(content[10], Row4, Col2);
             SetGrid(content[11], Row4, Col3);
-
-            SetCursor();
         }
         protected void SetBoardDefault()
         {
@@ -226,7 +230,7 @@ namespace SocialApp.Controllers
             }
         }
 
-        protected void BoardProcess()
+        protected void PrintBoard()
         {
             for (int h = 0; h < Board.Length; h++)
             {
