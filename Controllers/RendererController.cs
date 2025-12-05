@@ -23,7 +23,7 @@ namespace SocialApp.Controllers
         private const int Width = 75;
 
         private const int GridWidth = 20;
-        private const int GridHeight = 4;
+        private const int GridHeight = 5;
 
         private char[][] Board = new char[26][];
 
@@ -177,9 +177,9 @@ namespace SocialApp.Controllers
 
             for (int x = 0; x < content.Length; x++, w++)
             {
-                if (h - startH == 5) continue;
+                if (h - startH == GridHeight) continue;
 
-                if (h - startH == 4 && maxW - w == 4)
+                if (h - startH == GridHeight - 1 && maxW - w == 4)
                 {
                     content = "...";
                     x = 0;

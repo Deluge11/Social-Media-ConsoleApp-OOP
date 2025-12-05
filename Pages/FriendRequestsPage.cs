@@ -12,7 +12,7 @@ namespace SocialApp.Pages
     public class FriendRequestsPage : IPage, IScrollCursor, IAction
     {
         public string PageName { get; } = "Friend Requests";
-        public string DefaultMassage { get; } = "There is no requests #hCheck again later";
+        public string DefaultMassage { get; } = "There is no requests" + "#h" + "Check again later";
         public string ActionName { get; } = "Accept friend request";
         public string[] ContentGrids { get; } = new string[12];
         public int Cursor { get; set; }

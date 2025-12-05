@@ -46,13 +46,12 @@ namespace SocialApp.Pages
 
             var friendList = FriendServices.GetUserFriends(AppState.User.Name);
 
+            ContentGrids[1] = PageName;
+
             if (friendList.Count == 0)
             {
-                ContentGrids[1] = DefaultMassage;
-                return;
+                ContentGrids[4] = DefaultMassage;
             }
-
-            ContentGrids[1] = "My Friends";
 
             if (Start < friendList.Count)
             {

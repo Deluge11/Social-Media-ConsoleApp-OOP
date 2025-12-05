@@ -12,8 +12,8 @@ namespace SocialApp.Pages
     public class MyPostsPage : IPage, IScrollPage, IAction
     {
         public string PageName { get; private set; } = "My Posts";
-        public string[] ContentGrids { get; private set; } = new string[12];
         public string DefaultMassage { get; } = "You have no posts!";
+        public string[] ContentGrids { get; private set; } = new string[12];
         public int Start { get; private set; }
         public PostServices PostServices { get; }
         public AppState AppState { get; }
@@ -45,15 +45,15 @@ namespace SocialApp.Pages
 
             var postsList = PostServices.GetUserPosts(AppState.User.Name);
 
-            if (postsList.Count == 0)
-            {
-                ContentGrids[1] = DefaultMassage;
-                return;
-            }
-
             ContentGrids[0] = "Post Content";
             ContentGrids[1] = "Likes";
             ContentGrids[2] = "Date Created";
+
+            if (postsList.Count == 0)
+            {
+                ContentGrids[4] = DefaultMassage;
+                return;
+            }
 
             if (Start < postsList.Count)
             {
@@ -77,20 +77,7 @@ namespace SocialApp.Pages
 
         public void Action()
         {
-            Console.Clear();
-            Console.WriteLine("| Add new post");
-
-            string post = Console.ReadLine()!;
-            if (post == null || post.Length < 5)
-            {
-                Console.Clear();
-                Console.WriteLine("| The post should have 5 letters atleast");
-                Console.WriteLine("| Press any key to continue");
-                Console.ReadKey();
-                return;
-            }
-
-            PostServices.AddNewPost(AppState.User.Name, post);
+            PostServices.AddNewPost(AppState.User.Name);
         }
         public void ResetStart()
         {

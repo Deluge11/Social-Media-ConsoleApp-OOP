@@ -11,12 +11,16 @@ namespace SocialApp.Pages
     public class PostsPage : IPage, IScrollCursor, IRootPage, IManagePages
     {
         public string PageName { get; private set; } = "Posts Page";
+        public string DefaultMassage { get; } = "There is no pages";
+
         public string[] ContentGrids { get; private set; } = new string[12];
         public int Start { get; private set; }
         public int Cursor { get; private set; }
 
 
         public List<IPage> Pages { get; } = new();
+
+
         public PostsPage(AppState appState)
         {
             SetPageContent();
@@ -30,6 +34,11 @@ namespace SocialApp.Pages
             }
 
             ContentGrids[1] = PageName;
+
+            if(Pages.Count == 0)
+            {
+                ContentGrids[4] = DefaultMassage;
+            }
 
             if (Start < Pages.Count)
             {
@@ -67,6 +76,10 @@ namespace SocialApp.Pages
 
         public IPage Next()
         {
+            if (Pages.Count == 0)
+            {
+                return null;
+            }
             return Pages[Cursor];
         }
         public void ResetCursor()

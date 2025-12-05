@@ -12,7 +12,7 @@ namespace SocialApp.Pages
     public class SendFriendRequestPage : IPage, IScrollCursor, IAction
     {
         public string PageName { get; } = "Add Friends";
-        public string DefaultMassage { get; } = "There is no users #hTry to check later";
+        public string DefaultMassage { get; } = "There is no users" + "#h" + "Try to check later";
         public string[] ContentGrids { get; } = new string[12];
         public int Cursor { get; set; }
         public int Start { get; set; }
@@ -30,7 +30,7 @@ namespace SocialApp.Pages
             string username = AppState.User.Name;
             var usersList = FriendServices.GetUnfriendsUsers(username);
 
-            if (Cursor >= usersList.Count)
+            if (usersList.Count == 0)
             {
                 return;
             }

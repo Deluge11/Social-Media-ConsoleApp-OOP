@@ -13,6 +13,7 @@ namespace SocialApp.Pages
     public class MessagesPage : IPage, IScrollPage, IAction
     {
         public string PageName { get; } = "Messages Page";
+        public string DefaultMassage { get; } = "Break the silence";
         public string[] ContentGrids { get; } = new string[12];
         public int Start { get; set; }
         public MessageServices MessageServices { get; }
@@ -20,6 +21,7 @@ namespace SocialApp.Pages
         public int ChatId { get; set; }
         public string FriendName { get; set; }
         public string ActionName { get; } = "Add new message";
+
 
         public MessagesPage(AppState appState, MessageServices messageServices, int chatId, string friendname)
         {
@@ -69,6 +71,11 @@ namespace SocialApp.Pages
             var massageList = MessageServices.GetChatMessages(ChatId);
 
             int listCount = massageList.Count;
+
+            if(listCount == 0)
+            {
+                ContentGrids[4] = DefaultMassage;
+            }
 
             if (Start < 0)
                 return;

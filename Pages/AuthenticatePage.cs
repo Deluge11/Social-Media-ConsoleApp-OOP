@@ -21,8 +21,9 @@ namespace SocialApp.Pages
 
         public void Action()
         {
-            if (Cursor >= Actions.Count || Cursor < 0)
+            if (Actions.Count == 0)
                 return;
+  
             Actions[Cursor].Action();
         }
         public void ScrollDown()

@@ -85,6 +85,11 @@ namespace SocialApp.Pages
 
             var friendsList = FriendServices.GetUserFriends(username);
 
+            if (friendsList.Count == 0)
+            {
+                return null;
+            }
+
             int chatId = MessageServices.GetChatId(username, friendsList[Cursor]);
 
             if (chatId == -1)

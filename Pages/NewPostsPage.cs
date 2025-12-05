@@ -13,7 +13,7 @@ namespace SocialApp.Pages
     public class NewPostsPage : IPage, IScrollCursor, IAction
     {
         public string PageName { get; private set; } = "New Posts";
-        public string DefaultMassage { get; } = "There is no posts! #hAdd new post/friend";
+        public string DefaultMassage { get; } = "There is no posts!" + "#h" + "Add new post/friend";
         public string[] ContentGrids { get; private set; } = new string[12];
         public PostServices PostServices { get; }
         public AppState AppState { get; }
@@ -56,15 +56,15 @@ namespace SocialApp.Pages
 
             var postsList = PostServices.GetNewPosts(name);
 
-            if (postsList.Count == 0)
-            {
-                ContentGrids[1] = DefaultMassage;
-                return;
-            }
-
             ContentGrids[0] = "Friend name";
             ContentGrids[1] = "Post Content";
             ContentGrids[2] = "Info";
+
+            if (postsList.Count == 0)
+            {
+                ContentGrids[4] = DefaultMassage;
+                return;
+            }
 
             if (Start < postsList.Count)
             {
@@ -90,6 +90,12 @@ namespace SocialApp.Pages
         {
             string username = AppState.User.Name;
             var postsIdList = PostServices.GetNewPosts(username);
+
+            if (postsIdList.Count == 0)
+            {
+                return;
+            }
+
             Post post = postsIdList[Cursor];
 
             PostServices.TogglePostLike(username, post.Id);

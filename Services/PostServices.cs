@@ -38,10 +38,24 @@ namespace SocialApp.Services
             return result;
         }
 
-        public void AddNewPost(string username, string content)
+        public void AddNewPost(string username)
         {
+            Console.Clear();
+            Console.WriteLine("| Add new post");
+            Console.Write("=> ");
+
+            string post = Console.ReadLine()!.Trim();
+            if (post == null || post.Length < 5)
+            {
+                Console.Clear();
+                Console.WriteLine("| The post should have 5 letters atleast");
+                Console.WriteLine("| Press any key to continue");
+                Console.ReadKey();
+                return;
+            }
+
             LastIdInfo.PostID++;
-            Post newPost = new Post(LastIdInfo.PostID, content, username, DateTime.Now);
+            Post newPost = new Post(LastIdInfo.PostID, post, username, DateTime.Now);
             PostsDB[newPost.Id] = newPost;
             UsersDB[username].AddPost(newPost.Id);
         }
