@@ -29,6 +29,12 @@ namespace SocialApp.Pages
         {
             var username = AppState.User.Name;
             var usersList = FriendServices.GetFriendRequistsUsers(username);
+
+            if(usersList.Count == 0)
+            {
+                return;
+            }
+
             FriendServices.ConnectUsers(username, usersList[Cursor]);
             ScrollUp();
         }
@@ -52,11 +58,6 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
             var usersList = FriendServices.GetFriendRequistsUsers(AppState.User.Name);
 
             ContentGrids[1] = PageName;
@@ -88,6 +89,14 @@ namespace SocialApp.Pages
         public void ResetStart()
         {
             Start = 0;
+        }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
         }
     }
 }

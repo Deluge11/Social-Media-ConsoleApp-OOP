@@ -75,5 +75,23 @@ namespace SocialApp.Controllers
             var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
             stack.Clear();
         }
+
+        public List<string> GetPagesStackNames()
+        {
+            var pagesName = new List<string>();
+
+            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+
+            if (stack.Count == 0)
+            {
+                return pagesName;
+            }
+
+            foreach(var page in stack)
+            {
+                pagesName.Add(page.PageName);
+            }
+            return pagesName;
+        }
     }
 }

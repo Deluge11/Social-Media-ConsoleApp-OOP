@@ -38,11 +38,7 @@ namespace SocialApp.Pages
         }
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
+          
             var postsList = PostServices.GetUserPosts(AppState.User.Name);
 
             ContentGrids[0] = "Post Content";
@@ -77,11 +73,23 @@ namespace SocialApp.Pages
 
         public void Action()
         {
+            if (!AppState.IsAuthenticated)
+            {
+                return;
+            }
             PostServices.AddNewPost(AppState.User.Name);
         }
         public void ResetStart()
         {
             Start = 0;
+        }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
         }
     }
 }

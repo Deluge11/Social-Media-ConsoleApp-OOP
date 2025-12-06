@@ -28,11 +28,7 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
+          
             ContentGrids[1] = PageName;
 
             if(Pages.Count == 0)
@@ -89,6 +85,14 @@ namespace SocialApp.Pages
         public void ResetStart()
         {
             Start = 0;
+        }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
         }
     }
 }

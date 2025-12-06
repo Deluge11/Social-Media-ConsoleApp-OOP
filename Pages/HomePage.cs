@@ -15,7 +15,6 @@ namespace SocialApp.Pages
         public string[] ContentGrids { get; private set; } = new string[12];
         public int Start { get; private set; }
         public int Cursor { get; private set; }
-
         public List<IPage> Pages { get; } = new();
         public AppState AppState { get; }
 
@@ -27,11 +26,6 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
             ContentGrids[1] = PageName;
 
             if (Pages.Count == 0)
@@ -54,6 +48,15 @@ namespace SocialApp.Pages
             }
 
         }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
+        }
+
         public void ScrollDown()
         {
             if (Cursor < Pages.Count - 1)

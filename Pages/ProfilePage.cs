@@ -25,11 +25,6 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
             User user = AppState.User;
 
             ContentGrids[1] = PageName;
@@ -43,6 +38,14 @@ namespace SocialApp.Pages
             ContentGrids[3] = $"Username : {user.Name}";
             ContentGrids[6] = $"Friends count : {user.Friends.Count}";
             ContentGrids[9] = $"Posts count : {user.PostsId.Count}";
+        }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
         }
     }
 }

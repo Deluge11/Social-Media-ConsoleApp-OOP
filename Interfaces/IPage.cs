@@ -12,5 +12,6 @@ namespace SocialApp.Interfaces
         string DefaultMassage { get; }
         string[] ContentGrids { get; }
         void SetPageContent();
+        void ResetContent();
     }
 }

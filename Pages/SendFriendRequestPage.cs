@@ -63,11 +63,7 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
+           
             var usersList = FriendServices.GetUnfriendsUsers(AppState.User.Name);
 
             ContentGrids[1] = PageName;
@@ -99,6 +95,15 @@ namespace SocialApp.Pages
         public void ResetStart()
         {
             Start = 0;
+        }
+
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
+
         }
     }
 }

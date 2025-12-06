@@ -50,6 +50,7 @@ namespace SocialApp.Controllers
 
             BoardProcessing();
             PrintBoard();
+            PrintPagesStack();
             PrintControlKeys();
         }
 
@@ -59,6 +60,38 @@ namespace SocialApp.Controllers
             SetBoardGrids();
             SetCursor();
             SetHorizontalLine(6);
+        }
+
+        protected void PrintPagesStack()
+        {
+            var pagesName = NavigationController.GetPagesStackNames();
+
+            int pagesNameTotalLength = 1;
+
+            Console.Write("=> ");
+            for (int i = pagesName.Count - 1; i >= 0 ; i--)
+            {
+                pagesNameTotalLength += pagesName[i].Length + 4;
+
+                Console.Write(pagesName[i]);
+
+                if(i > 0)
+                {
+                    Console.Write(" -> ");
+                }
+                if(i == 0)
+                {
+                    Console.Write(" |");
+                }
+
+            }
+            Console.WriteLine();
+            for(int i = 0; i < pagesNameTotalLength; i++)
+            {
+                Console.Write('-');
+            }
+            Console.WriteLine();
+
         }
 
         protected void PrintControlKeys()
@@ -85,6 +118,7 @@ namespace SocialApp.Controllers
         {
             IPage currentPage = NavigationController.GetCurrentPage();
 
+            currentPage.ResetContent();
             currentPage.SetPageContent();
 
             var content = currentPage.ContentGrids;

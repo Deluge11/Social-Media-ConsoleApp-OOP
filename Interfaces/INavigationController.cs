@@ -14,6 +14,7 @@ namespace SocialApp.Interfaces
         int GetStackCount();
         void SetDefaultAppPage(IPage homePage);
         void SetDefaultAuthPage(IPage authenticationPage);
-        public void ClearStack();
+        void ClearStack();
+        List<string> GetPagesStackNames();
     }
 }

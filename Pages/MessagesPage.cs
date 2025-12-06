@@ -60,11 +60,7 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
+          
             ContentGrids[0] = $"{{ {AppState.User.Name} }}";
             ContentGrids[2] = $"{{ {FriendName} }}";
 
@@ -119,5 +115,12 @@ namespace SocialApp.Pages
             Start = MessageServices.GetChatMessagesCount(ChatId) - 1;
         }
 
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+            {
+                ContentGrids[i] = "";
+            }
+        }
     }
 }
