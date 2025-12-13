@@ -69,26 +69,34 @@ namespace SocialApp.Controllers
             int pagesNameTotalLength = 1;
 
             Console.Write("=> ");
-            for (int i = pagesName.Count - 1; i >= 0 ; i--)
+            for (int i = pagesName.Count - 1; i >= 0; i--)
             {
                 pagesNameTotalLength += pagesName[i].Length + 4;
 
                 Console.Write(pagesName[i]);
 
-                if(i > 0)
+                if (i > 0)
                 {
                     Console.Write(" -> ");
                 }
-                if(i == 0)
+                if (i == 0)
                 {
                     Console.Write(" |");
                 }
 
             }
             Console.WriteLine();
-            for(int i = 0; i < pagesNameTotalLength; i++)
+
+            for (int i = 0; i < pagesNameTotalLength; i++)
             {
-                Console.Write('-');
+                if (i == 0 || i == pagesNameTotalLength - 1)
+                {
+                    Console.Write('*');
+                }
+                else
+                {
+                    Console.Write('-');
+                }
             }
             Console.WriteLine();
 
@@ -183,21 +191,21 @@ namespace SocialApp.Controllers
                 return;
             }
 
-            int h = 2;
+            int h = Row1;
 
             switch (pos)
             {
                 case 0:
-                    h = 2;
+                    h = Row1;
                     break;
                 case 1:
-                    h = 8;
+                    h = Row2;
                     break;
                 case 2:
-                    h = 14;
+                    h = Row3;
                     break;
                 case 3:
-                    h = 20;
+                    h = Row4;
                     break;
             }
 

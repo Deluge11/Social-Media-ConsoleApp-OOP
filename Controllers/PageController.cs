@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace SocialApp.Controllers
 {
-    public class PageConttroller
+    public class PageController
     {
-        public PageConttroller(
+        public PageController(
             INavigationController navigationController,
             IRendererController rendererController,
             IInputController inputController
