@@ -9,9 +9,9 @@ namespace SocialApp.Services
 {
    public class FriendServices
     {
-        public Dictionary<string, User> UsersDB { get; }
-        public Dictionary<int, Messages> MessagesDB { get; }
-        public LastIdInfo LastIdInfo { get; }
+        private Dictionary<string, User> UsersDB { get; }
+        private Dictionary<int, Messages> MessagesDB { get; }
+        private LastIdInfo LastIdInfo { get; }
 
         public FriendServices(DataManager dataManager)
         {

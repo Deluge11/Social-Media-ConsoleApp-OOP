@@ -10,10 +10,10 @@ namespace SocialApp
 {
     public class DataManager
     {
-        private string MassageFile = "massage.json";
-        private string UsersFile = "Users.json";
-        private string IdsFile = "LastId.json";
-        private string PostsFile = "Posts.json";
+        private const string MassageFile = "massage.json";
+        private const string UsersFile = "Users.json";
+        private const string IdsFile = "LastId.json";
+        private const string PostsFile = "Posts.json";
 
         public Dictionary<string, User> UsersDB { get; private set; } = new();
         public Dictionary<int, Post> PostsDB { get; private set; } = new();
@@ -48,7 +48,6 @@ namespace SocialApp
                 string json = File.ReadAllText(UsersFile);
                 UsersDB = JsonConvert.DeserializeObject<Dictionary<string, User>>(json) ?? new();
             }
-
             if (File.Exists(IdsFile))
             {
                 string json = File.ReadAllText(IdsFile);

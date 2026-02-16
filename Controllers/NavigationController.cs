@@ -11,7 +11,7 @@ namespace SocialApp.Controllers
     {
         private Stack<IPage> AuthenticatePageStack { get; } = new();
         private Stack<IPage> AppPageStack { get; } = new();
-        public AppState Appstate { get; }
+        private AppState Appstate { get; }
 
         public NavigationController(AppState appstate)
         {

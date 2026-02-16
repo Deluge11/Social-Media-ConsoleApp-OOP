@@ -28,9 +28,9 @@ namespace SocialApp.Services
         {
             List<Post> result = new();
 
-            var user = UsersDB[username];
+            User user = UsersDB[username];
 
-            foreach (var pId in user.PostsId)
+            foreach (int pId in user.PostsId)
             {
                 result.Add(PostsDB[pId]);
             }
@@ -69,14 +69,14 @@ namespace SocialApp.Services
         {
             PriorityQueue<LinkedListNode<int>, int> posts = new();
 
-            var firstPost = UsersDB[username].PostsId.First;
+            LinkedListNode<int> firstPost = UsersDB[username].PostsId.First;
 
             if (firstPost != null)
             {
                 posts.Enqueue(firstPost, -PostsDB[firstPost.Value].Id);
             }
 
-            foreach (var friend in UsersDB[username].Friends)
+            foreach (string friend in UsersDB[username].Friends)
             {
                 firstPost = UsersDB[friend].PostsId.First;
 
@@ -90,7 +90,7 @@ namespace SocialApp.Services
 
             while (posts.Count > 0 && result.Count < 10)
             {
-                var post = posts.Dequeue();
+                LinkedListNode<int> post = posts.Dequeue();
 
                 result.Add(PostsDB[post.Value]);
 

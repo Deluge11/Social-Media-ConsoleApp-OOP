@@ -79,7 +79,7 @@ namespace SocialApp.Pages
 
         public IPage Next()
         {
-            if(Pages.Count == 0)
+            if (Pages.Count == 0)
             {
                 return null;
             }

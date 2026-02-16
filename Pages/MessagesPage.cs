@@ -38,7 +38,7 @@ namespace SocialApp.Pages
                 return;
             }
 
-            Console.Clear();
+            Console.WriteLine("=============================== ");
             Console.WriteLine("| Write new massage ");
             Console.Write(" => ");
 
@@ -60,7 +60,6 @@ namespace SocialApp.Pages
 
         public void SetPageContent()
         {
-          
             ContentGrids[0] = $"{{ {AppState.User.Name} }}";
             ContentGrids[2] = $"{{ {FriendName} }}";
 
@@ -68,7 +67,7 @@ namespace SocialApp.Pages
 
             int listCount = massageList.Count;
 
-            if(listCount == 0)
+            if (listCount == 0)
             {
                 ContentGrids[4] = DefaultMassage;
             }

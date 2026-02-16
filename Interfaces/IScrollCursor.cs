@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Interfaces
 {
-    interface IScrollCursor : IScrollPage
+    public interface IScrollCursor : IScrollPage
     {
         int Cursor { get; }
         void ResetCursor();

@@ -27,6 +27,7 @@ namespace SocialApp.Controllers
 
         private char[][] Board = new char[26][];
 
+        public INavigationController NavigationController { get; }
 
 
         public RendererController(INavigationController navigationController)
@@ -40,20 +41,15 @@ namespace SocialApp.Controllers
             SetBoardDefault();
         }
 
-        public INavigationController NavigationController { get; }
-
-
 
         public void Print()
         {
             Console.Clear();
-
             BoardProcessing();
             PrintBoard();
             PrintPagesStack();
             PrintControlKeys();
         }
-
         protected void BoardProcessing()
         {
             SetBoardDefault();
@@ -61,35 +57,42 @@ namespace SocialApp.Controllers
             SetCursor();
             SetHorizontalLine(6);
         }
-
         protected void PrintPagesStack()
         {
             var pagesName = NavigationController.GetPagesStackNames();
+            string separator = " -> ";
 
-            int pagesNameTotalLength = 1;
+            int pagesNameTotalLength = GetStringListLengthWithSeparation(pagesName, separator.Length) + 5;
 
-            Console.Write("=> ");
+            PrintHorizontalLine(pagesNameTotalLength);
+            Console.Write("| ");
+
             for (int i = pagesName.Count - 1; i >= 0; i--)
             {
-                pagesNameTotalLength += pagesName[i].Length + 4;
-
+                Console.Write(separator);
                 Console.Write(pagesName[i]);
 
-                if (i > 0)
-                {
-                    Console.Write(" -> ");
-                }
-                if (i == 0)
-                {
-                    Console.Write(" |");
-                }
-
             }
-            Console.WriteLine();
 
-            for (int i = 0; i < pagesNameTotalLength; i++)
+            Console.Write("  |");
+            PrintHorizontalLine(pagesNameTotalLength);
+
+        }
+        protected int GetStringListLengthWithSeparation(List<string> array, int separate)
+        {
+            int total = separate * array.Count;
+            for (int i = 0; i < array.Count; i++)
             {
-                if (i == 0 || i == pagesNameTotalLength - 1)
+                total += array[i].Length;
+            }
+            return total;
+        }
+        protected void PrintHorizontalLine(int length)
+        {
+            Console.WriteLine();
+            for (int i = 0; i < length; i++)
+            {
+                if (i == 0 || i == length - 1)
                 {
                     Console.Write('*');
                 }
@@ -99,9 +102,7 @@ namespace SocialApp.Controllers
                 }
             }
             Console.WriteLine();
-
         }
-
         protected void PrintControlKeys()
         {
             IPage currentPage = NavigationController.GetCurrentPage();
@@ -120,7 +121,7 @@ namespace SocialApp.Controllers
                 Console.WriteLine($"| Press X to go next page");
             }
             Console.WriteLine($"| Press B to Return");
-            Console.WriteLine($"| Press G to Exit");
+            Console.WriteLine($"| Press G to Save and Exit");
         }
         protected void SetBoardGrids()
         {
@@ -167,14 +168,12 @@ namespace SocialApp.Controllers
             string contentLength = GetContentLength(curserPosition);
             SetCursorOnBoard(contentLength, curserPosition);
         }
-
         protected string GetContentLength(int rowPosition)
         {
             IPage currentPage = NavigationController.GetCurrentPage();
             var contents = currentPage.ContentGrids;
             return contents[3 * rowPosition];
         }
-
         protected int GetCursorPosition()
         {
             IPage currentPage = NavigationController.GetCurrentPage();
@@ -183,7 +182,6 @@ namespace SocialApp.Controllers
 
             return dynamicPage.Cursor - dynamicPage.Start + 1;
         }
-
         protected void SetCursorOnBoard(string content, int pos)
         {
             if (string.IsNullOrEmpty(content.Trim()))
@@ -256,7 +254,6 @@ namespace SocialApp.Controllers
                 Board[h][w] = content[x];
             }
         }
-
         protected void SetHorizontalLine(int row)
         {
             for (int i = 0; i < Board[row].Length; i++)
@@ -271,7 +268,6 @@ namespace SocialApp.Controllers
                 }
             }
         }
-
         protected void PrintBoard()
         {
             for (int h = 0; h < Board.Length; h++)

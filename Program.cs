@@ -1,55 +1,60 @@
 ﻿using SocialApp;
 using SocialApp.Controllers;
+using SocialApp.Interfaces;
 using SocialApp.Pages;
 using SocialApp.Scripts;
 using SocialApp.Services;
 
-var appState = new AppState();
-var dataManager = new DataManager();
+AppState appState = new AppState();
 
-var friendServices = new FriendServices(dataManager);
-var postServices = new PostServices(dataManager);
-var messageServices = new MessageServices(dataManager);
-var userServices = new UserServices(dataManager);
-var authenticationServices = new AuthenticationServices(appState, userServices, dataManager.LastIdInfo);
+DataManager dataManager = new DataManager();
 
-var authenticationPage = new AuthenticatePage();
-var homePage = new HomePage(appState);
-var profilePage = new ProfilePage(appState);
-var postPage = new PostsPage(appState);
-var myPostsPage = new MyPostsPage(appState, postServices);
-var newPostsPage = new NewPostsPage(appState, postServices);
-var friendPage = new FriendsPage(appState);
-var myfriendPage = new MyFriendsPage(appState, friendServices);
-var friendRequestPage = new FriendRequestsPage(appState, friendServices);
-var sendFriendRequestPage = new SendFriendRequestPage(appState, friendServices);
-var chatPage = new ChatPage(appState, friendServices, messageServices);
+FriendServices friendServices = new FriendServices(dataManager);
+PostServices postServices = new PostServices(dataManager);
+MessageServices messageServices = new MessageServices(dataManager);
+UserServices userServices = new UserServices(dataManager);
+AuthenticationServices authenticationServices = new AuthenticationServices(appState, userServices, dataManager.LastIdInfo);
 
-var loginAction = new LoginAction(authenticationServices);
-var registerAction = new RegisterAction(authenticationServices);
+AuthenticatePage authenticationPage = new AuthenticatePage();
+HomePage homePage = new HomePage(appState);
+ProfilePage profilePage = new ProfilePage(appState);
+PostsPage postPage = new PostsPage(appState);
+MyPostsPage myPostsPage = new MyPostsPage(appState, postServices);
+NewPostsPage newPostsPage = new NewPostsPage(appState, postServices);
+FriendsPage friendPage = new FriendsPage(appState);
+MyFriendsPage myFriendsPage = new MyFriendsPage(appState, friendServices);
+FriendRequestsPage friendRequestPage = new FriendRequestsPage(appState, friendServices);
+SendFriendRequestPage sendFriendRequestPage = new SendFriendRequestPage(appState, friendServices);
+ChatPage chatPage = new ChatPage(appState, friendServices, messageServices);
+
+LoginAction loginAction = new LoginAction(authenticationServices);
+RegisterAction registerAction = new RegisterAction(authenticationServices);
 
 
 homePage.AddPage(profilePage);
 homePage.AddPage(postPage);
 homePage.AddPage(friendPage);
 homePage.AddPage(chatPage);
+
 postPage.AddPage(myPostsPage);
 postPage.AddPage(newPostsPage);
-friendPage.AddPage(myfriendPage);
+
+friendPage.AddPage(myFriendsPage);
 friendPage.AddPage(sendFriendRequestPage);
 friendPage.AddPage(friendRequestPage);
 
 authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 
-var navigationController = new NavigationController(appState);
-var inputController = new InputController(navigationController);
-var renderController = new RendererController(navigationController);
+INavigationController navigationController = new NavigationController(appState);
+IInputController inputController = new InputController(navigationController);
+IRendererController renderController = new RendererController(navigationController);
 
 navigationController.SetDefaultAppPage(homePage);
 navigationController.SetDefaultAuthPage(authenticationPage);
 
-var pageController = new PageController(navigationController, renderController, inputController);
+PageController pageController = new PageController(navigationController, renderController, inputController);
+
 pageController.Play();
 
 dataManager.PushData();
