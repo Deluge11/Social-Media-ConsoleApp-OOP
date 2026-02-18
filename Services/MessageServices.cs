@@ -42,7 +42,10 @@ namespace SocialApp.Services
 
         public void AddMessage(int chatId,int userId)
         {
-            Console.WriteLine("=============================== ");
+            Console.Clear();
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine($"\tWrite New Message");
+            Console.WriteLine("-----------------------------");
             Console.WriteLine("| Write new massage ");
             Console.Write(" => ");
 

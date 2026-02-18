@@ -18,7 +18,7 @@ namespace SocialApp.Abstractions
 
         public override void ScrollDown()
         {
-            if (Cursor < GetScrollContentCount() - 1)
+            if (Cursor < this.GetScrollContentCount() - 1)
                 Cursor++;
             if (Cursor > Start + 2)
                 Start++;

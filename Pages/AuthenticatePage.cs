@@ -12,13 +12,11 @@ namespace SocialApp.Pages
 {
     public class AuthenticatePage : AbScrollCursor, IAction, IActionPage
     {
-        public override string PageName { get; } = "Authentication Page";
-        public override string DefaultMassage { get; } = "There is no scripts";
+        public override string PageName { get; init; } = "Authentication Page";
+        public override string DefaultMassage { get; init; } = "There is no scripts";
         public List<IAction> Actions { get; } = new();
-        public string ActionName { get; } = "Take action";
+        public string ActionName { get; init; } = "Take action";
 
-
-        public override int GetScrollContentCount() => Actions.Count;
 
         public void Action()
         {
@@ -26,33 +24,17 @@ namespace SocialApp.Pages
                 Actions[Cursor].Action();
         }
 
-        public override void SetPageContent()
-        {
-            ContentGrids[1] = PageName;
-
-            if (Actions.Count == 0)
-            {
-                ContentGrids[4] = DefaultMassage;
-                return;
-            }
-
-            if (Start < Actions.Count)
-            {
-                ContentGrids[3] = Actions[Start].ActionName;
-            }
-            if (Start + 1 < Actions.Count)
-            {
-                ContentGrids[6] = Actions[Start + 1].ActionName;
-            }
-            if (Start + 2 < Actions.Count)
-            {
-                ContentGrids[9] = Actions[Start + 2].ActionName;
-            }
-        }
-
         public void AddAction(IAction action)
         {
             Actions.Add(action);
+        }
+        public override List<string> GetScrollContent()
+        {
+            return Actions.Select(a => a.ActionName).ToList();
+        }
+        public override int GetScrollContentCount()
+        {
+            return Actions.Count;
         }
 
     }

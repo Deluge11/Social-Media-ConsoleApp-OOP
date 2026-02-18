@@ -12,8 +12,8 @@ namespace SocialApp.Pages
 {
     public class ProfilePage : AbPage
     {
-        public override string PageName { get; } = "Profile Page";
-        public override string DefaultMassage { get; } = $"Login / Register";
+        public override string PageName { get; init; } = "Profile Page";
+        public override string DefaultMassage { get; init; } = $"Login / Register";
         public AppState AppState { get; }
 
 

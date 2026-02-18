@@ -13,9 +13,9 @@ namespace SocialApp.Pages
 {
     public class MessagesPage : AbScrollPage, IAction
     {
-        public override string PageName { get; } = "Messages Page";
-        public override string DefaultMassage { get; } = "Break the silence";
-        public string ActionName { get; } = "Add new message";
+        public override string PageName { get; init; } = "Messages Page";
+        public override string DefaultMassage { get; init; } = "Break the silence";
+        public string ActionName { get; init; } = "Add new message";
         public string FriendName { get; set; }
         public int ChatId { get; set; }
         public MessageServices MessageServices { get; }
@@ -103,5 +103,9 @@ namespace SocialApp.Pages
                 Start--;
         }
 
+        public override List<string> GetScrollContent()
+        {
+            return new List<string>();
+        }
     }
 }

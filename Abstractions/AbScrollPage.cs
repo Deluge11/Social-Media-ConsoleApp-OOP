@@ -19,7 +19,7 @@ namespace SocialApp.Abstractions
 
         public virtual void ScrollDown()
         {
-            if (Start + 3 < GetScrollContentCount())
+            if (Start + 3 < this.GetScrollContentCount())
                 Start++;
         }
 
@@ -29,7 +29,22 @@ namespace SocialApp.Abstractions
                 Start--;
         }
 
+        public override void SetPageContent()
+        {
+            List<string> content = GetScrollContent();
+            ContentGrids[1] = PageName;
+
+            if (content.Count == 0)
+                ContentGrids[4] = DefaultMassage;
+            if (content.Count > 0)
+                ContentGrids[3] = content[Start];
+            if (content.Count > 1)
+                ContentGrids[6] = content[Start + 1];
+            if (content.Count > 2)
+                ContentGrids[9] = content[Start + 2];
+        }
         public abstract int GetScrollContentCount();
+        public abstract List<string> GetScrollContent();
 
     }
 }

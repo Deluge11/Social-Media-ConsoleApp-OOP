@@ -9,8 +9,8 @@ namespace SocialApp.Abstractions
 {
     public abstract class AbPage
     {
-        public virtual string PageName { get; } = "('Page Name')";
-        public virtual string DefaultMassage { get; } = "('Default Message')";
+        public abstract string PageName { get; init; }
+        public virtual string DefaultMassage { get; init; } = "( Default Message )";
         public string[] ContentGrids { get; } = new string[12];
 
         public abstract void SetPageContent();

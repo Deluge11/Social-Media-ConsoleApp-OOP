@@ -10,8 +10,8 @@ namespace SocialApp.Scripts
 {
     public class RegisterAction : IAction
     {
-        public string ActionName { get; } = "Register";
-        public AuthenticationServices AuthenticationServices { get; }
+        public string ActionName { get; init; } = "Register";
+        public AuthenticationServices AuthenticationServices { get; init; }
 
         public RegisterAction(AuthenticationServices authenticationServices)
         {

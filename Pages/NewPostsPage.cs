@@ -13,9 +13,9 @@ namespace SocialApp.Pages
 {
     public class NewPostsPage : AbScrollCursor, IAction
     {
-        public override string PageName { get; } = "New Posts";
-        public override string DefaultMassage { get; } = "There is no posts!" + "#h" + "Add new post/friend";
-        public string ActionName { get; } = "Like";
+        public override string PageName { get; init; } = "New Posts";
+        public override string DefaultMassage { get; init; } = "There is no posts!" + "#h" + "Add new post/friend";
+        public string ActionName { get; init; } = "Like";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
 
@@ -79,6 +79,11 @@ namespace SocialApp.Pages
         public override int GetScrollContentCount()
         {
             return PostServices.GetNewPosts(AppState.User.Name).Count;
+        }
+
+        public override List<string> GetScrollContent()
+        {
+            return new List<string>();
         }
     }
 }

@@ -10,11 +10,12 @@ namespace SocialApp.Pages
 {
     public class About : AbScrollPage
     {
-        public override string PageName => "About";
-        public override string DefaultMassage => "Default";
+        public override string PageName { get; init; } = "About";
 
-        private string[] Texts { get; } =
+        public override List<string> GetScrollContent()
         {
+            List<string> content =
+        [
             "Scroll Down",
             "1",
             "2",
@@ -23,19 +24,13 @@ namespace SocialApp.Pages
             "5",
             "6",
             "Hire Me :)"
-          
-        };
-        public override int GetScrollContentCount()
-        {
-            return Texts.Length;
+        ];
+            return content;
         }
 
-        public override void SetPageContent()
+        public override int GetScrollContentCount()
         {
-            ContentGrids[1] = PageName;
-            ContentGrids[4] = Texts[Start];
-            ContentGrids[7] = Texts[Start + 1];
-            ContentGrids[10] = Texts[Start + 2];
+            return GetScrollContent().Count;
         }
     }
 }

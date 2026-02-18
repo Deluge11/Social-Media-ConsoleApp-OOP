@@ -208,7 +208,14 @@ namespace SocialApp.Controllers
                     break;
             }
 
-            int endContent = 6 + content.Length > 25 ? 26 : 6 + content.Length;
+            int endContent = 6;
+
+            for (int i = 26; i > 0; i--)
+            {
+                if (Board[h][i] != ' ') break;
+                endContent = i + 1;
+            }
+
 
             Board[h][3] = '{';
             Board[h][endContent] = '}';

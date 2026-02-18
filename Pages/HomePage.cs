@@ -11,7 +11,7 @@ namespace SocialApp.Pages
 {
     public class HomePage : AbScrollCursor, IRootPage, IManagePages
     {
-        public override string PageName => "Home Page";
+        public override string PageName { get; init; } = "Home Page";
         public override string DefaultMassage => "There is no pages!";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
@@ -21,31 +21,6 @@ namespace SocialApp.Pages
         {
             SetPageContent();
             AppState = appState;
-        }
-
-        public override void SetPageContent()
-        {
-            ContentGrids[1] = PageName;
-
-            if (Pages.Count == 0)
-            {
-                ContentGrids[4] = DefaultMassage;
-                return;
-            }
-
-            if (Start < Pages.Count)
-            {
-                ContentGrids[3] = Pages[Start].PageName;
-            }
-            if (Start + 1 < Pages.Count)
-            {
-                ContentGrids[6] = Pages[Start + 1].PageName;
-            }
-            if (Start + 2 < Pages.Count)
-            {
-                ContentGrids[9] = Pages[Start + 2].PageName;
-            }
-
         }
 
         public void AddPage(AbPage page)
@@ -65,6 +40,11 @@ namespace SocialApp.Pages
         public override int GetScrollContentCount()
         {
             return Pages.Count;
+        }
+
+        public override List<string> GetScrollContent()
+        {
+            return Pages.Select(p=> p.PageName).ToList();
         }
     }
 }

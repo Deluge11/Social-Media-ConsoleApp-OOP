@@ -24,6 +24,10 @@ namespace SocialApp.Services
         public void Login()
         {
             Console.Clear();
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine($"\tLogin Screen");
+            Console.WriteLine("-----------------------------");
+
             Console.Write("| Enter the Username: ");
             string username = Console.ReadLine()!.Trim();
 
@@ -60,6 +64,12 @@ namespace SocialApp.Services
         public void Register()
         {
             Console.Clear();
+
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine($"\tRegister Screen");
+            Console.WriteLine("-----------------------------");
+
+
             Console.Write("| Enter the Username: ");
             string username = Console.ReadLine()!.Trim();
 
