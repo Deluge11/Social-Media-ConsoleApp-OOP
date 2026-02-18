@@ -41,9 +41,9 @@ namespace SocialApp.Services
         public List<string> GetFriendRequistsUsers(string username)
         {
             List<string> result = new();
-            foreach (var otherUser in UsersDB[username].FriendRequists)
+            foreach (var otherUser in UsersDB[username].FriendRequests)
             {
-                if (UsersDB[username].FriendRequists.Contains(otherUser))
+                if (UsersDB[username].FriendRequests.Contains(otherUser))
                 {
                     result.Add(otherUser);
                 }
@@ -71,9 +71,9 @@ namespace SocialApp.Services
         {
             if (UsersDB[user1].Friends.Contains(user2))
                 return false;
-            if (UsersDB[user1].FriendRequists.Contains(user2))
+            if (UsersDB[user1].FriendRequests.Contains(user2))
                 return false;
-            if (UsersDB[user2].FriendRequists.Contains(user1))
+            if (UsersDB[user2].FriendRequests.Contains(user1))
                 return false;
 
             return true;
@@ -81,7 +81,7 @@ namespace SocialApp.Services
 
         public void ConnectUsers(string user1, string user2)
         {
-            UsersDB[user1].RemoveFriendRequist(user2);
+            UsersDB[user1].RemoveFriendRequest(user2);
             UsersDB[user1].AddFriend(user2);
             UsersDB[user2].AddFriend(user1);
 
@@ -94,7 +94,7 @@ namespace SocialApp.Services
 
         public void AddFreindRequest(string username, string otherUsername)
         {
-            UsersDB[otherUsername].AddFriendRequist(username);
+            UsersDB[otherUsername].AddFriendRequest(username);
         }
     }
 }
