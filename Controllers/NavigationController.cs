@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +10,26 @@ namespace SocialApp.Controllers
 {
     public class NavigationController : INavigationController
     {
-        private Stack<IPage> AuthenticatePageStack { get; } = new();
-        private Stack<IPage> AppPageStack { get; } = new();
+        private Stack<AbPage> AuthenticatePageStack { get; } = new();
+        private Stack<AbPage> AppPageStack { get; } = new();
         private AppState Appstate { get; }
 
         public NavigationController(AppState appstate)
         {
             Appstate = appstate;
         }
-        public void SetDefaultAppPage(IPage page)
+        public void SetDefaultAppPage(AbPage page)
         {
             AppPageStack.Clear();
             AppPageStack.Push(page);
         }
-        public void SetDefaultAuthPage(IPage page)
+        public void SetDefaultAuthPage(AbPage page)
         {
             AuthenticatePageStack.Clear();
             AuthenticatePageStack.Push(page);
         }
 
-        public void GoNext(IPage next)
+        public void GoNext(AbPage next)
         {
             if (next == null) return;
 
@@ -40,11 +41,11 @@ namespace SocialApp.Controllers
             {
                 AuthenticatePageStack.Push(next);
             }
-            if(next is IScrollPage scrollPage)
+            if(next is AbScrollPage scrollPage)
             {
                 scrollPage.ResetStart();
             }
-            if (next is IScrollCursor scrollCursorPage)
+            if (next is AbScrollCursor scrollCursorPage)
             {
                 scrollCursorPage.ResetCursor();
             }
@@ -58,7 +59,7 @@ namespace SocialApp.Controllers
                 stack.Pop();
             }
         }
-        public IPage GetCurrentPage()
+        public AbPage GetCurrentPage()
         {
             var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
 

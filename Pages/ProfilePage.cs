@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using System;
 using System.Collections;
@@ -9,11 +10,10 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class ProfilePage : IPage
+    public class ProfilePage : AbPage
     {
-        public string PageName { get; private set; } = "Profile Page";
-        public string DefaultMassage { get; } = $"Login/Signin";
-        public string[] ContentGrids { get; private set; } = new string[12];
+        public override string PageName { get; } = "Profile Page";
+        public override string DefaultMassage { get; } = $"Login / Register";
         public AppState AppState { get; }
 
 
@@ -23,7 +23,7 @@ namespace SocialApp.Pages
             SetPageContent();
         }
 
-        public void SetPageContent()
+        public override void SetPageContent()
         {
             User user = AppState.User;
 
@@ -40,12 +40,6 @@ namespace SocialApp.Pages
             ContentGrids[9] = $"Posts count : {user.PostsId.Count}";
         }
 
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-        }
+   
     }
 }

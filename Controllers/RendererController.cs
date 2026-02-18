@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using System;
 using System.Collections.Generic;
@@ -105,9 +106,9 @@ namespace SocialApp.Controllers
         }
         protected void PrintControlKeys()
         {
-            IPage currentPage = NavigationController.GetCurrentPage();
+            AbPage currentPage = NavigationController.GetCurrentPage();
 
-            if (currentPage is IScrollPage)
+            if (currentPage is AbScrollPage)
             {
                 Console.WriteLine("| Press W to Scroll up");
                 Console.WriteLine("| Press S to Scroll down");
@@ -125,7 +126,7 @@ namespace SocialApp.Controllers
         }
         protected void SetBoardGrids()
         {
-            IPage currentPage = NavigationController.GetCurrentPage();
+            AbPage currentPage = NavigationController.GetCurrentPage();
 
             currentPage.ResetContent();
             currentPage.SetPageContent();
@@ -157,9 +158,9 @@ namespace SocialApp.Controllers
         }
         protected void SetCursor()
         {
-            IPage currentPage = NavigationController.GetCurrentPage();
+            AbPage currentPage = NavigationController.GetCurrentPage();
 
-            if (currentPage is not IScrollCursor)
+            if (currentPage is not AbScrollCursor)
             {
                 return;
             }
@@ -170,14 +171,14 @@ namespace SocialApp.Controllers
         }
         protected string GetContentLength(int rowPosition)
         {
-            IPage currentPage = NavigationController.GetCurrentPage();
+            AbPage currentPage = NavigationController.GetCurrentPage();
             var contents = currentPage.ContentGrids;
             return contents[3 * rowPosition];
         }
         protected int GetCursorPosition()
         {
-            IPage currentPage = NavigationController.GetCurrentPage();
-            if (currentPage is not IScrollCursor dynamicPage)
+            AbPage currentPage = NavigationController.GetCurrentPage();
+            if (currentPage is not AbScrollCursor dynamicPage)
                 return -1;
 
             return dynamicPage.Cursor - dynamicPage.Start + 1;
@@ -207,11 +208,10 @@ namespace SocialApp.Controllers
                     break;
             }
 
-            Board[h][3] = '<';
-
             int endContent = 6 + content.Length > 25 ? 26 : 6 + content.Length;
 
-            Board[h][endContent] = '>';
+            Board[h][3] = '{';
+            Board[h][endContent] = '}';
         }
         protected void SetGrid(string content, int h, int w)
         {

@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -9,16 +10,13 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class SendFriendRequestPage : IPage, IScrollCursor, IAction
+    public class SendFriendRequestPage : AbScrollCursor, IAction
     {
-        public string PageName { get; } = "Add Friends";
-        public string DefaultMassage { get; } = "There is no users" + "#h" + "Try to check later";
-        public string[] ContentGrids { get; } = new string[12];
-        public int Cursor { get; set; }
-        public int Start { get; set; }
+        public override string PageName { get; } = "Add Friends";
+        public override string DefaultMassage { get; } = "There is no users" + "#h" + "Try to check later";
+        public string ActionName { get; } = "Send friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
-        public string ActionName { get; } = "Send friend request";
 
         public SendFriendRequestPage(AppState appState, FriendServices friendServices)
         {
@@ -44,26 +42,9 @@ namespace SocialApp.Pages
             FriendServices.AddFreindRequest(username, otherUsername);
             ScrollUp();
         }
-
-        public void ScrollDown()
+    
+        public override void SetPageContent()
         {
-            var usersList = FriendServices.GetUnfriendsUsers(AppState.User.Name);
-            if (Cursor < usersList.Count - 1)
-                Cursor++;
-            if (Cursor > Start + 2)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Cursor > 0)
-                Cursor--;
-            if (Cursor < Start)
-                Start--;
-        }
-
-        public void SetPageContent()
-        {
-           
             var usersList = FriendServices.GetUnfriendsUsers(AppState.User.Name);
 
             ContentGrids[1] = PageName;
@@ -88,22 +69,9 @@ namespace SocialApp.Pages
             }
         }
 
-        public void ResetCursor()
+        public override int GetScrollContentCount()
         {
-            Cursor = 0;
-        }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
-
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
+            return FriendServices.GetUnfriendsUsers(AppState.User.Name).Count;
         }
     }
 }

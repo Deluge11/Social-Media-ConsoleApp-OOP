@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -9,13 +10,10 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class ChatPage : IPage, IScrollCursor, IRootPage
+    public class ChatPage : AbScrollCursor, IRootPage
     {
-        public string PageName { get; private set; } = "Chat Page";
-        public string DefaultMassage { get; private set; } = "You have no friends";
-        public string[] ContentGrids { get; private set; } = new string[12];
-        public int Start { get; set; }
-        public int Cursor { get; set; }
+        public override string PageName { get; } = "Chat Page";
+        public override string DefaultMassage { get; } = "You have no friends";
         public AppState AppState { get; }
         public FriendServices FriendServices { get; }
         public MessageServices MessageServices { get; }
@@ -31,24 +29,9 @@ namespace SocialApp.Pages
             MessageServices = messageServices;
         }
 
-        public void ScrollDown()
-        {
-            var friendsList = FriendServices.GetUserFriends(AppState.User.Name);
+        public override int GetScrollContentCount() => FriendServices.GetUserFriends(AppState.User.Name).Count;
 
-            if (Cursor < friendsList.Count - 1)
-                Cursor++;
-            if (Cursor > Start + 2)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Cursor > 0)
-                Cursor--;
-            if (Cursor < Start)
-                Start--;
-        }
-
-        public void SetPageContent()
+        public override void SetPageContent()
         {
             var friendsList = FriendServices.GetUserFriends(AppState.User.Name);
 
@@ -74,7 +57,7 @@ namespace SocialApp.Pages
             }
         }
 
-        public IPage Next()
+        public AbPage Next()
         {
             var username = AppState.User.Name;
 
@@ -93,23 +76,6 @@ namespace SocialApp.Pages
             }
 
             return new MessagesPage(AppState, MessageServices, chatId, friendsList[Cursor]);
-        }
-        public void ResetCursor()
-        {
-            Cursor = 0;
-        }
-
-        public void ResetStart()
-        {
-            Start = 0;
-        }
-
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -9,15 +10,13 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class MyPostsPage : IPage, IScrollPage, IAction
+    public class MyPostsPage : AbScrollPage, IAction
     {
-        public string PageName { get; private set; } = "My Posts";
-        public string DefaultMassage { get; } = "You have no posts!";
-        public string[] ContentGrids { get; private set; } = new string[12];
-        public int Start { get; private set; }
+        public override string PageName { get; } = "My Posts";
+        public override string DefaultMassage { get; } = "You have no posts!";
+        public string ActionName { get; } = "Add new post";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
-        public string ActionName { get; } = "Add new post";
 
         public MyPostsPage(AppState appState, PostServices postServices)
         {
@@ -25,20 +24,9 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-        public void ScrollDown()
+        public override void SetPageContent()
         {
-            string username = AppState.User.Name;
-            if (Start < PostServices.GetMyPostsCount(username) - 3)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Start > 0)
-                Start--;
-        }
-        public void SetPageContent()
-        {
-          
+
             var postsList = PostServices.GetUserPosts(AppState.User.Name);
 
             ContentGrids[0] = "Post Content";
@@ -79,17 +67,10 @@ namespace SocialApp.Pages
             }
             PostServices.AddNewPost(AppState.User.Name);
         }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
 
-        public void ResetContent()
+        public override int GetScrollContentCount()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
+            return PostServices.GetMyPostsCount(AppState.User.Name);
         }
     }
 }

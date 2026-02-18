@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using System;
 using System.Collections.Generic;
@@ -8,17 +9,11 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class PostsPage : IPage, IScrollCursor, IRootPage, IManagePages
+    public class PostsPage : AbScrollCursor, IRootPage, IManagePages
     {
-        public string PageName { get; private set; } = "Posts Page";
-        public string DefaultMassage { get; } = "There is no pages";
-
-        public string[] ContentGrids { get; private set; } = new string[12];
-        public int Start { get; private set; }
-        public int Cursor { get; private set; }
-
-
-        public List<IPage> Pages { get; } = new();
+        public override string PageName { get; } = "Posts Page";
+        public override string DefaultMassage { get; } = "There is no pages";
+        public List<AbPage> Pages { get; } = new();
 
 
         public PostsPage(AppState appState)
@@ -26,12 +21,12 @@ namespace SocialApp.Pages
             SetPageContent();
         }
 
-        public void SetPageContent()
+        public override void SetPageContent()
         {
-          
+
             ContentGrids[1] = PageName;
 
-            if(Pages.Count == 0)
+            if (Pages.Count == 0)
             {
                 ContentGrids[4] = DefaultMassage;
             }
@@ -50,27 +45,13 @@ namespace SocialApp.Pages
             }
 
         }
-        public void ScrollDown()
-        {
-            if (Cursor < Pages.Count - 1)
-                Cursor++;
-            if (Cursor > Start + 2)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Cursor > 0)
-                Cursor--;
-            if (Cursor < Start)
-                Start--;
-        }
 
-        public void AddPage(IPage page)
+        public void AddPage(AbPage page)
         {
             Pages.Add(page);
         }
 
-        public IPage Next()
+        public AbPage Next()
         {
             if (Pages.Count == 0)
             {
@@ -78,21 +59,10 @@ namespace SocialApp.Pages
             }
             return Pages[Cursor];
         }
-        public void ResetCursor()
-        {
-            Cursor = 0;
-        }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
 
-        public void ResetContent()
+        public override int GetScrollContentCount()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
+            return Pages.Count;
         }
     }
 }

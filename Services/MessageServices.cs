@@ -40,8 +40,14 @@ namespace SocialApp.Services
             return -1;
         }
 
-        public void AddMessage(int chatId,string message,int userId)
+        public void AddMessage(int chatId,int userId)
         {
+            Console.WriteLine("=============================== ");
+            Console.WriteLine("| Write new massage ");
+            Console.Write(" => ");
+
+            string message = Console.ReadLine()!.Trim();
+
             if (message.Length < 1 || !MessagesDB.ContainsKey(chatId))
                 return;
 

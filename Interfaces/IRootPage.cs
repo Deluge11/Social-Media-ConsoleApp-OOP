@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialApp.Abstractions;
 
 namespace SocialApp.Interfaces
 {
     public interface IRootPage
     {
-        IPage Next();
+        AbPage Next();
     }
 }

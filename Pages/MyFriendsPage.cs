@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -10,12 +11,10 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class MyFriendsPage : IPage, IScrollPage
+    public class MyFriendsPage : AbScrollPage
     {
-        public string PageName { get; } = "My Friends";
-        public string DefaultMassage { get; } = "You have no friends";
-        public string[] ContentGrids { get; } = new string[12];
-        public int Start { get; set; }
+        public override string PageName { get; } = "My Friends";
+        public override string DefaultMassage { get; } = "You have no friends";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -24,22 +23,14 @@ namespace SocialApp.Pages
             FriendServices = friendServices;
             AppState = appState;
         }
-        public void ScrollDown()
-        {
-            var friendList = FriendServices.GetUserFriends(AppState.User.Name);
 
-            if (Start + 3 < friendList.Count)
-                Start++;
-        }
-        public void ScrollUp()
+        public override int GetScrollContentCount()
         {
-            if (Start > 0)
-                Start--;
+            return FriendServices.GetUserFriends(AppState.User.Name).Count;
         }
 
-        public void SetPageContent()
+        public override void SetPageContent()
         {
-         
             var friendList = FriendServices.GetUserFriends(AppState.User.Name);
 
             ContentGrids[1] = PageName;
@@ -61,19 +52,6 @@ namespace SocialApp.Pages
             {
                 ContentGrids[9] = friendList[Start + 2];
             }
-        }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
-
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
-
         }
     }
 }

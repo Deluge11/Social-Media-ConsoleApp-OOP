@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -10,16 +11,13 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class NewPostsPage : IPage, IScrollCursor, IAction
+    public class NewPostsPage : AbScrollCursor, IAction
     {
-        public string PageName { get; private set; } = "New Posts";
-        public string DefaultMassage { get; } = "There is no posts!" + "#h" + "Add new post/friend";
-        public string[] ContentGrids { get; private set; } = new string[12];
+        public override string PageName { get; } = "New Posts";
+        public override string DefaultMassage { get; } = "There is no posts!" + "#h" + "Add new post/friend";
+        public string ActionName { get; } = "Like";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
-        public int Cursor { get; private set; }
-        public int Start { get; private set; }
-        public string ActionName { get; } = "Like";
 
         public NewPostsPage(AppState appState, PostServices postServices)
         {
@@ -27,25 +25,7 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-
-        public void ScrollDown()
-        {
-            var postsCount = PostServices.GetNewPosts(AppState.User.Name).Count;
-
-            if (Cursor < postsCount - 1)
-                Cursor++;
-            if (Cursor > Start + 2)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Cursor > 0)
-                Cursor--;
-            if (Cursor < Start)
-                Start--;
-        }
-
-        public void SetPageContent()
+        public override void SetPageContent()
         {
             string name = AppState.User.Name;
 
@@ -95,21 +75,10 @@ namespace SocialApp.Pages
 
             PostServices.TogglePostLike(username, post.Id);
         }
-        public void ResetCursor()
-        {
-            Cursor = 0;
-        }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
 
-        public void ResetContent()
+        public override int GetScrollContentCount()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
+            return PostServices.GetNewPosts(AppState.User.Name).Count;
         }
     }
 }

@@ -30,11 +30,13 @@ ChatPage chatPage = new ChatPage(appState, friendServices, messageServices);
 LoginAction loginAction = new LoginAction(authenticationServices);
 RegisterAction registerAction = new RegisterAction(authenticationServices);
 
+About aboutPage = new About();
 
 homePage.AddPage(profilePage);
 homePage.AddPage(postPage);
 homePage.AddPage(friendPage);
 homePage.AddPage(chatPage);
+homePage.AddPage(aboutPage);
 
 postPage.AddPage(myPostsPage);
 postPage.AddPage(newPostsPage);

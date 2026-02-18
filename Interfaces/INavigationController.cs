@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialApp.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace SocialApp.Interfaces
 {
     public interface INavigationController
     {
-        void GoNext(IPage next);
+        void GoNext(AbPage next);
         void GoBack();
-        IPage GetCurrentPage();
+        AbPage GetCurrentPage();
         int GetStackCount();
-        void SetDefaultAppPage(IPage homePage);
-        void SetDefaultAuthPage(IPage authenticationPage);
+        void SetDefaultAppPage(AbPage homePage);
+        void SetDefaultAuthPage(AbPage authenticationPage);
         void ClearStack();
         List<string> GetPagesStackNames();
     }

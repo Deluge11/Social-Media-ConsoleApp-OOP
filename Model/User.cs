@@ -9,7 +9,7 @@ namespace SocialApp.Model
         public string Password { get; private set; }
         public LinkedList<int> PostsId { get; private set; }
         public HashSet<string> Friends { get; private set; }
-        public HashSet<string> FriendRequists { get; private set; }
+        public HashSet<string> FriendRequests { get; private set; }
         public HashSet<int> ChatID { get; private set; }
 
         public User(int id, string name, string password)
@@ -19,7 +19,7 @@ namespace SocialApp.Model
             Password = password;
             PostsId = new();
             Friends = new();
-            FriendRequists = new();
+            FriendRequests = new();
             ChatID = new();
         }
 
@@ -27,13 +27,13 @@ namespace SocialApp.Model
         {
             PostsId.AddFirst(postId);
         }
-        public void AddFriendRequist(string username)
+        public void AddFriendRequest(string username)
         {
-            FriendRequists.Add(username);
+            FriendRequests.Add(username);
         }
-        public void RemoveFriendRequist(string username)
+        public void RemoveFriendRequest(string username)
         {
-            FriendRequists.Remove(username);
+            FriendRequests.Remove(username);
         }
         public void AddFriend(string username)
         {

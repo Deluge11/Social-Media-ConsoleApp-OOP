@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using System;
@@ -9,14 +10,11 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
-    public class FriendRequestsPage : IPage, IScrollCursor, IAction
+    public class FriendRequestsPage : AbScrollCursor, IAction
     {
-        public string PageName { get; } = "Friend Requests";
-        public string DefaultMassage { get; } = "There is no requests" + "#h" + "Check again later";
+        public override string PageName { get; } = "Friend Requests";
+        public override string DefaultMassage { get; } = "There is no requests" + "#h" + "Check again later";
         public string ActionName { get; } = "Accept friend request";
-        public string[] ContentGrids { get; } = new string[12];
-        public int Cursor { get; set; }
-        public int Start { get; set; }
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -38,25 +36,7 @@ namespace SocialApp.Pages
             FriendServices.ConnectUsers(username, usersList[Cursor]);
             ScrollUp();
         }
-
-        public void ScrollDown()
-        {
-            var usersList = FriendServices.GetFriendRequistsUsers(AppState.User.Name);
-
-            if (Cursor < usersList.Count - 1)
-                Cursor++;
-            if (Cursor > Start + 2)
-                Start++;
-        }
-        public void ScrollUp()
-        {
-            if (Cursor > 0)
-                Cursor--;
-            if (Cursor < Start)
-                Start--;
-        }
-
-        public void SetPageContent()
+        public override void SetPageContent()
         {
             var usersList = FriendServices.GetFriendRequistsUsers(AppState.User.Name);
 
@@ -82,21 +62,9 @@ namespace SocialApp.Pages
             }
         }
 
-        public void ResetCursor()
+        public override int GetScrollContentCount()
         {
-            Cursor = 0;
-        }
-        public void ResetStart()
-        {
-            Start = 0;
-        }
-
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = "";
-            }
+            return FriendServices.GetFriendRequistsUsers(AppState.User.Name).Count;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialApp.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SocialApp.Interfaces
 {
     public interface IManagePages
     {
-        List<IPage> Pages { get; }
-        void AddPage(IPage page);
+        List<AbPage> Pages { get; }
+        void AddPage(AbPage page);
     }
 }

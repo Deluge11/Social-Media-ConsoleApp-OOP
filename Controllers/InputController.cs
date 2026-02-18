@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Abstractions;
+using SocialApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace SocialApp.Controllers
 
         public void TakeAction(char key)
         {
-            IPage page = NavigationController.GetCurrentPage();
+            AbPage page = NavigationController.GetCurrentPage();
 
-            if (page is IScrollPage scrollPage)
+            if (page is AbScrollPage scrollPage)
             {
                 if (key == 'w')
                 {
