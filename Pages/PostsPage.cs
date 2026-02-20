@@ -1,6 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
 using SocialApp.Model;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace SocialApp.Pages
         public override string PageName { get; init; } = "Posts Page";
         public override string DefaultMassage { get; init; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
-
 
         public PostsPage(AppState appState)
         {
@@ -34,14 +34,9 @@ namespace SocialApp.Pages
             return Pages[Cursor];
         }
 
-        public override int GetScrollContentCount()
+        public override List<stPageRow> GetContentRows()
         {
-            return Pages.Count;
-        }
-
-        public override List<string> GetScrollContent()
-        {
-            return Pages.Select(p => p.PageName).ToList();
+            return Pages.Select(p => new stPageRow(p.PageName)).ToList();
         }
     }
 }

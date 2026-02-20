@@ -1,13 +1,14 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
 using SocialApp.Services;
+using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
     public class SendFriendRequestPage : AbScrollCursor, IAction
     {
         public override string PageName { get; init; } = "Add Friends";
-        public override string DefaultMassage { get; init; } = "There is no users" + "#h" + "Try to check later";
+        public override string DefaultMassage { get; init; } = "There is no users Try to check later";
         public string ActionName { get; init; } = "Send friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
@@ -22,7 +23,7 @@ namespace SocialApp.Pages
             string username = AppState.User.Name;
             var usersList = FriendServices.GetUnfriendsUsers(username);
 
-            if (usersList.Count == 0) 
+            if (usersList.Count == 0)
                 return;
 
             var otherUsername = usersList[Cursor];
@@ -34,14 +35,11 @@ namespace SocialApp.Pages
             ScrollUp();
         }
 
-        public override int GetScrollContentCount()
-        {
-            return FriendServices.GetUnfriendsUsers(AppState.User.Name).Count;
-        }
 
-        public override List<string> GetScrollContent()
+        public override List<stPageRow> GetContentRows()
         {
-            return FriendServices.GetUnfriendsUsers(AppState.User.Name);
+            List<string> users = FriendServices.GetUnfriendsUsers(AppState.User.Name);
+            return users.Select(u => new stPageRow(u)).ToList();
         }
     }
 }

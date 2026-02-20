@@ -3,6 +3,7 @@ using SocialApp.Interfaces;
 using SocialApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -28,29 +29,31 @@ namespace SocialApp.Controllers
 
         private char[][] Board = new char[26][];
 
-        public INavigationController NavigationController { get; }
+        public AppState AppState { get; }
+        private INavigationController NavigationController { get; }
 
 
-        public RendererController(INavigationController navigationController)
+        public RendererController(AppState appState, INavigationController navigationController)
         {
             for (int i = 0; i < Board.Length; i++)
             {
                 Board[i] = new char[Width];
             }
 
+            AppState = appState;
             NavigationController = navigationController;
             SetBoardDefault();
         }
-
 
         public void Print()
         {
             Console.Clear();
             BoardProcessing();
-            PrintBoard();
             PrintPagesStack();
+            PrintBoard();
             PrintControlKeys();
         }
+
         protected void BoardProcessing()
         {
             SetBoardDefault();
@@ -119,10 +122,19 @@ namespace SocialApp.Controllers
             }
             else if (currentPage is IRootPage)
             {
-                Console.WriteLine($"| Press X to go next page");
+                Console.WriteLine($"| Press X to Go Next page");
             }
-            Console.WriteLine($"| Press B to Return");
-            Console.WriteLine($"| Press G to Save and Exit");
+            if (NavigationController.GetStackCount() != 1)
+            {
+                Console.WriteLine($"| Press B to Back Previous Page");
+            }
+            if (AppState.IsAuthenticated)
+            {
+                Console.WriteLine($"| Press L to Logout");
+            }
+            {
+                Console.WriteLine($"| Press E to Save and Exit");
+            }
         }
         protected void SetBoardGrids()
         {
@@ -208,9 +220,9 @@ namespace SocialApp.Controllers
                     break;
             }
 
-            int endContent = 6;
+            int endContent = Col1 + GridWidth;
 
-            for (int i = 26; i > 0; i--)
+            for (int i = Col1 + GridWidth; i > Col1; i--)
             {
                 if (Board[h][i] != ' ') break;
                 endContent = i + 1;
@@ -220,47 +232,80 @@ namespace SocialApp.Controllers
             Board[h][3] = '{';
             Board[h][endContent] = '}';
         }
-        protected void SetGrid(string content, int h, int w)
+
+        protected void SetGrid(string content, int height, int width)
         {
-            int startW = w;
-            int startH = h;
-            int maxW = w + GridWidth;
-
-            for (int x = 0; x < content.Length; x++, w++)
+            if (content == null || content == "")
             {
-                if (h - startH == GridHeight) continue;
+                return;
+            }
 
-                if (h - startH == GridHeight - 1 && maxW - w == 4)
+            int startWidth = width;
+            int startHeight = height;
+            int maxWidth = width + GridWidth;
+
+            string[] words = content.Split(' ');
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                SetWord(words[i], ref width, ref height, startHeight, startWidth, maxWidth);
+
+                if (i + 1 < words.Length)
+                    SetWord(" ", ref width, ref height, startHeight, startWidth, maxWidth);
+            }
+        }
+
+        protected void SetWord(string word, ref int width, ref int height, int startHeight, int startWidth, int maxWidth)
+        {
+            if (word.Length + width >= maxWidth && word.Length < GridWidth)
+            {
+                height++;
+                width = startWidth;
+            }
+
+            if (word == " " && width == startWidth)
+            {
+                return;
+            }
+
+            for (int x = 0; x < word.Length; x++, width++)
+            {
+                if (height - startHeight >= GridHeight) continue;
+
+                if (height - startHeight == GridHeight - 1 && maxWidth < width + 5 && maxWidth - width < word.Length - x)
                 {
-                    content = "...";
+                    word = "...";
                     x = 0;
                 }
 
-                if (x < content.Length - 1 && content[x] == '#' && content[x + 1] == 'h')
+                if (x < word.Length - 1 && word[x] == '#' && word[x + 1] == 'h')
                 {
-                    h++;
-                    w = startW;
+                    height++;
+                    width = startWidth;
                     x += 2;
+                    continue;
                 }
-                else if (w == maxW)
-                {
-                    h++;
-                    w = startW;
 
-                    if (content[x - 1] != ' ' && content[x] != ' ')
+                else if (width == maxWidth)
+                {
+                    height++;
+                    width = startWidth;
+
+                    if (word[x - 1] != ' ' && word[x] != ' ')
                     {
-                        Board[h][w] = '-';
-                        w++;
+                        Board[height][width] = '-';
+                        width++;
                     }
-                    if (content[x] == ' ')
+                    if (word[x] == ' ')
                     {
                         x++;
                     }
                 }
 
-                Board[h][w] = content[x];
+                Board[height][width] = word[x];
             }
         }
+
         protected void SetHorizontalLine(int row)
         {
             for (int i = 0; i < Board[row].Length; i++)

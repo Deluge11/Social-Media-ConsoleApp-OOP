@@ -16,6 +16,7 @@ namespace SocialApp.Interfaces
         void SetDefaultAppPage(AbPage homePage);
         void SetDefaultAuthPage(AbPage authenticationPage);
         void ClearStack();
+        void ResetStacksToDefault();
         List<string> GetPagesStackNames();
     }
 }

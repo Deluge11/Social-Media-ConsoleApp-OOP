@@ -46,7 +46,6 @@ namespace SocialApp.Services
             Console.WriteLine("-----------------------------");
             Console.WriteLine($"\tWrite New Message");
             Console.WriteLine("-----------------------------");
-            Console.WriteLine("| Write new massage ");
             Console.Write(" => ");
 
             string message = Console.ReadLine()!.Trim();

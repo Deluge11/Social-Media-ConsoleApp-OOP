@@ -2,6 +2,7 @@
 using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
+using SocialApp.Structure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,13 +25,10 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-        public override int GetScrollContentCount()
+        public override List<stPageRow> GetContentRows()
         {
-            return FriendServices.GetUserFriends(AppState.User.Name).Count;
-        }
-        public override List<string> GetScrollContent()
-        {
-            return FriendServices.GetUserFriends(AppState.User.Name);
+            List<string> myFriendsName = FriendServices.GetUserFriends(AppState.User.Name);
+            return myFriendsName.Select(n => new stPageRow(n)).ToList();
         }
     }
 }

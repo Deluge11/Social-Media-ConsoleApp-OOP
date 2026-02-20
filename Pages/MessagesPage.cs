@@ -1,13 +1,9 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using SocialApp.Structure;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace SocialApp.Pages
 {
@@ -29,6 +25,11 @@ namespace SocialApp.Pages
             FriendName = friendname;
             Start = MessageServices.GetChatMessagesCount(chatId) - 1;
         }
+
+        public override string GetPageLeftHeaders() => $"{{ {AppState.User.Name} }}";
+        public override string GetPageRightHeaders() => $"{{ {FriendName} }}";
+        public override string GetPageCenterHeaders() => $"Messages Count #h #h    ( {GetContentRows().Count.ToString()} )";
+
         public void Action()
         {
             if (!AppState.IsAuthenticated) return;
@@ -36,76 +37,23 @@ namespace SocialApp.Pages
             ResetStart();
         }
 
-        public override void SetPageContent()
-        {
-            ContentGrids[0] = $"{{ {AppState.User.Name} }}";
-            ContentGrids[2] = $"{{ {FriendName} }}";
-
-            var massageList = MessageServices.GetChatMessages(ChatId);
-
-            int listCount = massageList.Count;
-
-            if (listCount == 0)
-            {
-                ContentGrids[4] = DefaultMassage;
-            }
-
-            if (Start < 0) return;
-
-            if (massageList[Start].UserId == AppState.User.Id)
-            {
-                ContentGrids[9] = massageList[Start].MsgString;
-            }
-            else
-            {
-                ContentGrids[11] = massageList[Start].MsgString;
-            }
-
-            if (Start < 1) return;
-
-            if (Start - 1 < listCount && massageList[Start - 1].UserId == AppState.User.Id)
-            {
-                ContentGrids[6] = massageList[Start - 1].MsgString;
-            }
-            else
-            {
-                ContentGrids[8] = massageList[Start - 1].MsgString;
-            }
-
-            if (Start < 2) return;
-
-            if (Start - 2 < listCount && massageList[Start - 2].UserId == AppState.User.Id)
-            {
-                ContentGrids[3] = massageList[Start - 2].MsgString;
-            }
-            else
-            {
-                ContentGrids[5] = massageList[Start - 2].MsgString;
-            }
-        }
-
-        public override int GetScrollContentCount()
-        {
-            return MessageServices.GetChatMessagesCount(ChatId);
-        }
         public override void ResetStart()
         {
-            Start = GetScrollContentCount() - 1;
-        }
-        public override void ScrollDown()
-        {
-            if (Start < GetScrollContentCount() - 1)
-                Start++;
-        }
-        public override void ScrollUp()
-        {
-            if (Start - 2 > 0)
-                Start--;
+            Start = GetContentRows().Count - 3;
+            if (Start < 0)
+                Start = 0;
         }
 
-        public override List<string> GetScrollContent()
+        public override List<stPageRow> GetContentRows()
         {
-            return new List<string>();
+            var massageList = MessageServices.GetChatMessages(ChatId);
+            return massageList.Select(
+                m => new stPageRow(
+                    leftContent: m.UserId == AppState.User.Id ? m.MsgString : "",
+                    centerContent: "",
+                    rightContent: m.UserId != AppState.User.Id ? m.MsgString : ""
+                    ))
+                .ToList();
         }
     }
 }

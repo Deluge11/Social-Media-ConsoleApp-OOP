@@ -2,6 +2,7 @@
 using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +29,10 @@ namespace SocialApp.Pages
         {
             Actions.Add(action);
         }
-        public override List<string> GetScrollContent()
-        {
-            return Actions.Select(a => a.ActionName).ToList();
-        }
-        public override int GetScrollContentCount()
-        {
-            return Actions.Count;
-        }
 
+        public override List<stPageRow> GetContentRows()
+        {
+            return Actions.Select(a=>new stPageRow(a.ActionName)).ToList();
+        }
     }
 }

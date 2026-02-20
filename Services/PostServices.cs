@@ -41,8 +41,10 @@ namespace SocialApp.Services
         public void AddNewPost(string username)
         {
             Console.Clear();
-            Console.WriteLine("| Add new post");
-            Console.Write("=> ");
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine($"\tWrite New Post");
+            Console.WriteLine("-----------------------------");
+            Console.Write(" => ");
 
             string post = Console.ReadLine()!.Trim();
             if (post == null || post.Length < 5)

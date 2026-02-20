@@ -10,21 +10,21 @@ namespace SocialApp.Abstractions
 {
     public abstract class AbScrollCursor : AbScrollPage
     {
-        public virtual int Cursor { get; protected set; }
+        public int Cursor { get; protected set; }
         public virtual void ResetCursor()
         {
             Cursor = 0;
         }
 
-        public override void ScrollDown()
+        public sealed override void ScrollDown()
         {
-            if (Cursor < this.GetScrollContentCount() - 1)
+            if (Cursor < GetContentRows().Count - 1)
                 Cursor++;
             if (Cursor > Start + 2)
                 Start++;
         }
 
-        public override void ScrollUp()
+        public sealed override void ScrollUp()
         {
             if (Cursor > 0)
                 Cursor--;

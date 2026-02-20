@@ -17,7 +17,7 @@ AuthenticationServices authenticationServices = new AuthenticationServices(appSt
 
 AuthenticatePage authenticationPage = new AuthenticatePage();
 HomePage homePage = new HomePage(appState);
-ProfilePage profilePage = new ProfilePage(appState);
+ProfilePage profilePage = new ProfilePage(appState, friendServices);
 PostsPage postPage = new PostsPage(appState);
 MyPostsPage myPostsPage = new MyPostsPage(appState, postServices);
 NewPostsPage newPostsPage = new NewPostsPage(appState, postServices);
@@ -31,6 +31,7 @@ LoginAction loginAction = new LoginAction(authenticationServices);
 RegisterAction registerAction = new RegisterAction(authenticationServices);
 
 About aboutPage = new About();
+
 
 homePage.AddPage(profilePage);
 homePage.AddPage(postPage);
@@ -49,8 +50,8 @@ authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 
 INavigationController navigationController = new NavigationController(appState);
-IInputController inputController = new InputController(navigationController);
-IRendererController renderController = new RendererController(navigationController);
+IInputController inputController = new InputController(appState, navigationController);
+IRendererController renderController = new RendererController(appState, navigationController);
 
 navigationController.SetDefaultAppPage(homePage);
 navigationController.SetDefaultAuthPage(authenticationPage);

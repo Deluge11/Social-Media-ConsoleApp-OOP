@@ -10,13 +10,14 @@ namespace SocialApp.Controllers
 {
     public class InputController : IInputController
     {
-        public InputController(INavigationController navigationController)
+        private INavigationController NavigationController { get; }
+        public AppState AppState { get; }
+
+        public InputController(AppState appState, INavigationController navigationController)
         {
             NavigationController = navigationController;
+            AppState = appState;
         }
-
-        public INavigationController NavigationController { get; }
-
 
         public void TakeAction(char key)
         {
@@ -45,9 +46,14 @@ namespace SocialApp.Controllers
             {
                 NavigationController.GoBack();
             }
-            if (key == 'g')
+            if (key == 'e')
             {
                 NavigationController.ClearStack();
+            }
+            if (key == 'l')
+            {
+                AppState.IsAuthenticated = false;
+                NavigationController.ResetStacksToDefault();
             }
         }
     }

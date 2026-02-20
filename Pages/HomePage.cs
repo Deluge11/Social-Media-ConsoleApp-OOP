@@ -1,6 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
 using SocialApp.Model;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,9 @@ namespace SocialApp.Pages
     public class HomePage : AbScrollCursor, IRootPage, IManagePages
     {
         public override string PageName { get; init; } = "Home Page";
-        public override string DefaultMassage => "There is no pages!";
+        public override string DefaultMassage { get; init; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
-
 
         public HomePage(AppState appState)
         {
@@ -37,14 +37,10 @@ namespace SocialApp.Pages
             return Pages[Cursor];
         }
 
-        public override int GetScrollContentCount()
+        public override List<stPageRow> GetContentRows()
         {
-            return Pages.Count;
+            return Pages.Select(p => new stPageRow(p.PageName)).ToList();
         }
 
-        public override List<string> GetScrollContent()
-        {
-            return Pages.Select(p=> p.PageName).ToList();
-        }
     }
 }

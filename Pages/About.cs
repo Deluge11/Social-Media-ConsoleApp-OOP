@@ -1,5 +1,6 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,26 +12,26 @@ namespace SocialApp.Pages
     public class About : AbScrollPage
     {
         public override string PageName { get; init; } = "About";
+        public override string DefaultMassage { get; init; } = "There is No Aura";
 
-        public override List<string> GetScrollContent()
-        {
-            List<string> content =
-        [
-            "Scroll Down",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "Hire Me :)"
-        ];
-            return content;
-        }
+        List<string> content =
+         [
+             "Scroll Down",
+            ".",
+            ".",
+            "Put Like On This Video :)",
+            "Share This Video",
+            "Write A Comment below",
+            ".",
+            ".",
+            ".",
+            "Write me a job recommendation :)",
+            "Thank You Have A Nice Day :D"
+         ];
 
-        public override int GetScrollContentCount()
+        public override List<stPageRow> GetContentRows()
         {
-            return GetScrollContent().Count;
+            return content.Select(c => new stPageRow(centerContent: c)).ToList();
         }
     }
 }

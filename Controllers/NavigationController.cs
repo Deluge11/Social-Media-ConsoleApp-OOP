@@ -1,10 +1,12 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SocialApp.Controllers
 {
@@ -65,7 +67,39 @@ namespace SocialApp.Controllers
 
             return stack.Count > 0 ? stack.Peek() : null;
         }
+        public void ResetStacksToDefault()
+        {
+            while (AppPageStack.Count > 1)
+                AppPageStack.Pop();
 
+            while (AuthenticatePageStack.Count > 1)
+                AuthenticatePageStack.Pop();
+
+            if (AppPageStack.Count > 0)
+            {
+                AbPage page = AppPageStack.Peek();
+                if (page is AbScrollPage scrollPage)
+                {
+                    scrollPage.ResetStart();
+                }
+                if (page is AbScrollCursor scrollCursorPage)
+                {
+                    scrollCursorPage.ResetCursor();
+                }
+            }
+            if (AuthenticatePageStack.Count > 0)
+            {
+                AbPage page = AuthenticatePageStack.Peek();
+                if (page is AbScrollPage scrollPage)
+                {
+                    scrollPage.ResetStart();
+                }
+                if (page is AbScrollCursor scrollCursorPage)
+                {
+                    scrollCursorPage.ResetCursor();
+                }
+            }
+        }
         public int GetStackCount()
         {
             return Appstate.IsAuthenticated ? AppPageStack.Count : AuthenticatePageStack.Count;

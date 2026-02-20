@@ -2,6 +2,7 @@
 using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SocialApp.Pages
     public class FriendRequestsPage : AbScrollCursor, IAction
     {
         public override string PageName { get; init; } = "Friend Requests";
-        public override string DefaultMassage { get; init; } = "There is no requests" + "#h" + "Check again later";
+        public override string DefaultMassage { get; init; } = "There Is No Requests, Check Again Later";
         public string ActionName { get; init; } = "Accept friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
@@ -34,14 +35,11 @@ namespace SocialApp.Pages
             ScrollUp();
         }
       
-        public override int GetScrollContentCount()
+        public override List<stPageRow> GetContentRows()
         {
-            return FriendServices.GetFriendRequistsUsers(AppState.User.Name).Count;
+            List <string > friendRequests = FriendServices.GetFriendRequistsUsers(AppState.User.Name);
+            return friendRequests.Select(fr => new stPageRow(fr)).ToList();
         }
 
-        public override List<string> GetScrollContent()
-        {
-            return FriendServices.GetFriendRequistsUsers(AppState.User.Name);
-        }
     }
 }

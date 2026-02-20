@@ -1,12 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
@@ -29,11 +24,6 @@ namespace SocialApp.Pages
             MessageServices = messageServices;
         }
 
-        public override int GetScrollContentCount()
-        {
-            return FriendServices.GetUserFriends(AppState.User.Name).Count;
-        }
-     
         public AbPage Next()
         {
             var username = AppState.User.Name;
@@ -55,9 +45,10 @@ namespace SocialApp.Pages
             return new MessagesPage(AppState, MessageServices, chatId, friendsList[Cursor]);
         }
 
-        public override List<string> GetScrollContent()
+        public override List<stPageRow> GetContentRows()
         {
-           return FriendServices.GetUserFriends(AppState.User.Name);
+            List<string> friendsName = FriendServices.GetUserFriends(AppState.User.Name);
+            return friendsName.Select(f => new stPageRow(f)).ToList();
         }
     }
 }

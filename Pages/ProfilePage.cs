@@ -1,6 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
 using SocialApp.Model;
+using SocialApp.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,11 +16,12 @@ namespace SocialApp.Pages
         public override string PageName { get; init; } = "Profile Page";
         public override string DefaultMassage { get; init; } = $"Login / Register";
         public AppState AppState { get; }
+        public FriendServices FriendService { get; }
 
-
-        public ProfilePage(AppState appState)
+        public ProfilePage(AppState appState, FriendServices friendService)
         {
             AppState = appState;
+            FriendService = friendService;
             SetPageContent();
         }
 
@@ -35,11 +37,13 @@ namespace SocialApp.Pages
                 return;
             }
 
-            ContentGrids[3] = $"Username : {user.Name}";
-            ContentGrids[6] = $"Friends count : {user.Friends.Count}";
-            ContentGrids[9] = $"Posts count : {user.PostsId.Count}";
+            ContentGrids[4] = $"Username : {user.Name}";
+            ContentGrids[6] = $"Friends Count : {user.Friends.Count}";
+            ContentGrids[8] = $"Friend Requests: {FriendService.GetFriendRequistsUsers(user.Name).Count}";
+            ContentGrids[9] = $"Posts Count : {user.PostsId.Count}";
+
         }
 
-   
+
     }
 }
