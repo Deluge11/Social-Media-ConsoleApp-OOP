@@ -1,3 +1,5 @@
+<img src="./demo/Capture.PNG" width="700" alt="test">
+
 # SocialApp - Console Based Social Network (C#)
 
 A simple console-based social media application built with C#.  
