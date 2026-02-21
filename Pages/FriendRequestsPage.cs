@@ -13,8 +13,8 @@ namespace SocialApp.Pages
 {
     public class FriendRequestsPage : AbScrollCursor, IAction
     {
-        public override string PageName { get; init; } = "Friend Requests";
-        public override string DefaultMassage { get; init; } = "There Is No Requests, Check Again Later";
+        public override string PageName { get; } = "Friend Requests";
+        public override string DefaultMassage { get; } = "There Is No Requests, Check Again Later";
         public string ActionName { get; init; } = "Accept friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }

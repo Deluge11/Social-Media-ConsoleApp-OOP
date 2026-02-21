@@ -13,10 +13,10 @@ namespace SocialApp.Pages
 {
     public class AuthenticatePage : AbScrollCursor, IAction, IActionPage
     {
-        public override string PageName { get; init; } = "Authentication Page";
-        public override string DefaultMassage { get; init; } = "There is no scripts";
-        public List<IAction> Actions { get; } = new();
+        public override string PageName { get; } = "Authentication Page";
+        public override string DefaultMassage { get; } = "There is no scripts";
         public string ActionName { get; init; } = "Take action";
+        public List<IAction> Actions { get; } = new();
 
 
         public void Action()

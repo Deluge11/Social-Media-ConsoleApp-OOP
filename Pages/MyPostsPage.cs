@@ -13,8 +13,8 @@ namespace SocialApp.Pages
 {
     public class MyPostsPage : AbScrollPage, IAction
     {
-        public override string PageName { get; init; } = "My Posts";
-        public override string DefaultMassage { get; init; } = "You have no posts!";
+        public override string PageName { get; } = "My Posts";
+        public override string DefaultMassage { get; } = "You have no posts!";
         public string ActionName { get; init;     } = "Add new post";
         public PostServices PostServices { get; }
         public AppState AppState { get; }

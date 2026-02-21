@@ -34,6 +34,7 @@ namespace SocialApp.Controllers
                     scrollPage.ScrollDown();
                 }
             }
+
             if (page is IAction actionPage && key == 'x')
             {
                 actionPage.Action();
@@ -42,15 +43,18 @@ namespace SocialApp.Controllers
             {
                 NavigationController.GoNext(rootPage.Next());
             }
-            if (key == 'b')
+
+            if (NavigationController.GetStackCount() > 1 && key == 'b')
             {
                 NavigationController.GoBack();
             }
+
             if (key == 'e')
             {
                 NavigationController.ClearStack();
             }
-            if (key == 'l')
+
+            if (AppState.IsAuthenticated && key == 'l')
             {
                 AppState.IsAuthenticated = false;
                 NavigationController.ResetStacksToDefault();

@@ -12,8 +12,8 @@ namespace SocialApp.Pages
 {
     public class HomePage : AbScrollCursor, IRootPage, IManagePages
     {
-        public override string PageName { get; init; } = "Home Page";
-        public override string DefaultMassage { get; init; } = "There is no pages";
+        public override string PageName { get; } = "Home Page";
+        public override string DefaultMassage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
 

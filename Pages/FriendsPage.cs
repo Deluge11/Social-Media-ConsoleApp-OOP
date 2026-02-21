@@ -11,8 +11,8 @@ namespace SocialApp.Pages
 {
     public class FriendsPage : AbScrollCursor, IRootPage, IManagePages
     {
-        public override string PageName { get; init; } = "Friends Page";
-        public override string DefaultMassage { get; init; } = "There is no pages";
+        public override string PageName { get; } = "Friends Page";
+        public override string DefaultMassage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
 

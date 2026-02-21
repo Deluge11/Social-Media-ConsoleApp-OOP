@@ -7,8 +7,8 @@ namespace SocialApp.Pages
 {
     public class SendFriendRequestPage : AbScrollCursor, IAction
     {
-        public override string PageName { get; init; } = "Add Friends";
-        public override string DefaultMassage { get; init; } = "There is no users Try to check later";
+        public override string PageName { get; } = "Add Friends";
+        public override string DefaultMassage { get; } = "There is no users Try to check later";
         public string ActionName { get; init; } = "Send friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }

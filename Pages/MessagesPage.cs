@@ -9,11 +9,11 @@ namespace SocialApp.Pages
 {
     public class MessagesPage : AbScrollPage, IAction
     {
-        public override string PageName { get; init; } = "Messages Page";
-        public override string DefaultMassage { get; init; } = "Break the silence";
+        public override string PageName { get;   } = "Messages Page";
+        public override string DefaultMassage { get; } = "Break the silence";
         public string ActionName { get; init; } = "Add new message";
-        public string FriendName { get; set; }
-        public int ChatId { get; set; }
+        public string FriendName { get; init; }
+        public int ChatId { get; init; }
         public MessageServices MessageServices { get; }
         public AppState AppState { get; }
 
@@ -23,7 +23,6 @@ namespace SocialApp.Pages
             AppState = appState;
             ChatId = chatId;
             FriendName = friendname;
-            Start = MessageServices.GetChatMessagesCount(chatId) - 1;
         }
 
         public override string GetPageLeftHeaders() => $"{{ {AppState.User.Name} }}";
@@ -36,14 +35,12 @@ namespace SocialApp.Pages
             MessageServices.AddMessage(ChatId, AppState.User.Id);
             ResetStart();
         }
-
         public override void ResetStart()
         {
             Start = GetContentRows().Count - 3;
             if (Start < 0)
                 Start = 0;
         }
-
         public override List<stPageRow> GetContentRows()
         {
             var massageList = MessageServices.GetChatMessages(ChatId);

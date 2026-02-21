@@ -7,8 +7,8 @@ namespace SocialApp.Pages
 {
     public class About : AbScrollPage
     {
-        public override string PageName { get; init; } = "About";
-        public override string DefaultMassage { get; init; } = "There is No Aura";
+        public override string PageName { get; } = "About";
+        public override string DefaultMassage { get; } = "There is No Aura";
 
         List<string> content =
          [

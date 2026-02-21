@@ -7,8 +7,8 @@ namespace SocialApp.Pages
 {
     public class ChatPage : AbScrollCursor, IRootPage
     {
-        public override string PageName { get; init; } = "Chat Page";
-        public override string DefaultMassage { get; init; } = "You have no friends";
+        public override string PageName { get; } = "Chat Page";
+        public override string DefaultMassage { get; } = "You have no friends";
         public AppState AppState { get; }
         public FriendServices FriendServices { get; }
         public MessageServices MessageServices { get; }

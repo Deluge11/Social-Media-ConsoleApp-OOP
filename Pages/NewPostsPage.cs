@@ -14,8 +14,8 @@ namespace SocialApp.Pages
 {
     public class NewPostsPage : AbScrollCursor, IAction
     {
-        public override string PageName { get; init; } = "New Posts";
-        public override string DefaultMassage { get; init; } = "There is no posts! Add new post/friend";
+        public override string PageName { get; } = "New Posts";
+        public override string DefaultMassage { get; } = "There is no posts! Add new post/friend";
         public string ActionName { get; init; } = "Like";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
