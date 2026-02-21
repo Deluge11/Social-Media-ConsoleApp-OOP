@@ -1,84 +1,84 @@
+# 🌐 SocialApp - Console Based Social Network
+
+SocialApp is a console-based social networking engine built with C#.  
+Unlike traditional CLI applications, it uses a custom Grid Rendering Engine and a Navigation Stack to simulate a modern app-like experience inside the console.
+
+-----
+
+## ✨ Features
+
+- Authentication: Login and registration flow with user accounts.
+- Social Feed: Create posts, view the feed, and interact using likes.
+- Networking: Send, accept, and manage friend requests.
+- Messaging: Real-time-like chat simulation with sender/receiver alignment.
+- Custom UI Engine: 4 × 3 grid-based layout with dynamic header and content.
+- Navigation Stack: Page-based navigation with a smooth “back” experience.
+
+-----
+
+## 🏗️ Architecture & Page Flow
+
+At the core of the system is a Control Loop that separates:
+
+- Navigation logic between pages (Navigation Stack).
+- Visual rendering in the console (Renderer / Frame).
+- User input handling (Input Controller).
+
+
+       NAVIGATION STACK                     RENDERER (The Frame)
+      +----------------+                   *-----------------------*
+      |     Page 3     |  --- (Peek) --->  |      [ HEADER ]       |
+      +----------------+                   |-----------------------|
+      |     Page 2     |                   |                       |
+      +----------------+                   |      [ CONTENT ]      |
+      |     Page 1     |                   |    (Injected Page)    |
+      +----------------+                   |                       |
+                                           |                       |
+             ^                             *-----------------------*
+             |                                         |
+             |            (Update UI)                  |
+             +-----------------------------------------+
+             |
+      [ INPUT CONTROLLER ] <--- (User KeyPress)
+      +------------------+
+      |  W/S : Scroll    |
+      |  X   : Action    |
+      |  B   : Go Back   |
+      +------------------+
+
+-----
+
+## 🧱 Abstractions (Data Structure & Logic)
+The system follows a layered OOP hierarchy to keep the code scalable and reusable:
+
+AbPage (The Blueprint)
+Defines a 12-cell grid matrix (4 rows × 3 columns), handles basic layout initialization, and manages the page header.
+
+AbScrollPage (List Management)
+Introduces pagination logic. It uses a Start index to map a large data list into the three visible content rows.
+
+AbScrollCursor (Interactive Layer)
+The most advanced layer. It manages a movable cursor synchronized with the Start index to ensure the selected item is always visible (auto-scrolling behavior).
+
+You can additionally include a short code snippet or a small class diagram here if you want to illustrate the abstraction.
+
+----
+
+## 🎮 Controls & Usage
+Once the application is running, navigation is done through:
+
+W / S: Scroll up and down through lists.
+
+X: Perform an action on the selected item (open page, accept friend, etc.).
+
+B: Go back to the previous page using the Navigation Stack.
+
+
+-----
+
+## 📸 Demo
+
 <img src="./demo/Capture.PNG" width="700" alt="test">
 
-# SocialApp - Console Based Social Network (C#)
+-----
 
-A simple console-based social media application built with C#.  
-This project simulates the core features of a social networking platform such as authentication, posts, friends, and chat using a clean and organized architecture.
-
----
-
-## 📌 Project Description
-
-SocialApp is a console application that allows users to:
-- Register and log in
-- Create and view posts
-- Send and accept friend requests
-- View friend lists
-- Chat with friends
-
-The project follows a structured design using:
-- **Services** for business logic
-- **Pages** for UI representation
-- **Controllers** for navigation, input handling, and rendering  
-It also uses a centralized **AppState** and **DataManager** for managing application state and persistent data.
-
----
-
-## 🚀 Features
-
-- ✅ User Registration & Login
-- ✅ Profile Page
-- ✅ Create & View Posts
-- ✅ Friend System (Send / Accept Requests)
-- ✅ Friends List
-- ✅ Real-Time Chat Simulation
-- ✅ Console-Based Navigation System
-- ✅ Data Persistence via DataManager
-
----
-
-## 🛠️ Technologies Used
-
-- Language: **C#**
-- Platform: **.NET Console Application**
-- Architecture Pattern:
-  - Controllers
-  - Services
-  - Pages (View Layer)
-- Data Handling: In-memory + Persistent Storage using JSON files via `DataManager`
-
----
-
-## 🧩 Project Structure
-SocialApp/
-│
-├── Controllers/
-│ ├── NavigationController
-│ ├── InputController
-│ ├── RendererController
-│ └── PageConttroller
-│
-├── Services/
-│ ├── AuthenticationServices
-│ ├── UserServices
-│ ├── PostServices
-│ ├── FriendServices
-│ └── MessageServices
-│
-├── Pages/
-│ ├── AuthenticatePage
-│ ├── HomePage
-│ ├── ProfilePage
-│ ├── PostsPage
-│ ├── MyPostsPage
-│ ├── NewPostsPage
-│ ├── FriendsPage
-│ ├── MyFriendsPage
-│ ├── FriendRequestsPage
-│ ├── SendFriendRequestPage
-│ └── ChatPage
-│
-├── Scripts/
-├── AppState.cs
-├── DataManager.cs
-└── Program.cs
