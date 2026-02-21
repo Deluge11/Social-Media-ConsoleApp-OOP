@@ -1,35 +1,27 @@
-﻿using SocialApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using SocialApp.Structure;
 
 namespace SocialApp.Abstractions
 {
     public abstract class AbPage
     {
         public abstract string PageName { get; }
-        public abstract string DefaultMassage { get; }
+        public abstract string DefaultMassage { get; } // Display When There An Odd Behavior (0 Rows , UnAuthenticated ,etc)
         public string[] ContentGrids { get; } = new string[12];
 
         public abstract void SetPageContent();
-        public virtual string GetPageLeftHeaders() => "";
-        public virtual string GetPageRightHeaders() => "";
-        public virtual string GetPageCenterHeaders() => PageName;
-
+        public abstract stPageRow GetPageHeaders();
         public void ResetContent()
         {
             for (int i = 0; i < ContentGrids.Length; i++)
-            {
                 ContentGrids[i] = "";
-            }
         }
-        public void SetPageHeader()
+        protected void SetPageHeader()
         {
-            ContentGrids[0] = GetPageLeftHeaders();
-            ContentGrids[1] = GetPageCenterHeaders();
-            ContentGrids[2] = GetPageRightHeaders();
+            stPageRow headers = GetPageHeaders();
+            ContentGrids[0] = headers.LeftContent;
+            ContentGrids[1] = headers.CenterContent;
+            ContentGrids[2] = headers.RightContent;
         }
     }
 }

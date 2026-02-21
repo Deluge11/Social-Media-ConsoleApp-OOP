@@ -1,17 +1,14 @@
-﻿using SocialApp.Interfaces;
-using SocialApp.Services;
+﻿
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Abstractions
 {
     public abstract class AbScrollPage : AbPage
     {
         public int Start { get; protected set; }
+        public abstract List<stPageRow> GetContentRows();
+
 
         public virtual void ResetStart()
         {
@@ -35,34 +32,31 @@ namespace SocialApp.Abstractions
             SetPageHeader();
 
             List<stPageRow> content = GetContentRows();
-            int rowCount = content.Count;
 
-            if(rowCount == 0)
+            if(content.Count == 0)
             {
                 ContentGrids[4] = DefaultMassage;
             }
 
-            if (Start < rowCount)
+            if (Start < content.Count)
             {
                 ContentGrids[3] = content[Start].LeftContent;
                 ContentGrids[4] = content[Start].CenterContent;
                 ContentGrids[5] = content[Start].RightContent;
             }
-            if (Start + 1 < rowCount)
+            if (Start + 1 < content.Count)
             {
                 ContentGrids[6] = content[Start + 1].LeftContent;
                 ContentGrids[7] = content[Start + 1].CenterContent;
                 ContentGrids[8] = content[Start + 1].RightContent;
 
             }
-            if (Start + 2 < rowCount)
+            if (Start + 2 < content.Count)
             {
                 ContentGrids[9] = content[Start + 2].LeftContent;
                 ContentGrids[10] = content[Start + 2].CenterContent;
                 ContentGrids[11] = content[Start + 2].RightContent;
             }
         }
-        public abstract List<stPageRow> GetContentRows();
-
     }
 }

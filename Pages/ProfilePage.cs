@@ -1,13 +1,8 @@
 ﻿using SocialApp.Abstractions;
-using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialApp.Structure;
+
 
 namespace SocialApp.Pages
 {
@@ -15,21 +10,23 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "Profile Page";
         public override string DefaultMassage { get; } = $"Login / Register";
-        public AppState AppState { get; }
         public FriendServices FriendService { get; }
+        public PostServices PostServices { get; }
+        public AppState AppState { get; }
 
-        public ProfilePage(AppState appState, FriendServices friendService)
+        public ProfilePage(AppState appState, FriendServices friendService, PostServices postServices)
         {
             AppState = appState;
             FriendService = friendService;
+            PostServices = postServices;
             SetPageContent();
         }
 
         public override void SetPageContent()
         {
-            User user = AppState.User;
+            SetPageHeader();
 
-            ContentGrids[1] = PageName;
+            User user = AppState.User;
 
             if (user == null)
             {
@@ -41,9 +38,13 @@ namespace SocialApp.Pages
             ContentGrids[6] = $"Friends Count : {user.Friends.Count}";
             ContentGrids[8] = $"Friend Requests: {FriendService.GetFriendRequistsUsers(user.Name).Count}";
             ContentGrids[9] = $"Posts Count : {user.PostsId.Count}";
+            ContentGrids[11] = $"Posts Likes : {PostServices.GetPostsTotalLikes(user.Name)}";
 
         }
 
-
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
+        }
     }
 }

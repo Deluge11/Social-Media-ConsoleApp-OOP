@@ -2,32 +2,26 @@
 using SocialApp.Interfaces;
 using SocialApp.Services;
 using SocialApp.Structure;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SocialApp.Pages
 {
     public class MessagesPage : AbScrollPage, IAction
     {
-        public override string PageName { get;   } = "Messages Page";
+        public override string PageName { get; } = "Messages Page";
         public override string DefaultMassage { get; } = "Break the silence";
-        public string ActionName { get; init; } = "Add new message";
-        public string FriendName { get; init; }
-        public int ChatId { get; init; }
+        public string ActionName { get; } = "Add new message";
+        public string FriendName { get; }
+        public int ChatId { get; }
         public MessageServices MessageServices { get; }
         public AppState AppState { get; }
 
         public MessagesPage(AppState appState, MessageServices messageServices, int chatId, string friendname)
         {
             MessageServices = messageServices;
+            FriendName = friendname;
             AppState = appState;
             ChatId = chatId;
-            FriendName = friendname;
         }
-
-        public override string GetPageLeftHeaders() => $"{{ {AppState.User.Name} }}";
-        public override string GetPageRightHeaders() => $"{{ {FriendName} }}";
-        public override string GetPageCenterHeaders() => $"Messages Count #h #h ---=( {GetContentRows().Count.ToString()} )=---";
 
         public void Action()
         {
@@ -43,14 +37,23 @@ namespace SocialApp.Pages
         }
         public override List<stPageRow> GetContentRows()
         {
-            var massageList = MessageServices.GetChatMessages(ChatId);
-            return massageList.Select(
-                m => new stPageRow(
-                    leftContent: m.UserId == AppState.User.Id ? m.MsgString : "",
+            return MessageServices
+                .GetChatMessages(ChatId)
+                .Select(
+                message => new stPageRow(
+                    leftContent: message.UserId == AppState.User.Id ? message.MsgString : "",
                     centerContent: "",
-                    rightContent: m.UserId != AppState.User.Id ? m.MsgString : ""
+                    rightContent: message.UserId != AppState.User.Id ? message.MsgString : ""
                     ))
                 .ToList();
+        }
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(
+                $"--={{ `You` }}=--",
+                $"Messages Count #h #h ---=( {GetContentRows().Count.ToString()} )=---",
+                $"--={{ {FriendName} }}=--"
+            );
         }
     }
 }

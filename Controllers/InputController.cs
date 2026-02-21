@@ -1,16 +1,12 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Controllers
 {
     public class InputController : IInputController
     {
-        private INavigationController NavigationController { get; }
+        public INavigationController NavigationController { get; }
         public AppState AppState { get; }
 
         public InputController(AppState appState, INavigationController navigationController)
@@ -23,6 +19,8 @@ namespace SocialApp.Controllers
         {
             AbPage page = NavigationController.GetCurrentPage();
 
+
+            // Scrolling Pages
             if (page is AbScrollPage scrollPage)
             {
                 if (key == 'w')
@@ -35,6 +33,7 @@ namespace SocialApp.Controllers
                 }
             }
 
+            // Action Page -> Action Behavior | Root Page -> Go Next Page
             if (page is IAction actionPage && key == 'x')
             {
                 actionPage.Action();
@@ -44,17 +43,20 @@ namespace SocialApp.Controllers
                 NavigationController.GoNext(rootPage.Next());
             }
 
-            if (NavigationController.GetStackCount() > 1 && key == 'b')
+            // Return To Previous Page
+            if (NavigationController.GetStackCount() > 1 && key == 'b') 
             {
                 NavigationController.GoBack();
             }
 
-            if (key == 'e')
+            // Exit
+            if (key == 'e') 
             {
                 NavigationController.ClearStack();
             }
 
-            if (AppState.IsAuthenticated && key == 'l')
+            // Logout
+            if (AppState.IsAuthenticated && key == 'l') 
             {
                 AppState.IsAuthenticated = false;
                 NavigationController.ResetStacksToDefault();

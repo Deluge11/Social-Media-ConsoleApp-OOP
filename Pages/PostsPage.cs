@@ -1,12 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Pages
 {
@@ -27,16 +22,19 @@ namespace SocialApp.Pages
 
         public AbPage Next()
         {
-            if (Pages.Count == 0)
-            {
-                return null;
-            }
-            return Pages[Cursor];
+            return Pages.Count > 0 ? Pages[Cursor] : null;
         }
 
         public override List<stPageRow> GetContentRows()
         {
-            return Pages.Select(p => new stPageRow(p.PageName)).ToList();
+            return Pages
+                .Select(p => new stPageRow(p.PageName))
+                .ToList();
+        }
+
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
         }
     }
 }

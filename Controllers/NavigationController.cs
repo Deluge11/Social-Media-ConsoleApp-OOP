@@ -1,30 +1,26 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SocialApp.Controllers
 {
     public class NavigationController : INavigationController
     {
-        private Stack<AbPage> AuthenticatePageStack { get; } = new();
-        private Stack<AbPage> AppPageStack { get; } = new();
-        private AppState Appstate { get; }
+        public Stack<AbPage> AuthenticatePageStack { get; } = new();
+        public Stack<AbPage> AppPageStack { get; } = new();
+        public AppState AppState { get; }
 
-        public NavigationController(AppState appstate)
+        public NavigationController(AppState AppState)
         {
-            Appstate = appstate;
+            this.AppState = AppState;
         }
+
+
         public void SetDefaultAppPage(AbPage page)
         {
             AppPageStack.Clear();
             AppPageStack.Push(page);
         }
+
         public void SetDefaultAuthPage(AbPage page)
         {
             AuthenticatePageStack.Clear();
@@ -35,7 +31,7 @@ namespace SocialApp.Controllers
         {
             if (next == null) return;
 
-            if (Appstate.IsAuthenticated)
+            if (AppState.IsAuthenticated)
             {
                 AppPageStack.Push(next);
             }
@@ -52,21 +48,24 @@ namespace SocialApp.Controllers
                 scrollCursorPage.ResetCursor();
             }
         }
+
         public void GoBack()
         {
-            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
 
             if (stack.Count > 0)
             {
                 stack.Pop();
             }
         }
+
         public AbPage GetCurrentPage()
         {
-            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
 
             return stack.Count > 0 ? stack.Peek() : null;
         }
+
         public void ResetStacksToDefault()
         {
             while (AppPageStack.Count > 1)
@@ -102,20 +101,20 @@ namespace SocialApp.Controllers
         }
         public int GetStackCount()
         {
-            return Appstate.IsAuthenticated ? AppPageStack.Count : AuthenticatePageStack.Count;
+            return AppState.IsAuthenticated ? AppPageStack.Count : AuthenticatePageStack.Count;
         }
 
         public void ClearStack()
         {
-            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
             stack.Clear();
         }
-
-        public List<string> GetPagesStackNames()
+        
+        public List<string> GetPagesNames()
         {
             var pagesName = new List<string>();
 
-            var stack = Appstate.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
 
             if (stack.Count == 0)
             {

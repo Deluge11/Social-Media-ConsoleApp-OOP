@@ -3,12 +3,6 @@ using SocialApp.Interfaces;
 using SocialApp.Model;
 using SocialApp.Services;
 using SocialApp.Structure;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialApp.Pages
 {
@@ -16,7 +10,7 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "New Posts";
         public override string DefaultMassage { get; } = "There is no posts! Add new post/friend";
-        public string ActionName { get; init; } = "Like";
+        public string ActionName { get; } = "Like";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
 
@@ -26,33 +20,29 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-        public override string GetPageLeftHeaders() => "Poster";
-        public override string GetPageCenterHeaders() => "Content";
-        public override string GetPageRightHeaders() => "Information";
         public void Action()
         {
-            string username = AppState.User.Name;
-            var postsIdList = PostServices.GetNewPosts(username);
+            var postsIdList = PostServices.GetNewPosts(AppState.User.Name);
 
-            if (postsIdList.Count == 0) return;
-
-            Post post = postsIdList[Cursor];
-
-            PostServices.TogglePostLike(username, post.Id);
+            if (postsIdList.Count != 0)
+                PostServices.TogglePostLike(AppState.User.Name, postsIdList[Cursor].Id);
         }
 
         public override List<stPageRow> GetContentRows()
         {
-            string currentUserName = AppState.User.Name;
-            var postsList = PostServices.GetNewPosts(currentUserName);
-
-            return postsList
+            return PostServices
+                .GetNewPosts(AppState.User.Name)
                 .Select(p => new stPageRow(
-                    p.PosterName == currentUserName ? "`Me`" : p.PosterName,
+                    p.PosterName == AppState.User.Name ? "`You`" : p.PosterName,
                     p.PostMessage,
                     $"Likes: {p.Likes.Count}#hCreated At {p.Date.ToShortDateString()}"
                 ))
                 .ToList();
+        }
+
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow("Poster", "Content", "Information");
         }
     }
 }

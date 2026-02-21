@@ -19,8 +19,15 @@ namespace SocialApp.Pages
 
         public override List<stPageRow> GetContentRows()
         {
-            List<string> myFriendsName = FriendServices.GetUserFriends(AppState.User.Name);
-            return myFriendsName.Select(n => new stPageRow(n)).ToList();
+            return FriendServices
+                .GetUserFriends(AppState.User.Name)
+                .Select(n => new stPageRow(n))
+                .ToList();
+        }
+
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
         }
     }
 }

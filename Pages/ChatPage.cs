@@ -13,11 +13,7 @@ namespace SocialApp.Pages
         public FriendServices FriendServices { get; }
         public MessageServices MessageServices { get; }
 
-        public ChatPage(
-            AppState appState,
-            FriendServices friendServices,
-            MessageServices messageServices
-            )
+        public ChatPage(AppState appState, FriendServices friendServices, MessageServices messageServices)
         {
             AppState = appState;
             FriendServices = friendServices;
@@ -27,7 +23,6 @@ namespace SocialApp.Pages
         public AbPage Next()
         {
             var username = AppState.User.Name;
-
             var friendsList = FriendServices.GetUserFriends(username);
 
             if (friendsList.Count == 0)
@@ -47,8 +42,14 @@ namespace SocialApp.Pages
 
         public override List<stPageRow> GetContentRows()
         {
-            List<string> friendsName = FriendServices.GetUserFriends(AppState.User.Name);
-            return friendsName.Select(f => new stPageRow(f)).ToList();
+            return FriendServices
+                .GetUserFriends(AppState.User.Name)
+                .Select(f => new stPageRow(f))
+                .ToList();
+        }
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
         }
     }
 }

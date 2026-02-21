@@ -1,9 +1,5 @@
 ﻿using SocialApp.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Interfaces
 {
@@ -17,6 +13,6 @@ namespace SocialApp.Interfaces
         void SetDefaultAuthPage(AbPage authenticationPage);
         void ClearStack();
         void ResetStacksToDefault();
-        List<string> GetPagesStackNames();
+        List<string> GetPagesNames();
     }
 }

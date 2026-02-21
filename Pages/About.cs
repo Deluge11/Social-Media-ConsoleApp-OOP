@@ -12,7 +12,8 @@ namespace SocialApp.Pages
 
         List<string> content =
          [
-             "Scroll Down",
+            "Scroll Down",
+            ".",
             ".",
             ".",
             "Put Like On This Video :)",
@@ -22,12 +23,20 @@ namespace SocialApp.Pages
             ".",
             ".",
             "Write me a job recommendation :)",
-            "Thank You Have A Nice Day :D"
+            "Thank You Have A Nice Day :D",
+            "Bye :)"
          ];
 
         public override List<stPageRow> GetContentRows()
         {
-            return content.Select(c => new stPageRow(centerContent: c)).ToList();
+            return content
+                .Select(c => new stPageRow(centerContent: c))
+                .ToList();
+        }
+
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent:PageName);
         }
     }
 }

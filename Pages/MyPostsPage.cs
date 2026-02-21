@@ -1,13 +1,8 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Services;
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Pages
 {
@@ -15,7 +10,7 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "My Posts";
         public override string DefaultMassage { get; } = "You have no posts!";
-        public string ActionName { get; init;     } = "Add new post";
+        public string ActionName { get; } = "Add new post";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
 
@@ -25,15 +20,17 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-        public override string GetPageCenterHeaders() => "Likes";
-        public override string GetPageLeftHeaders() => "Content";
-        public override string GetPageRightHeaders() => "Created Date";
+        public void Action()
+        {
+            if (AppState.IsAuthenticated)
+                PostServices.AddNewPost(AppState.User.Name);
+        }
 
         public override List<stPageRow> GetContentRows()
         {
-            var myPostsList = PostServices.GetUserPosts(AppState.User.Name);
-
-            return myPostsList.Select(
+            return PostServices
+                .GetUserPosts(AppState.User.Name)
+                .Select(
                 p => new stPageRow(
                     p.PostMessage,
                     p.Likes.Count.ToString(),
@@ -41,13 +38,10 @@ namespace SocialApp.Pages
                     ))
                 .ToList();
         }
-        public void Action()
+
+        public override stPageRow GetPageHeaders()
         {
-            if (!AppState.IsAuthenticated)
-            {
-                return;
-            }
-            PostServices.AddNewPost(AppState.User.Name);
+            return new stPageRow("Content", "Likes", "Created Date");
         }
 
     }

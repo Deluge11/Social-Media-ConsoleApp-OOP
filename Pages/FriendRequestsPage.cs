@@ -1,13 +1,8 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Services;
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Pages
 {
@@ -15,7 +10,7 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "Friend Requests";
         public override string DefaultMassage { get; } = "There Is No Requests, Check Again Later";
-        public string ActionName { get; init; } = "Accept friend request";
+        public string ActionName { get; } = "Accept friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -37,9 +32,14 @@ namespace SocialApp.Pages
       
         public override List<stPageRow> GetContentRows()
         {
-            List <string > friendRequests = FriendServices.GetFriendRequistsUsers(AppState.User.Name);
-            return friendRequests.Select(fr => new stPageRow(fr)).ToList();
+            return FriendServices
+                .GetFriendRequistsUsers(AppState.User.Name)
+                .Select(fr => new stPageRow(fr))
+                .ToList();
         }
-
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "Add Friends";
         public override string DefaultMassage { get; } = "There is no users Try to check later";
-        public string ActionName { get; init; } = "Send friend request";
+        public string ActionName { get; } = "Send friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -35,11 +35,17 @@ namespace SocialApp.Pages
             ScrollUp();
         }
 
-
         public override List<stPageRow> GetContentRows()
         {
-            List<string> users = FriendServices.GetUnfriendsUsers(AppState.User.Name);
-            return users.Select(u => new stPageRow(u)).ToList();
+            return FriendServices
+                .GetUnfriendsUsers(AppState.User.Name)
+                .Select(u => new stPageRow(u))
+                .ToList();
+        }
+
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
         }
     }
 }

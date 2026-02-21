@@ -1,13 +1,7 @@
-﻿using SocialApp.Abstractions;
+﻿
+using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Controllers
 {
@@ -30,7 +24,7 @@ namespace SocialApp.Controllers
         private char[][] Board = new char[26][];
 
         public AppState AppState { get; }
-        private INavigationController NavigationController { get; }
+        public INavigationController NavigationController { get; }
 
 
         public RendererController(AppState appState, INavigationController navigationController)
@@ -40,8 +34,8 @@ namespace SocialApp.Controllers
                 Board[i] = new char[Width];
             }
 
-            AppState = appState;
             NavigationController = navigationController;
+            AppState = appState;
             SetBoardDefault();
         }
 
@@ -57,13 +51,14 @@ namespace SocialApp.Controllers
         protected void BoardProcessing()
         {
             SetBoardDefault();
-            SetBoardGrids();
+            SetPageContentOnBoardGrids();
             SetCursor();
             SetHorizontalLine(6);
         }
+
         protected void PrintPagesStack()
         {
-            var pagesName = NavigationController.GetPagesStackNames();
+            var pagesName = NavigationController.GetPagesNames();
             string separator = " -> ";
 
             int pagesNameTotalLength = GetStringListLengthWithSeparation(pagesName, separator.Length) + 5;
@@ -82,6 +77,7 @@ namespace SocialApp.Controllers
             PrintHorizontalLine(pagesNameTotalLength);
 
         }
+
         protected int GetStringListLengthWithSeparation(List<string> array, int separate)
         {
             int total = separate * array.Count;
@@ -91,6 +87,7 @@ namespace SocialApp.Controllers
             }
             return total;
         }
+
         protected void PrintHorizontalLine(int length)
         {
             Console.WriteLine();
@@ -107,36 +104,38 @@ namespace SocialApp.Controllers
             }
             Console.WriteLine();
         }
+
         protected void PrintControlKeys()
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
 
             if (currentPage is AbScrollPage)
             {
-                Console.WriteLine("| Press W to Scroll up");
-                Console.WriteLine("| Press S to Scroll down");
+                Console.WriteLine("| Press W To Scroll Up");
+                Console.WriteLine("| Press S To Scroll Down");
             }
             if (currentPage is IAction action)
             {
-                Console.WriteLine($"| Press X to {action.ActionName}");
+                Console.WriteLine($"| Press X To {action.ActionName}");
             }
             else if (currentPage is IRootPage)
             {
-                Console.WriteLine($"| Press X to Go Next page");
+                Console.WriteLine($"| Press X To Go Next page");
             }
             if (NavigationController.GetStackCount() != 1)
             {
-                Console.WriteLine($"| Press B to Back Previous Page");
+                Console.WriteLine($"| Press B To Back Previous Page");
             }
             if (AppState.IsAuthenticated)
             {
-                Console.WriteLine($"| Press L to Logout");
+                Console.WriteLine($"| Press L To Logout");
             }
             {
                 Console.WriteLine($"| Press E to Save and Exit");
             }
         }
-        protected void SetBoardGrids()
+
+        protected void SetPageContentOnBoardGrids()
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
 
@@ -145,19 +144,20 @@ namespace SocialApp.Controllers
 
             var content = currentPage.ContentGrids;
 
-            SetGrid(content[0], Row1, Col1);
-            SetGrid(content[1], Row1, Col2);
-            SetGrid(content[2], Row1, Col3);
-            SetGrid(content[3], Row2, Col1);
-            SetGrid(content[4], Row2, Col2);
-            SetGrid(content[5], Row2, Col3);
-            SetGrid(content[6], Row3, Col1);
-            SetGrid(content[7], Row3, Col2);
-            SetGrid(content[8], Row3, Col3);
-            SetGrid(content[9], Row4, Col1);
-            SetGrid(content[10], Row4, Col2);
-            SetGrid(content[11], Row4, Col3);
+            SetContentOnGrid(content[0], Row1, Col1);
+            SetContentOnGrid(content[1], Row1, Col2);
+            SetContentOnGrid(content[2], Row1, Col3);
+            SetContentOnGrid(content[3], Row2, Col1);
+            SetContentOnGrid(content[4], Row2, Col2);
+            SetContentOnGrid(content[5], Row2, Col3);
+            SetContentOnGrid(content[6], Row3, Col1);
+            SetContentOnGrid(content[7], Row3, Col2);
+            SetContentOnGrid(content[8], Row3, Col3);
+            SetContentOnGrid(content[9], Row4, Col1);
+            SetContentOnGrid(content[10], Row4, Col2);
+            SetContentOnGrid(content[11], Row4, Col3);
         }
+
         protected void SetBoardDefault()
         {
             for (int h = 0; h < Board.Length; h++)
@@ -168,6 +168,7 @@ namespace SocialApp.Controllers
                 }
             }
         }
+
         protected void SetCursor()
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
@@ -181,12 +182,14 @@ namespace SocialApp.Controllers
             string contentLength = GetContentLength(curserPosition);
             SetCursorOnBoard(contentLength, curserPosition);
         }
+
         protected string GetContentLength(int rowPosition)
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
             var contents = currentPage.ContentGrids;
             return contents[3 * rowPosition];
         }
+
         protected int GetCursorPosition()
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
@@ -195,6 +198,7 @@ namespace SocialApp.Controllers
 
             return dynamicPage.Cursor - dynamicPage.Start + 1;
         }
+
         protected void SetCursorOnBoard(string content, int pos)
         {
             if (string.IsNullOrEmpty(content.Trim()))
@@ -224,16 +228,18 @@ namespace SocialApp.Controllers
 
             for (int i = Col1 + GridWidth; i > Col1; i--)
             {
-                if (Board[h][i] != ' ') break;
-                endContent = i + 1;
+                if (Board[h][i] != ' ')
+                {
+                    endContent = i + 2;
+                    break;
+                }
             }
-
 
             Board[h][3] = '{';
             Board[h][endContent] = '}';
         }
 
-        protected void SetGrid(string content, int height, int width)
+        protected void SetContentOnGrid(string content, int height, int width)
         {
             if (content == null || content == "")
             {
@@ -278,7 +284,7 @@ namespace SocialApp.Controllers
                     x = 0;
                 }
 
-                while (x < word.Length - 1 && word[x] == '#' && word[x + 1] == 'h')
+                while (x + 1 < word.Length && word[x] == '#' && word[x + 1] == 'h')
                 {
                     height++;
                     width = startWidth;
@@ -287,22 +293,15 @@ namespace SocialApp.Controllers
                     if (x >= word.Length) return;
                 }
 
-
-
-                if (width == maxWidth)
+                if (width + 1 == maxWidth)
                 {
-                    height++;
-                    width = startWidth;
-
-                    if (word[x - 1] != ' ' && word[x] != ' ')
+                    if (x + 1 < word.Length && word[x] != ' ')
                     {
                         Board[height][width] = '-';
-                        width++;
                     }
-                    if (word[x] == ' ')
-                    {
-                        x++;
-                    }
+
+                    height++;
+                    width = startWidth;
                 }
 
                 Board[height][width] = word[x];

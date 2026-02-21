@@ -1,9 +1,5 @@
 ﻿using SocialApp.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Services
 {
@@ -67,6 +63,11 @@ namespace SocialApp.Services
             PostsDB[postId].Like(username);
         }
 
+        public int GetPostsTotalLikes(string username)
+        {
+            List<Post> userPosts = GetUserPosts(username);
+            return userPosts.Sum(p => p.Likes.Count);
+        }
         public List<Post> GetNewPosts(string username)
         {
             PriorityQueue<LinkedListNode<int>, int> posts = new();

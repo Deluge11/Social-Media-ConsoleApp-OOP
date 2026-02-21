@@ -17,7 +17,7 @@ AuthenticationServices authenticationServices = new AuthenticationServices(appSt
 
 AuthenticatePage authenticationPage = new AuthenticatePage();
 HomePage homePage = new HomePage(appState);
-ProfilePage profilePage = new ProfilePage(appState, friendServices);
+ProfilePage profilePage = new ProfilePage(appState, friendServices, postServices);
 PostsPage postPage = new PostsPage(appState);
 MyPostsPage myPostsPage = new MyPostsPage(appState, postServices);
 NewPostsPage newPostsPage = new NewPostsPage(appState, postServices);
@@ -26,11 +26,10 @@ MyFriendsPage myFriendsPage = new MyFriendsPage(appState, friendServices);
 FriendRequestsPage friendRequestPage = new FriendRequestsPage(appState, friendServices);
 SendFriendRequestPage sendFriendRequestPage = new SendFriendRequestPage(appState, friendServices);
 ChatPage chatPage = new ChatPage(appState, friendServices, messageServices);
+About aboutPage = new About();
 
 LoginAction loginAction = new LoginAction(authenticationServices);
 RegisterAction registerAction = new RegisterAction(authenticationServices);
-
-About aboutPage = new About();
 
 homePage.AddPage(profilePage);
 homePage.AddPage(postPage);

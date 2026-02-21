@@ -1,12 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
-using SocialApp.Model;
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Pages
 {
@@ -39,8 +34,14 @@ namespace SocialApp.Pages
 
         public override List<stPageRow> GetContentRows()
         {
-            return Pages.Select(p => new stPageRow(p.PageName)).ToList();
+            return Pages
+                .Select(p => new stPageRow(p.PageName))
+                .ToList();
         }
 
+        public override stPageRow GetPageHeaders()
+        {
+            return new stPageRow(centerContent: PageName);
+        }
     }
 }

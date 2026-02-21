@@ -1,12 +1,6 @@
 ﻿using SocialApp.Interfaces;
-using SocialApp.Model;
-using SocialApp.Pages;
 using SocialApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Scripts
 {
