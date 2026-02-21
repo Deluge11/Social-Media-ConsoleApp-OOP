@@ -28,7 +28,7 @@ namespace SocialApp.Pages
 
         public override string GetPageLeftHeaders() => $"{{ {AppState.User.Name} }}";
         public override string GetPageRightHeaders() => $"{{ {FriendName} }}";
-        public override string GetPageCenterHeaders() => $"Messages Count #h #h    ( {GetContentRows().Count.ToString()} )";
+        public override string GetPageCenterHeaders() => $"Messages Count #h #h ---=( {GetContentRows().Count.ToString()} )=---";
 
         public void Action()
         {

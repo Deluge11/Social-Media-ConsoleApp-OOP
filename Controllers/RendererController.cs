@@ -278,15 +278,18 @@ namespace SocialApp.Controllers
                     x = 0;
                 }
 
-                if (x < word.Length - 1 && word[x] == '#' && word[x + 1] == 'h')
+                while (x < word.Length - 1 && word[x] == '#' && word[x + 1] == 'h')
                 {
                     height++;
                     width = startWidth;
                     x += 2;
-                    continue;
+
+                    if (x >= word.Length) return;
                 }
 
-                else if (width == maxWidth)
+
+
+                if (width == maxWidth)
                 {
                     height++;
                     width = startWidth;

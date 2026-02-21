@@ -1,11 +1,7 @@
 ﻿using SocialApp.Abstractions;
-using SocialApp.Interfaces;
+
 using SocialApp.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialApp.Pages
 {

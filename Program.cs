@@ -32,7 +32,6 @@ RegisterAction registerAction = new RegisterAction(authenticationServices);
 
 About aboutPage = new About();
 
-
 homePage.AddPage(profilePage);
 homePage.AddPage(postPage);
 homePage.AddPage(friendPage);
