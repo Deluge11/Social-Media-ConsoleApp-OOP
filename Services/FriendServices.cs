@@ -6,7 +6,7 @@ namespace SocialApp.Services
    public class FriendServices
     {
         private Dictionary<string, User> UsersDB { get; }
-        private Dictionary<int, Messages> MessagesDB { get; }
+        private Dictionary<int, Chat> MessagesDB { get; }
         private LastIdInfo LastIdInfo { get; }
 
         public FriendServices(DataManager dataManager)
@@ -83,7 +83,7 @@ namespace SocialApp.Services
 
             int chatId = LastIdInfo.ChatID++;
 
-            MessagesDB[chatId] = new Messages(chatId);
+            MessagesDB[chatId] = new Chat(chatId);
             UsersDB[user1].AddChat(chatId);
             UsersDB[user2].AddChat(chatId);
         }

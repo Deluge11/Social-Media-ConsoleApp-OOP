@@ -3,15 +3,15 @@
     public class Post
     {
         public int Id { get; private set; }
-        public string PostMessage { get; set; }
+        public string PostContent { get; set; }
         public string PosterName { get; private set; }
         public HashSet<string> Likes { get; set; }
         public DateTime Date { get; private set; }
 
-        public Post(int id, string msg, string posterName, DateTime date)
+        public Post(int id, string content, string posterName, DateTime date)
         {
             Id = id;
-            PostMessage = msg;
+            PostContent = content;
             PosterName = posterName;
             Date = date;
             Likes = new();

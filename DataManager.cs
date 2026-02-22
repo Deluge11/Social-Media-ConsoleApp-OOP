@@ -13,7 +13,7 @@ namespace SocialApp
 
         public Dictionary<string, User> UsersDB { get; private set; } = new();
         public Dictionary<int, Post> PostsDB { get; private set; } = new();
-        public Dictionary<int, Messages> MessagesDB { get; private set; } = new();
+        public Dictionary<int, Chat> MessagesDB { get; private set; } = new();
         public LastIdInfo LastIdInfo { get; private set; } = new();
 
 
@@ -52,7 +52,7 @@ namespace SocialApp
             if (File.Exists(MassageFile))
             {
                 string json = File.ReadAllText(MassageFile);
-                MessagesDB = JsonConvert.DeserializeObject<Dictionary<int, Messages>>(json) ?? new();
+                MessagesDB = JsonConvert.DeserializeObject<Dictionary<int, Chat>>(json) ?? new();
             }
             if (File.Exists(PostsFile))
             {

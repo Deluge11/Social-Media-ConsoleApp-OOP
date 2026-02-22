@@ -5,7 +5,7 @@ namespace SocialApp.Services
 {
     public class MessageServices
     {
-        public Dictionary<int, Messages> MessagesDB { get; }
+        public Dictionary<int, Chat> MessagesDB { get; }
         public Dictionary<string, User> UsersDB { get; }
 
         public MessageServices(DataManager dataManager)
@@ -14,7 +14,7 @@ namespace SocialApp.Services
             UsersDB = dataManager.UsersDB;
         }
 
-        public List<Msg> GetChatMessages(int chatId)
+        public List<Message> GetChatMessages(int chatId)
         {
             return MessagesDB[chatId].messagesList;
         }
@@ -49,7 +49,7 @@ namespace SocialApp.Services
             if (message.Length < 1 || !MessagesDB.ContainsKey(chatId))
                 return;
 
-            Msg newMessage = new Msg(userId, message, DateTime.Now);
+            Message newMessage = new Message(userId, message, DateTime.Now);
             MessagesDB[chatId].AddMsg(newMessage);
         }
 

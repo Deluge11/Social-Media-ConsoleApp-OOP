@@ -52,8 +52,8 @@ namespace SocialApp.Controllers
         {
             SetBoardDefault();
             SetPageContentOnBoardGrids();
-            SetCursor();
-            SetHorizontalLine(6);
+            SetCursorOnBoard();
+            SetHorizontalLineOnBoard(6);
         }
 
         protected void PrintPagesStack()
@@ -86,23 +86,6 @@ namespace SocialApp.Controllers
                 total += array[i].Length;
             }
             return total;
-        }
-
-        protected void PrintHorizontalLine(int length)
-        {
-            Console.WriteLine();
-            for (int i = 0; i < length; i++)
-            {
-                if (i == 0 || i == length - 1)
-                {
-                    Console.Write('*');
-                }
-                else
-                {
-                    Console.Write('-');
-                }
-            }
-            Console.WriteLine();
         }
 
         protected void PrintControlKeys()
@@ -169,82 +152,59 @@ namespace SocialApp.Controllers
             }
         }
 
-        protected void SetCursor()
+        protected void SetCursorOnBoard()
         {
-            AbPage currentPage = NavigationController.GetCurrentPage();
-
-            if (currentPage is not AbScrollCursor)
+            if (NavigationController.GetCurrentPage() is AbScrollCursor)
             {
-                return;
+                SetCursorOnBoard(GetRowByCursorPosition(GetCursorPosition()), 1);
             }
-
-            int curserPosition = GetCursorPosition();
-            string contentLength = GetContentLength(curserPosition);
-            SetCursorOnBoard(contentLength, curserPosition);
-        }
-
-        protected string GetContentLength(int rowPosition)
-        {
-            AbPage currentPage = NavigationController.GetCurrentPage();
-            var contents = currentPage.ContentGrids;
-            return contents[3 * rowPosition];
         }
 
         protected int GetCursorPosition()
         {
-            AbPage currentPage = NavigationController.GetCurrentPage();
-            if (currentPage is not AbScrollCursor dynamicPage)
-                return -1;
-
-            return dynamicPage.Cursor - dynamicPage.Start + 1;
+            if (NavigationController.GetCurrentPage() is AbScrollCursor dynamicPage)
+            {
+                return dynamicPage.Cursor - dynamicPage.Start + 1;
+            }
+            return -1;
         }
 
-        protected void SetCursorOnBoard(string content, int pos)
+        int GetRowByCursorPosition(int cursorPosition)
         {
-            if (string.IsNullOrEmpty(content.Trim()))
-            {
-                return;
-            }
-
-            int h = Row1;
-
-            switch (pos)
+            switch (cursorPosition)
             {
                 case 0:
-                    h = Row1;
-                    break;
+                    return Row1;
                 case 1:
-                    h = Row2;
-                    break;
+                    return Row2;
                 case 2:
-                    h = Row3;
-                    break;
+                    return Row3;
                 case 3:
-                    h = Row4;
-                    break;
+                    return Row4;
             }
+            return Row1;
+        }
 
-            int endContent = Col1 + GridWidth;
+        protected void SetCursorOnBoard(int row, int col)
+        {
+            int endContent = col + GridWidth;
 
-            for (int i = Col1 + GridWidth; i > Col1; i--)
+            for (int i = col + GridWidth; i > col; i--)
             {
-                if (Board[h][i] != ' ')
+                if (Board[row][i] != ' ')
                 {
                     endContent = i + 2;
                     break;
                 }
             }
 
-            Board[h][3] = '{';
-            Board[h][endContent] = '}';
+            Board[row][3] = '{';
+            Board[row][endContent] = '}';
         }
 
         protected void SetContentOnGrid(string content, int height, int width)
         {
-            if (content == null || content == "")
-            {
-                return;
-            }
+            if (content == null || content == "") return;
 
             int startWidth = width;
             int startHeight = height;
@@ -257,58 +217,97 @@ namespace SocialApp.Controllers
                 SetWord(words[i], ref width, ref height, startHeight, startWidth, maxWidth);
 
                 if (i + 1 < words.Length)
+                {
                     SetWord(" ", ref width, ref height, startHeight, startWidth, maxWidth);
+                }
             }
         }
 
         protected void SetWord(string word, ref int width, ref int height, int startHeight, int startWidth, int maxWidth)
         {
+            if (word == " " && width == startWidth)
+            {
+                return;
+            }
+
             if (word.Length + width >= maxWidth && word.Length < GridWidth)
             {
                 height++;
                 width = startWidth;
             }
 
-            if (word == " " && width == startWidth)
-            {
-                return;
-            }
+            int wordIndex = 0;
 
-            for (int x = 0; x < word.Length; x++, width++)
+            while (wordIndex < word.Length && height - startHeight < GridHeight)
             {
-                if (height - startHeight >= GridHeight) continue;
-
-                if (height - startHeight == GridHeight - 1 && maxWidth < width + 5 && maxWidth - width < word.Length - x)
+                if (height - startHeight == GridHeight - 1 &&
+                    maxWidth < width + 5 &&
+                    maxWidth - width < word.Length - wordIndex)
                 {
                     word = "...";
-                    x = 0;
+                    wordIndex = 0;
                 }
 
-                while (x + 1 < word.Length && word[x] == '#' && word[x + 1] == 'h')
+                while (SubWordExists(word,"#h",wordIndex))
                 {
                     height++;
                     width = startWidth;
-                    x += 2;
-
-                    if (x >= word.Length) return;
+                    wordIndex += 2;
                 }
 
-                if (width + 1 == maxWidth)
-                {
-                    if (x + 1 < word.Length && word[x] != ' ')
-                    {
-                        Board[height][width] = '-';
-                    }
+                if (wordIndex >= word.Length)
+                    return;
 
+                if (width + 1 == maxWidth &&
+                    wordIndex + 1 < word.Length &&
+                    word[wordIndex] != ' ')
+                {
+                    Board[height][width] = '-';
                     height++;
                     width = startWidth;
                 }
 
-                Board[height][width] = word[x];
+                if (width == maxWidth)
+                {
+                    height++;
+                    width = startWidth;
+                }
+
+                Board[height][width] = word[wordIndex];
+
+                wordIndex++;
+                width++;
             }
         }
 
-        protected void SetHorizontalLine(int row)
+        protected bool SubWordExists(string word, string subWord, int wordIndex)
+        {
+            int subWordIndex = 0;
+            while (wordIndex < word.Length)
+            {
+                if (word[wordIndex++] != subWord[subWordIndex++]) return false;
+            }
+            return subWordIndex == subWord.Length;
+        }
+
+        protected void PrintHorizontalLine(int length)
+        {
+            Console.WriteLine();
+            for (int i = 0; i < length; i++)
+            {
+                if (i == 0 || i == length - 1)
+                {
+                    Console.Write('*');
+                }
+                else
+                {
+                    Console.Write('-');
+                }
+            }
+            Console.WriteLine();
+        }
+
+        protected void SetHorizontalLineOnBoard(int row)
         {
             for (int i = 0; i < Board[row].Length; i++)
             {
@@ -351,5 +350,7 @@ namespace SocialApp.Controllers
                 Console.WriteLine();
             }
         }
+
+
     }
 }

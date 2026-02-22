@@ -34,7 +34,7 @@ namespace SocialApp.Pages
                 .GetNewPosts(AppState.User.Name)
                 .Select(p => new stPageRow(
                     p.PosterName == AppState.User.Name ? "`You`" : p.PosterName,
-                    p.PostMessage,
+                    p.PostContent,
                     $"Likes: {p.Likes.Count}#hCreated At {p.Date.ToShortDateString()}"
                 ))
                 .ToList();

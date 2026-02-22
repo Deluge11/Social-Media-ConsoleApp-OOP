@@ -41,9 +41,9 @@ namespace SocialApp.Pages
                 .GetChatMessages(ChatId)
                 .Select(
                 message => new stPageRow(
-                    leftContent: message.UserId == AppState.User.Id ? message.MsgString : "",
+                    leftContent: message.UserId == AppState.User.Id ? message.MessageString : "",
                     centerContent: "",
-                    rightContent: message.UserId != AppState.User.Id ? message.MsgString : ""
+                    rightContent: message.UserId != AppState.User.Id ? message.MessageString : ""
                     ))
                 .ToList();
         }

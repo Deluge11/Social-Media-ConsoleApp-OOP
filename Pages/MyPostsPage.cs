@@ -32,7 +32,7 @@ namespace SocialApp.Pages
                 .GetUserPosts(AppState.User.Name)
                 .Select(
                 p => new stPageRow(
-                    p.PostMessage,
+                    p.PostContent,
                     p.Likes.Count.ToString(),
                     p.Date.ToShortDateString()
                     ))
