@@ -78,7 +78,7 @@ B: Go back to the previous page using the Navigation Stack.
 
 ## 📸 Demo
 
-<img src="./demo/Capture.PNG" width="700" alt="test">
+<img src="./demo/DemoPic.PNG" width="700" alt="test">
 
 -----
 
