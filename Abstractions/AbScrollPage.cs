@@ -6,7 +6,7 @@ namespace SocialApp.Abstractions
 {
     public abstract class AbScrollPage : AbPage
     {
-        protected int Start { get; set; }
+        public int Start { get; protected set; }
         protected abstract List<stPageRow> GetContentRows();
 
         public virtual void Reset()
@@ -30,7 +30,7 @@ namespace SocialApp.Abstractions
         {
             List<stPageRow> content = GetContentRows();
 
-            if(content.Count == 0)
+            if (content.Count == 0)
             {
                 ContentGrids[4] = DefaultMessage;
             }

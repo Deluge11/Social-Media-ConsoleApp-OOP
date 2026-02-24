@@ -1,9 +1,8 @@
 ﻿using SocialApp;
-using SocialApp.Controllers;
-using SocialApp.Interfaces;
 using SocialApp.Pages;
 using SocialApp.Scripts;
 using SocialApp.Services;
+using SocialApp.Controllers;
 
 AppState appState = new AppState();
 

@@ -4,7 +4,7 @@ namespace SocialApp.Abstractions
 {
     public abstract class AbScrollCursor : AbScrollPage
     {
-        protected int Cursor { get; set; }
+        public int Cursor { get; protected set; }
         public override void Reset()
         {
             Cursor = 0;
