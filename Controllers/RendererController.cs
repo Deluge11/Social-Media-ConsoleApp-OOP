@@ -46,6 +46,21 @@ namespace SocialApp.Controllers
             PrintPagesStackBox();
             PrintBoard();
             PrintControlKeys();
+            TestPrint();
+        }
+
+        protected void TestPrint()
+        {
+            Console.WriteLine("-----------------------------------------");
+            if (NavigationController.GetCurrentPage() is AbScrollPage scrollPage)
+            {
+                Console.WriteLine($"| Start Pointer Value: {scrollPage.Start}");
+            }
+            if (NavigationController.GetCurrentPage() is AbScrollCursor scrollCursor)
+            {
+                Console.WriteLine($"| Cursor Pointer Value: {scrollCursor.Cursor}");
+            }
+            Console.WriteLine("-----------------------------------------");
         }
 
         protected void BoardProcessing()
@@ -246,6 +261,12 @@ namespace SocialApp.Controllers
 
             while (wordIndex < word.Length && height - startHeight < GridHeight)
             {
+                if (width == startWidth && word[wordIndex] == ' ')
+                {
+                    wordIndex++;
+                    continue;
+                }
+
                 if (height - startHeight == GridHeight - 1 &&
                     maxWidth < width + 5 &&
                     maxWidth - width < word.Length - wordIndex)
@@ -289,7 +310,7 @@ namespace SocialApp.Controllers
         protected bool SubWordExists(string word, string subWord, int wordIndex)
         {
             int subWordIndex = 0;
-            while (wordIndex < word.Length)
+            while (wordIndex < word.Length && subWordIndex < subWord.Length)
             {
                 if (word[wordIndex++] != subWord[subWordIndex++]) return false;
             }
