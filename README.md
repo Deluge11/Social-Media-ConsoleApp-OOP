@@ -12,7 +12,7 @@ Unlike traditional CLI applications, it uses a custom Grid Rendering Engine and 
 - Networking: Send, accept, and manage friend requests.
 - Messaging: Real-time-like chat simulation with sender/receiver alignment.
 - Custom UI Engine: 4 × 3 grid-based layout with dynamic header and content.
-- Navigation Stack: Page-based navigation with a smooth “back” experience.
+- Navigation Stack: Page-based navigation.
 
 -----
 
@@ -59,20 +59,6 @@ Introduces pagination logic. It uses a Start index to map a large data list into
 
 AbScrollCursor (Interactive Layer)
 The most advanced layer. It manages a movable cursor synchronized with the Start index to ensure the selected item is always visible (auto-scrolling behavior).
-
-You can additionally include a short code snippet or a small class diagram here if you want to illustrate the abstraction.
-
-----
-
-## 🎮 Controls & Usage
-Once the application is running, navigation is done through:
-
-W / S: Scroll up and down through lists.
-
-X: Perform an action on the selected item (open page, accept friend, etc.).
-
-B: Go back to the previous page using the Navigation Stack.
-
 
 -----
 
