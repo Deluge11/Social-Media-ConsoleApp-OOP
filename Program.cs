@@ -47,9 +47,9 @@ friendPage.AddPage(friendRequestPage);
 authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 
-INavigationController navigationController = new NavigationController(appState);
-IInputController inputController = new InputController(appState, navigationController);
-IRendererController renderController = new RendererController(appState, navigationController);
+NavigationController navigationController = new NavigationController(appState);
+InputController inputController = new InputController(appState, navigationController);
+RendererController renderController = new RendererController(appState, navigationController);
 
 navigationController.SetDefaultAppPage(homePage);
 navigationController.SetDefaultAuthPage(authenticationPage);

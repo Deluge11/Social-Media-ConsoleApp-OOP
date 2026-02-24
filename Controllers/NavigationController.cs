@@ -4,7 +4,7 @@ using SocialApp.Pages;
 
 namespace SocialApp.Controllers
 {
-    public class NavigationController : INavigationController
+    public class NavigationController
     {
         public Stack<AbPage> AuthenticatePageStack { get; } = new();
         public Stack<AbPage> AppPageStack { get; } = new();

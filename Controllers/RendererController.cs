@@ -5,7 +5,7 @@ using SocialApp.Interfaces;
 
 namespace SocialApp.Controllers
 {
-    public class RendererController : IRendererController
+    public class RendererController
     {
         private const int Col1 = 5;
         private const int Col2 = 28;
@@ -24,10 +24,10 @@ namespace SocialApp.Controllers
         private char[][] Board = new char[26][];
 
         public AppState AppState { get; }
-        public INavigationController NavigationController { get; }
+        public NavigationController NavigationController { get; }
 
 
-        public RendererController(AppState appState, INavigationController navigationController)
+        public RendererController(AppState appState, NavigationController navigationController)
         {
             for (int i = 0; i < Board.Length; i++)
             {

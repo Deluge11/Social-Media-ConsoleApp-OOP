@@ -7,9 +7,9 @@ namespace SocialApp.Controllers
     public class PageController
     {
         public PageController(
-            INavigationController navigationController,
-            IRendererController rendererController,
-            IInputController inputController
+            NavigationController navigationController,
+            RendererController rendererController,
+            InputController inputController
             )
         {
             NavigationController = navigationController;
@@ -17,9 +17,9 @@ namespace SocialApp.Controllers
             InputController = inputController;
         }
 
-        public INavigationController NavigationController { get; }
-        public IRendererController RendererController { get; }
-        public IInputController InputController { get; }
+        public NavigationController NavigationController { get; }
+        public RendererController RendererController { get; }
+        public InputController InputController { get; }
 
         public void Play()
         {

@@ -4,12 +4,12 @@ using SocialApp.Interfaces;
 
 namespace SocialApp.Controllers
 {
-    public class InputController : IInputController
+    public class InputController
     {
-        public INavigationController NavigationController { get; }
+        public NavigationController NavigationController { get; }
         public AppState AppState { get; }
 
-        public InputController(AppState appState, INavigationController navigationController)
+        public InputController(AppState appState, NavigationController navigationController)
         {
             NavigationController = navigationController;
             AppState = appState;
