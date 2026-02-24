@@ -23,7 +23,7 @@ namespace SocialApp.Controllers
 
         public void Play()
         {
-            while (NavigationController.GetStackCount() > 0)
+            while (NavigationController.GetCurrentStackCount() > 0)
             {
                 RendererController.Print();
                 InputController.TakeAction(Console.ReadKey().KeyChar);

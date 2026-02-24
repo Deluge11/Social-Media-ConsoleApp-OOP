@@ -5,9 +5,10 @@ namespace SocialApp.Abstractions
     public abstract class AbScrollCursor : AbScrollPage
     {
         public int Cursor { get; protected set; }
-        public virtual void ResetCursor()
+        public override void Reset()
         {
             Cursor = 0;
+            Start = 0;
         }
 
         public sealed override void ScrollDown()

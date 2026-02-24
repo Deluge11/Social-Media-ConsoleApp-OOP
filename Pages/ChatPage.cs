@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class ChatPage : AbScrollCursor, IRootPage
     {
         public override string PageName { get; } = "Chat Page";
-        public override string DefaultMassage { get; } = "You have no friends";
+        public override string DefaultMessage { get; } = "You have no friends";
         public AppState AppState { get; }
         public FriendServices FriendServices { get; }
         public MessageServices MessageServices { get; }
@@ -47,7 +47,7 @@ namespace SocialApp.Pages
                 .Select(f => new stPageRow(f))
                 .ToList();
         }
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

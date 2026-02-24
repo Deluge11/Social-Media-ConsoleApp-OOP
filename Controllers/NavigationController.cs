@@ -1,5 +1,6 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
+using SocialApp.Pages;
 
 namespace SocialApp.Controllers
 {
@@ -29,99 +30,78 @@ namespace SocialApp.Controllers
 
         public void GoNext(AbPage next)
         {
-            if (next == null) return;
+            next = next != null ? 
+                next : new NotFoundPage();
 
-            if (AppState.IsAuthenticated)
-            {
-                AppPageStack.Push(next);
-            }
-            else
-            {
-                AuthenticatePageStack.Push(next);
-            }
-            if(next is AbScrollPage scrollPage)
-            {
-                scrollPage.ResetStart();
-            }
-            if (next is AbScrollCursor scrollCursorPage)
-            {
-                scrollCursorPage.ResetCursor();
-            }
+            GetCurrentStack().Push(next);
+
+            if (next is AbScrollPage scrollPage)
+                scrollPage.Reset();
+
         }
 
         public void GoBack()
         {
-            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            if (GetCurrentStack().Count > 0)
+                GetCurrentStack().Pop();
+        }
 
-            if (stack.Count > 0)
-            {
-                stack.Pop();
-            }
+        protected Stack<AbPage> GetCurrentStack()
+        {
+            return AppState.IsAuthenticated ?
+                AppPageStack : AuthenticatePageStack;
         }
 
         public AbPage GetCurrentPage()
         {
-            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
-
-            return stack.Count > 0 ? stack.Peek() : null;
+            return GetCurrentStack().Count > 0 ?
+                GetCurrentStack().Peek() : new NotFoundPage();
         }
 
         public void ResetStacksToDefault()
         {
             while (AppPageStack.Count > 1)
+            {
                 AppPageStack.Pop();
-
+            }
             while (AuthenticatePageStack.Count > 1)
+            {
                 AuthenticatePageStack.Pop();
+            }
 
             if (AppPageStack.Count > 0)
             {
-                AbPage page = AppPageStack.Peek();
-                if (page is AbScrollPage scrollPage)
-                {
-                    scrollPage.ResetStart();
-                }
-                if (page is AbScrollCursor scrollCursorPage)
-                {
-                    scrollCursorPage.ResetCursor();
-                }
+                if (AppPageStack.Peek() is AbScrollPage scrollPage)
+                    scrollPage.Reset();
             }
             if (AuthenticatePageStack.Count > 0)
             {
-                AbPage page = AuthenticatePageStack.Peek();
-                if (page is AbScrollPage scrollPage)
-                {
-                    scrollPage.ResetStart();
-                }
-                if (page is AbScrollCursor scrollCursorPage)
-                {
-                    scrollCursorPage.ResetCursor();
-                }
+                if (AuthenticatePageStack.Peek() is AbScrollPage scrollPage)
+                    scrollPage.Reset();
             }
         }
-        public int GetStackCount()
+        public int GetCurrentStackCount()
         {
-            return AppState.IsAuthenticated ? AppPageStack.Count : AuthenticatePageStack.Count;
+            return GetCurrentStack().Count;
         }
 
         public void ClearStack()
         {
-            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
-            stack.Clear();
+            GetCurrentStack().Clear();
         }
-        
+
         public List<string> GetPagesNames()
         {
             var pagesName = new List<string>();
 
-            var stack = AppState.IsAuthenticated ? AppPageStack : AuthenticatePageStack;
+            var stack = GetCurrentStack();
 
             if (stack.Count == 0)
             {
                 return pagesName;
             }
 
-            foreach(var page in stack)
+            foreach (var page in stack)
             {
                 pagesName.Add(page.PageName);
             }

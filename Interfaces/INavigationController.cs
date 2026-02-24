@@ -8,7 +8,7 @@ namespace SocialApp.Interfaces
         void GoNext(AbPage next);
         void GoBack();
         AbPage GetCurrentPage();
-        int GetStackCount();
+        int GetCurrentStackCount();
         void SetDefaultAppPage(AbPage homePage);
         void SetDefaultAuthPage(AbPage authenticationPage);
         void ClearStack();

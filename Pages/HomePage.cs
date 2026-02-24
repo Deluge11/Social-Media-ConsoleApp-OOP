@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class HomePage : AbScrollCursor, IRootPage, IManagePages
     {
         public override string PageName { get; } = "Home Page";
-        public override string DefaultMassage { get; } = "There is no pages";
+        public override string DefaultMessage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
 
@@ -29,6 +29,7 @@ namespace SocialApp.Pages
             {
                 return null;
             }
+
             return Pages[Cursor];
         }
 
@@ -39,7 +40,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

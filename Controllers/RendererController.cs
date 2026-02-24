@@ -43,7 +43,7 @@ namespace SocialApp.Controllers
         {
             Console.Clear();
             BoardProcessing();
-            PrintPagesStack();
+            PrintPagesStackBox();
             PrintBoard();
             PrintControlKeys();
         }
@@ -56,7 +56,7 @@ namespace SocialApp.Controllers
             SetHorizontalLineOnBoard(6);
         }
 
-        protected void PrintPagesStack()
+        protected void PrintPagesStackBox()
         {
             var pagesName = NavigationController.GetPagesNames();
             string separator = " -> ";
@@ -65,17 +65,18 @@ namespace SocialApp.Controllers
 
             PrintHorizontalLine(pagesNameTotalLength);
             Console.Write("| ");
+            PrintPagesStackWithSeparator(pagesName, separator);
+            Console.Write("  |");
+            PrintHorizontalLine(pagesNameTotalLength);
+        }
 
+        protected void PrintPagesStackWithSeparator(List<string> pagesName, string separator)
+        {
             for (int i = pagesName.Count - 1; i >= 0; i--)
             {
                 Console.Write(separator);
                 Console.Write(pagesName[i]);
-
             }
-
-            Console.Write("  |");
-            PrintHorizontalLine(pagesNameTotalLength);
-
         }
 
         protected int GetStringListLengthWithSeparation(List<string> array, int separate)
@@ -105,7 +106,7 @@ namespace SocialApp.Controllers
             {
                 Console.WriteLine($"| Press X To Go Next page");
             }
-            if (NavigationController.GetStackCount() != 1)
+            if (NavigationController.GetCurrentStackCount() != 1)
             {
                 Console.WriteLine($"| Press B To Back Previous Page");
             }
@@ -189,14 +190,19 @@ namespace SocialApp.Controllers
         {
             int endContent = col + GridWidth;
 
-            for (int i = col + GridWidth; i > col; i--)
+            int i = col + GridWidth;
+            while (i > col)
             {
                 if (Board[row][i] != ' ')
                 {
                     endContent = i + 2;
                     break;
                 }
+                i--;
             }
+
+            if (i == col)
+                return;
 
             Board[row][3] = '{';
             Board[row][endContent] = '}';
@@ -248,7 +254,7 @@ namespace SocialApp.Controllers
                     wordIndex = 0;
                 }
 
-                while (SubWordExists(word,"#h",wordIndex))
+                while (SubWordExists(word, "#h", wordIndex))
                 {
                     height++;
                     width = startWidth;

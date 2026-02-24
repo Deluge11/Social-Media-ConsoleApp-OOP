@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class SendFriendRequestPage : AbScrollCursor, IAction
     {
         public override string PageName { get; } = "Add Friends";
-        public override string DefaultMassage { get; } = "There is no users Try to check later";
+        public override string DefaultMessage { get; } = "There is no users Try to check later";
         public string ActionName { get; } = "Send friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
@@ -43,7 +43,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

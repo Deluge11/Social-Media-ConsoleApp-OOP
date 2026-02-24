@@ -9,7 +9,7 @@ namespace SocialApp.Pages
     public class FriendRequestsPage : AbScrollCursor, IAction
     {
         public override string PageName { get; } = "Friend Requests";
-        public override string DefaultMassage { get; } = "There Is No Requests, Check Again Later";
+        public override string DefaultMessage { get; } = "There Is No Requests, Check Again Later";
         public string ActionName { get; } = "Accept friend request";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
@@ -22,7 +22,7 @@ namespace SocialApp.Pages
         public void Action()
         {
             var username = AppState.User.Name;
-            var usersList = FriendServices.GetFriendRequistsUsers(username);
+            var usersList = FriendServices.GetFriendRequestsUsers(username);
 
             if(usersList.Count == 0) return;
 
@@ -33,11 +33,11 @@ namespace SocialApp.Pages
         public override List<stPageRow> GetContentRows()
         {
             return FriendServices
-                .GetFriendRequistsUsers(AppState.User.Name)
+                .GetFriendRequestsUsers(AppState.User.Name)
                 .Select(fr => new stPageRow(fr))
                 .ToList();
         }
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

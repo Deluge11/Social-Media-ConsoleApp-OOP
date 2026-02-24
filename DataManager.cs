@@ -6,7 +6,7 @@ namespace SocialApp
 {
     public class DataManager
     {
-        private const string MassageFile = "massage.json";
+        private const string MessageFile = "Message.json";
         private const string UsersFile = "Users.json";
         private const string IdsFile = "LastId.json";
         private const string PostsFile = "Posts.json";
@@ -31,8 +31,8 @@ namespace SocialApp
             string UsersJsonString = JsonConvert.SerializeObject(UsersDB, Formatting.Indented);
             File.WriteAllText(UsersFile, UsersJsonString);
 
-            string MassagesJsonString = JsonConvert.SerializeObject(MessagesDB, Formatting.Indented);
-            File.WriteAllText(MassageFile, MassagesJsonString);
+            string MessagesJsonString = JsonConvert.SerializeObject(MessagesDB, Formatting.Indented);
+            File.WriteAllText(MessageFile, MessagesJsonString);
 
             string PostsJsonString = JsonConvert.SerializeObject(PostsDB, Formatting.Indented);
             File.WriteAllText(PostsFile, PostsJsonString);
@@ -49,9 +49,9 @@ namespace SocialApp
                 string json = File.ReadAllText(IdsFile);
                 LastIdInfo = JsonConvert.DeserializeObject<LastIdInfo>(json) ?? new();
             }
-            if (File.Exists(MassageFile))
+            if (File.Exists(MessageFile))
             {
-                string json = File.ReadAllText(MassageFile);
+                string json = File.ReadAllText(MessageFile);
                 MessagesDB = JsonConvert.DeserializeObject<Dictionary<int, Chat>>(json) ?? new();
             }
             if (File.Exists(PostsFile))

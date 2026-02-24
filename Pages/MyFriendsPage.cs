@@ -7,7 +7,7 @@ namespace SocialApp.Pages
     public class MyFriendsPage : AbScrollPage
     {
         public override string PageName { get; } = "My Friends";
-        public override string DefaultMassage { get; } = "You have no friends";
+        public override string DefaultMessage { get; } = "You have no friends";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -25,7 +25,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

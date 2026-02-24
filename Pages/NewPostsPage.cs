@@ -9,7 +9,7 @@ namespace SocialApp.Pages
     public class NewPostsPage : AbScrollCursor, IAction
     {
         public override string PageName { get; } = "New Posts";
-        public override string DefaultMassage { get; } = "There is no posts! Add new post/friend";
+        public override string DefaultMessage { get; } = "There is no posts! Add new post/friend";
         public string ActionName { get; } = "Like";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
@@ -40,7 +40,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow("Poster", "Content", "Information");
         }

@@ -9,8 +9,7 @@ namespace SocialApp.Abstractions
         public int Start { get; protected set; }
         public abstract List<stPageRow> GetContentRows();
 
-
-        public virtual void ResetStart()
+        public virtual void Reset()
         {
             Start = 0;
         }
@@ -27,15 +26,13 @@ namespace SocialApp.Abstractions
                 Start--;
         }
 
-        public sealed override void SetPageContent()
+        protected sealed override void SetPageBody()
         {
-            SetPageHeader();
-
             List<stPageRow> content = GetContentRows();
 
             if(content.Count == 0)
             {
-                ContentGrids[4] = DefaultMassage;
+                ContentGrids[4] = DefaultMessage;
             }
 
             if (Start < content.Count)

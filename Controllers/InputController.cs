@@ -44,7 +44,7 @@ namespace SocialApp.Controllers
             }
 
             // Return To Previous Page
-            if (NavigationController.GetStackCount() > 1 && key == 'b') 
+            if (NavigationController.GetCurrentStackCount() > 1 && key == 'b') 
             {
                 NavigationController.GoBack();
             }

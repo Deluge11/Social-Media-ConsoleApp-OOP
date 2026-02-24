@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class PostsPage : AbScrollCursor, IRootPage, IManagePages
     {
         public override string PageName { get; } = "Posts Page";
-        public override string DefaultMassage { get; } = "There is no pages";
+        public override string DefaultMessage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
 
         public PostsPage(AppState appState)
@@ -32,7 +32,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

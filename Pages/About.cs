@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class About : AbScrollPage
     {
         public override string PageName { get; } = "About";
-        public override string DefaultMassage { get; } = "There is No Aura";
+        public override string DefaultMessage { get; } = "There is No Aura";
 
         List<string> content =
          [
@@ -34,7 +34,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent:PageName);
         }

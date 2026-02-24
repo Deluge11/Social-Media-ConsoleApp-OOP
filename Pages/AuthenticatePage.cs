@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class AuthenticatePage : AbScrollCursor, IAction, IActionPage
     {
         public override string PageName { get; } = "Authentication Page";
-        public override string DefaultMassage { get; } = "There is no scripts";
+        public override string DefaultMessage { get; } = "There is no scripts";
         public string ActionName { get; } = "Take action";
         public List<IAction> Actions { get; } = new();
 
@@ -31,7 +31,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeaders()
+        public override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent:PageName);
         }

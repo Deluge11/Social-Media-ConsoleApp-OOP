@@ -34,7 +34,7 @@ namespace SocialApp.Services
             return UsersDB[username].Friends.Count;
         }
 
-        public List<string> GetFriendRequistsUsers(string username)
+        public List<string> GetFriendRequestsUsers(string username)
         {
             List<string> result = new();
             foreach (var otherUser in UsersDB[username].FriendRequests)
