@@ -9,7 +9,7 @@ namespace SocialApp.Pages
     public class ProfilePage : AbPage
     {
         public override string PageName { get; } = "Profile Page";
-        public override string DefaultMessage { get; } = $"Login / Register";
+        protected override string DefaultMessage { get; } = $"Login / Register";
         public FriendServices FriendService { get; }
         public PostServices PostServices { get; }
         public AppState AppState { get; }
@@ -40,7 +40,7 @@ namespace SocialApp.Pages
 
         }
 
-        public override stPageRow GetPageHeader()
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

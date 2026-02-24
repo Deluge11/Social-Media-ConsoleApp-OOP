@@ -7,13 +7,11 @@ namespace SocialApp.Services
     {
         private AppState AppState { get; }
         private UserServices UserServices { get; }
-        public LastIdInfo LastIdInfo { get; }
 
-        public AuthenticationServices(AppState appState, UserServices userServices, LastIdInfo lastIdInfo)
+        public AuthenticationServices(AppState appState, UserServices userServices)
         {
             AppState = appState;
             UserServices = userServices;
-            LastIdInfo = lastIdInfo;
         }
 
         public void Login()
@@ -35,20 +33,19 @@ namespace SocialApp.Services
             {
                 AppState.IsAuthenticated = true;
                 Console.Clear();
+                Console.WriteLine("-----------------------------");
                 Console.WriteLine($"| Welcome {username} ");
                 Console.WriteLine("| Press any key to continue");
+                Console.WriteLine("-----------------------------");
                 Console.ReadKey();
                 return;
             }
 
             Console.Clear();
-            Console.WriteLine("| Username or Password is invalid, Try Again?");
-            Console.WriteLine("| Press x to try again");
+            Console.WriteLine("| Username or Password is invalid");
+            Console.WriteLine("| Press any key to continue");
+            Console.ReadKey();
 
-            if (Console.ReadKey().KeyChar == 'x')
-            {
-                Login();
-            }
         }
 
         public void Logout()
@@ -73,7 +70,7 @@ namespace SocialApp.Services
 
             string validateAuthInfoResult = ValidateAuthInfo(username, password);
 
-            if(!string.IsNullOrEmpty(validateAuthInfoResult))
+            if (!string.IsNullOrEmpty(validateAuthInfoResult))
             {
                 Console.Clear();
                 Console.WriteLine(validateAuthInfoResult);
@@ -90,10 +87,7 @@ namespace SocialApp.Services
             }
 
             AppState.IsAuthenticated = true;
-            int newId = LastIdInfo.UserID++;
-            User newUser = new(newId, username, password);
-            UserServices.AddUser(newUser);
-            AppState.User = newUser;
+            AppState.User = UserServices.AddUser(username, password);
         }
 
         private string ValidateAuthInfo(string username, string password)

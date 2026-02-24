@@ -6,10 +6,12 @@ namespace SocialApp.Services
     public class UserServices
     {
         public Dictionary<string, User> UsersDB { get; }
+        public LastIdInfo LastIdInfo { get; }
 
         public UserServices(DataManager dataManager)
         {
-            UsersDB = dataManager.UsersDB;
+            this.UsersDB = dataManager.UsersDB;
+            this.LastIdInfo = dataManager.LastIdInfo;
         }
 
 
@@ -25,13 +27,14 @@ namespace SocialApp.Services
         {
             return UsersDB.ContainsKey(username);
         }
-        public void AddUser(User user)
+        public User AddUser(string username, string password)
         {
-            if (UsersDB.ContainsKey(user.Name))
+            if (!UsersDB.ContainsKey(username))
             {
-                return;
+                UsersDB[username] = new User(++LastIdInfo.UserID,username,password);
+                return UsersDB[username];
             }
-            UsersDB[user.Name] = user;
+            return null;
         }
 
     }

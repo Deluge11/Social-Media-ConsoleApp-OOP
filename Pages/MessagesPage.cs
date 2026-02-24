@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class MessagesPage : AbScrollPage, IAction
     {
         public override string PageName { get; } = "Messages Page";
-        public override string DefaultMessage { get; } = "Break the silence";
+        protected override string DefaultMessage { get; } = "Break the silence";
         public string ActionName { get; } = "Add new message";
         public string FriendName { get; }
         public int ChatId { get; }
@@ -29,13 +29,15 @@ namespace SocialApp.Pages
             MessageServices.AddMessage(ChatId, AppState.User.Id);
             Reset();
         }
+
         public override void Reset()
         {
             Start = GetContentRows().Count - 3;
             if (Start < 0)
                 Start = 0;
         }
-        public override List<stPageRow> GetContentRows()
+
+        protected override List<stPageRow> GetContentRows()
         {
             return MessageServices
                 .GetChatMessages(ChatId)
@@ -47,7 +49,8 @@ namespace SocialApp.Pages
                     ))
                 .ToList();
         }
-        public override stPageRow GetPageHeader()
+
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow(
                 $"--={{ `You` }}=--",

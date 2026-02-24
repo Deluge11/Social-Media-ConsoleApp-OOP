@@ -12,9 +12,9 @@ namespace SocialApp.Pages
     {
         public override string PageName => "Page Not Found!";
 
-        public override string DefaultMessage => "Error 404";
+        protected override string DefaultMessage => "Error 404";
 
-        public override stPageRow GetPageHeader()
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent:PageName);
         }

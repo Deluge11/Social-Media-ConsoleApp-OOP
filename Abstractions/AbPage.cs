@@ -6,17 +6,21 @@ namespace SocialApp.Abstractions
     public abstract class AbPage
     {
         public abstract string PageName { get; }
-        public abstract string DefaultMessage { get; } // Display When There An Odd Behavior (0 Rows , UnAuthenticated ,etc)
-        public string[] ContentGrids { get; } = new string[12];
+        protected abstract string DefaultMessage { get; } // Display When There An Odd Behavior (0 Rows , UnAuthenticated ,etc)
+        protected string[] ContentGrids { get; } = new string[12];
 
-        public abstract stPageRow GetPageHeader();
-        protected abstract void SetPageBody();
-
+ 
+        public void ResetContent()
+        {
+            for (int i = 0; i < ContentGrids.Length; i++)
+                ContentGrids[i] = "";
+        }
         public void SetPageContent()
         {
             SetPageBody();
             SetPageHeader();
         }
+
         protected void SetPageHeader()
         {
             stPageRow headers = GetPageHeader();
@@ -24,11 +28,8 @@ namespace SocialApp.Abstractions
             ContentGrids[1] = headers.CenterContent;
             ContentGrids[2] = headers.RightContent;
         }
+        protected abstract stPageRow GetPageHeader();
+        protected abstract void SetPageBody();
 
-        public void ResetContent()
-        {
-            for (int i = 0; i < ContentGrids.Length; i++)
-                ContentGrids[i] = "";
-        }
     }
 }

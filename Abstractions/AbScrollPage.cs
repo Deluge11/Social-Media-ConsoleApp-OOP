@@ -6,8 +6,8 @@ namespace SocialApp.Abstractions
 {
     public abstract class AbScrollPage : AbPage
     {
-        public int Start { get; protected set; }
-        public abstract List<stPageRow> GetContentRows();
+        protected int Start { get; set; }
+        protected abstract List<stPageRow> GetContentRows();
 
         public virtual void Reset()
         {

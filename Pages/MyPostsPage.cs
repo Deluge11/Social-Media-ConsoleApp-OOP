@@ -9,7 +9,7 @@ namespace SocialApp.Pages
     public class MyPostsPage : AbScrollPage, IAction
     {
         public override string PageName { get; } = "My Posts";
-        public override string DefaultMessage { get; } = "You have no posts!";
+        protected override string DefaultMessage { get; } = "You have no posts!";
         public string ActionName { get; } = "Add new post";
         public PostServices PostServices { get; }
         public AppState AppState { get; }
@@ -26,7 +26,7 @@ namespace SocialApp.Pages
                 PostServices.AddNewPost(AppState.User.Name);
         }
 
-        public override List<stPageRow> GetContentRows()
+        protected override List<stPageRow> GetContentRows()
         {
             return PostServices
                 .GetUserPosts(AppState.User.Name)
@@ -39,7 +39,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeader()
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow("Content", "Likes", "Created Date");
         }

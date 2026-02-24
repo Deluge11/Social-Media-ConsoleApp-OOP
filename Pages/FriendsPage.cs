@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class FriendsPage : AbScrollCursor, IRootPage, IManagePages
     {
         public override string PageName { get; } = "Friends Page";
-        public override string DefaultMessage { get; } = "There is no pages";
+        protected override string DefaultMessage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
         public AppState AppState { get; }
 
@@ -33,14 +33,14 @@ namespace SocialApp.Pages
             return Pages[Cursor];
         }
 
-        public override List<stPageRow> GetContentRows()
+        protected override List<stPageRow> GetContentRows()
         {
             return Pages
                 .Select(p => new stPageRow(p.PageName))
                 .ToList();
         }
 
-        public override stPageRow GetPageHeader()
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }

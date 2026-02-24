@@ -9,24 +9,24 @@ AppState appState = new AppState();
 
 DataManager dataManager = new DataManager();
 
-FriendServices friendServices = new FriendServices(dataManager);
 PostServices postServices = new PostServices(dataManager);
-MessageServices messageServices = new MessageServices(dataManager);
 UserServices userServices = new UserServices(dataManager);
-AuthenticationServices authenticationServices = new AuthenticationServices(appState, userServices, dataManager.LastIdInfo);
+FriendServices friendServices = new FriendServices(dataManager);
+MessageServices messageServices = new MessageServices(dataManager);
+AuthenticationServices authenticationServices = new AuthenticationServices(appState, userServices);
 
-AuthenticatePage authenticationPage = new AuthenticatePage();
+About aboutPage = new About();
 HomePage homePage = new HomePage(appState);
-ProfilePage profilePage = new ProfilePage(appState, friendServices, postServices);
 PostsPage postPage = new PostsPage(appState);
+FriendsPage friendPage = new FriendsPage(appState);
+AuthenticatePage authenticationPage = new AuthenticatePage();
 MyPostsPage myPostsPage = new MyPostsPage(appState, postServices);
 NewPostsPage newPostsPage = new NewPostsPage(appState, postServices);
-FriendsPage friendPage = new FriendsPage(appState);
 MyFriendsPage myFriendsPage = new MyFriendsPage(appState, friendServices);
+ChatPage chatPage = new ChatPage(appState, friendServices, messageServices);
+ProfilePage profilePage = new ProfilePage(appState, friendServices, postServices);
 FriendRequestsPage friendRequestPage = new FriendRequestsPage(appState, friendServices);
 SendFriendRequestPage sendFriendRequestPage = new SendFriendRequestPage(appState, friendServices);
-ChatPage chatPage = new ChatPage(appState, friendServices, messageServices);
-About aboutPage = new About();
 
 LoginAction loginAction = new LoginAction(authenticationServices);
 RegisterAction registerAction = new RegisterAction(authenticationServices);

@@ -7,7 +7,7 @@ namespace SocialApp.Pages
     public class MyFriendsPage : AbScrollPage
     {
         public override string PageName { get; } = "My Friends";
-        public override string DefaultMessage { get; } = "You have no friends";
+        protected override string DefaultMessage { get; } = "You have no friends";
         public FriendServices FriendServices { get; }
         public AppState AppState { get; }
 
@@ -17,7 +17,7 @@ namespace SocialApp.Pages
             AppState = appState;
         }
 
-        public override List<stPageRow> GetContentRows()
+        protected override List<stPageRow> GetContentRows()
         {
             return FriendServices
                 .GetUserFriends(AppState.User.Name)
@@ -25,7 +25,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        public override stPageRow GetPageHeader()
+        protected override stPageRow GetPageHeader()
         {
             return new stPageRow(centerContent: PageName);
         }
