@@ -22,20 +22,15 @@ namespace SocialApp.Pages
 
         public AbPage Next()
         {
-            var username = AppState.User.Name;
-            var friendsList = FriendServices.GetUserFriends(username);
+            var friendsList = FriendServices.GetUserFriends(AppState.User.Name);
 
             if (friendsList.Count == 0)
-            {
-                return null;
-            }
+                return null!;
 
-            int chatId = MessageServices.GetChatId(username, friendsList[Cursor]);
+            int chatId = MessageServices.GetChatId(AppState.User.Name, friendsList[Cursor]);
 
             if (chatId == -1)
-            {
-                return null;
-            }
+                return null!;
 
             return new MessagesPage(AppState, MessageServices, chatId, friendsList[Cursor]);
         }

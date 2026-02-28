@@ -4,6 +4,7 @@ using SocialApp.Scripts;
 using SocialApp.Services;
 using SocialApp.Controllers;
 
+
 AppState appState = new AppState();
 
 DataManager dataManager = new DataManager();
@@ -15,9 +16,9 @@ MessageServices messageServices = new MessageServices(dataManager);
 AuthenticationServices authenticationServices = new AuthenticationServices(appState, userServices);
 
 About aboutPage = new About();
-HomePage homePage = new HomePage(appState);
-PostsPage postPage = new PostsPage(appState);
-FriendsPage friendPage = new FriendsPage(appState);
+HomePage homePage = new HomePage();
+PostsPage postPage = new PostsPage();
+FriendsPage friendPage = new FriendsPage();
 AuthenticatePage authenticationPage = new AuthenticatePage();
 MyPostsPage myPostsPage = new MyPostsPage(appState, postServices);
 NewPostsPage newPostsPage = new NewPostsPage(appState, postServices);
@@ -47,13 +48,12 @@ authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 
 NavigationController navigationController = new NavigationController(appState);
-InputController inputController = new InputController(appState, navigationController);
 RendererController renderController = new RendererController(appState, navigationController);
+InputController inputController = new InputController(appState, navigationController,authenticationServices);
+PageController pageController = new PageController(navigationController, renderController, inputController);
 
 navigationController.SetDefaultAppPage(homePage);
 navigationController.SetDefaultAuthPage(authenticationPage);
-
-PageController pageController = new PageController(navigationController, renderController, inputController);
 
 pageController.Play();
 

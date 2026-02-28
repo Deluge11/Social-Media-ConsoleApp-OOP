@@ -19,7 +19,6 @@ namespace SocialApp.Pages
             AppState = appState;
             FriendService = friendService;
             PostServices = postServices;
-            SetPageContent();
         }
 
         protected override void SetPageBody()

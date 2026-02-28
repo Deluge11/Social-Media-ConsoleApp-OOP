@@ -13,9 +13,28 @@ namespace SocialApp.Scripts
         {
             AuthenticationServices = authenticationServices;
         }
+
         public void Action()
         {
-            AuthenticationServices.Register();
+            clsConsoleUI.PrintMessage($"Login Screen");
+            string username = clsConsoleInput.GetStringInput("Enter User Name");
+            string password = clsConsoleInput.GetStringInput("Enter Password");
+            
+            string validateErrorMessage = clsInputValidation.GetUsernameAndPasswordValidateErrorMessage(username, password);
+
+            if (!string.IsNullOrEmpty(validateErrorMessage))
+            {
+                clsConsoleUI.PrintMessage(validateErrorMessage);
+                clsConsoleUI.PressKeyToContinue();
+                return;
+            }
+
+            if (AuthenticationServices.Register(username, password))
+            {
+                clsConsoleUI.PrintMessage("User Already Exists!");
+                clsConsoleUI.PressKeyToContinue();
+            }
+
         }
 
     }

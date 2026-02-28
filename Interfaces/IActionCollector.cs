@@ -2,7 +2,7 @@
 
 namespace SocialApp.Interfaces
 {
-    public interface IActionPage
+    public interface IActionCollector
     {
         List<IAction> Actions { get; }
         void AddAction(IAction action);

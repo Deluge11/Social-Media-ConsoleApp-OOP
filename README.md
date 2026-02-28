@@ -16,6 +16,12 @@ Unlike traditional CLI applications, it uses a custom Grid Rendering Engine and 
 
 -----
 
+## 📸 Demo
+
+<img src="./demo/DemoPic.PNG" width="700" alt="test">
+
+-----
+
 ## 🏗️ Architecture & Page Flow
 
 At the core of the system is a Control Loop that separates:
@@ -48,23 +54,4 @@ At the core of the system is a Control Loop that separates:
 
 -----
 
-## 🧱 Abstractions (Data Structure & Logic)
-The system follows a layered OOP hierarchy to keep the code scalable and reusable:
-
-AbPage (The Blueprint)
-Defines a 12-cell grid matrix (4 rows × 3 columns), handles basic layout initialization, and manages the page header.
-
-AbScrollPage (List Management)
-Introduces pagination logic. It uses a Start index to map a large data list into the three visible content rows.
-
-AbScrollCursor (Interactive Layer)
-The most advanced layer. It manages a movable cursor synchronized with the Start index to ensure the selected item is always visible (auto-scrolling behavior).
-
------
-
-## 📸 Demo
-
-<img src="./demo/DemoPic.PNG" width="700" alt="test">
-
------
 

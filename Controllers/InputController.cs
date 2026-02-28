@@ -1,5 +1,6 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
+using SocialApp.Services;
 
 
 namespace SocialApp.Controllers
@@ -7,18 +8,19 @@ namespace SocialApp.Controllers
     public class InputController
     {
         public NavigationController NavigationController { get; }
+        public AuthenticationServices AuthenticationService { get; }
         public AppState AppState { get; }
 
-        public InputController(AppState appState, NavigationController navigationController)
+        public InputController(AppState appState, NavigationController navigationController, AuthenticationServices authenticationService)
         {
             NavigationController = navigationController;
+            AuthenticationService = authenticationService;
             AppState = appState;
         }
 
         public void TakeAction(char key)
         {
             AbPage page = NavigationController.GetCurrentPage();
-
 
             // Scrolling Pages
             if (page is AbScrollPage scrollPage)
@@ -34,13 +36,16 @@ namespace SocialApp.Controllers
             }
 
             // Action Page -> Action Behavior | Root Page -> Go Next Page
-            if (page is IAction actionPage && key == 'x')
+            if (key == 'x')
             {
-                actionPage.Action();
-            }
-            else if (page is IRootPage rootPage && key == 'x')
-            {
-                NavigationController.GoNext(rootPage.Next());
+                if (page is IAction actionPage)
+                {
+                    actionPage.Action();
+                }
+                else if (page is IRootPage rootPage)
+                {
+                    NavigationController.GoNext(rootPage.Next());
+                }
             }
 
             // Return To Previous Page
@@ -58,7 +63,7 @@ namespace SocialApp.Controllers
             // Logout
             if (AppState.IsAuthenticated && key == 'l') 
             {
-                AppState.IsAuthenticated = false;
+                AuthenticationService.Logout();
                 NavigationController.ResetStacksToDefault();
             }
         }

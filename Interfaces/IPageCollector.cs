@@ -3,7 +3,7 @@
 
 namespace SocialApp.Interfaces
 {
-    public interface IManagePages
+    public interface IPageCollector
     {
         List<AbPage> Pages { get; }
         void AddPage(AbPage page);

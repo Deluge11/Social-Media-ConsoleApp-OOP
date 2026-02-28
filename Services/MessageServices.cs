@@ -24,7 +24,7 @@ namespace SocialApp.Services
             return MessagesDB[chatId].messagesList.Count;
         }
 
-        public int GetChatId(string userName,string friendName)
+        public int GetChatId(string userName, string friendName)
         {
             foreach (int chatId in UsersDB[userName].ChatID)
             {
@@ -36,16 +36,8 @@ namespace SocialApp.Services
             return -1;
         }
 
-        public void AddMessage(int chatId,int userId)
+        public void AddMessage(int chatId, int userId, string message)
         {
-            Console.Clear();
-            Console.WriteLine("-----------------------------");
-            Console.WriteLine($"\tWrite New Message");
-            Console.WriteLine("-----------------------------");
-            Console.Write(" => ");
-
-            string message = Console.ReadLine()!.Trim();
-
             if (message.Length < 1 || !MessagesDB.ContainsKey(chatId))
                 return;
 

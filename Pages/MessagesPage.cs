@@ -15,10 +15,10 @@ namespace SocialApp.Pages
         public MessageServices MessageServices { get; }
         public AppState AppState { get; }
 
-        public MessagesPage(AppState appState, MessageServices messageServices, int chatId, string friendname)
+        public MessagesPage(AppState appState, MessageServices messageServices, int chatId, string friendName)
         {
             MessageServices = messageServices;
-            FriendName = friendname;
+            FriendName = friendName;
             AppState = appState;
             ChatId = chatId;
         }
@@ -26,7 +26,9 @@ namespace SocialApp.Pages
         public void Action()
         {
             if (!AppState.IsAuthenticated) return;
-            MessageServices.AddMessage(ChatId, AppState.User.Id);
+
+            clsConsoleUI.PrintMessage("Message Screen");
+            MessageServices.AddMessage(ChatId, AppState.User.Id, clsConsoleInput.GetStringInput("Write New Message"));
             Reset();
         }
 
@@ -41,8 +43,7 @@ namespace SocialApp.Pages
         {
             return MessageServices
                 .GetChatMessages(ChatId)
-                .Select(
-                message => new stPageRow(
+                .Select(message => new stPageRow(
                     leftContent: message.UserId == AppState.User.Id ? message.MessageString : "",
                     centerContent: "",
                     rightContent: message.UserId != AppState.User.Id ? message.MessageString : ""

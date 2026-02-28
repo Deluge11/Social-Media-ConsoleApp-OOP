@@ -8,7 +8,7 @@ namespace SocialApp.Pages
     public class About : AbScrollPage
     {
         public override string PageName { get; } = "About";
-        protected override string DefaultMessage { get; } = "There is No Aura";
+        protected override string DefaultMessage { get; } = "There is No Content";
 
         List<string> content =
          [
@@ -22,7 +22,7 @@ namespace SocialApp.Pages
             ".",
             ".",
             ".",
-            "Write me a job recommendation :)",
+            "Follow Me On LinkedIn :)",
             "Thank You Have A Nice Day :D",
             "Bye :)"
          ];

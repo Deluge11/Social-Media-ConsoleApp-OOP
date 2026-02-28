@@ -5,16 +5,12 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class PostsPage : AbScrollCursor, IRootPage, IManagePages
+    public class PostsPage : AbScrollCursor, IRootPage, IPageCollector
     {
         public override string PageName { get; } = "Posts Page";
         protected override string DefaultMessage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
 
-        public PostsPage(AppState appState)
-        {
-            SetPageContent();
-        }
         public void AddPage(AbPage page)
         {
             Pages.Add(page);
@@ -22,7 +18,7 @@ namespace SocialApp.Pages
 
         public AbPage Next()
         {
-            return Pages.Count > 0 ? Pages[Cursor] : null!;
+            return (Pages.Count > 0 && Cursor >= 0 && Cursor < Pages.Count) ? Pages[Cursor] : null!;
         }
 
         protected override List<stPageRow> GetContentRows()

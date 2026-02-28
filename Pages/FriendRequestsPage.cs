@@ -19,12 +19,13 @@ namespace SocialApp.Pages
             FriendServices = friendServices;
             AppState = appState;
         }
+
         public void Action()
         {
             var username = AppState.User.Name;
             var usersList = FriendServices.GetFriendRequestsUsers(username);
 
-            if(usersList.Count == 0) return;
+            if (usersList.Count == 0 || Cursor < 0 || Cursor >= usersList.Count) return;
 
             FriendServices.ConnectUsers(username, usersList[Cursor]);
             ScrollUp();

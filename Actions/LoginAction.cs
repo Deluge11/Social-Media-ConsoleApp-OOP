@@ -13,9 +13,23 @@ namespace SocialApp.Scripts
         {
             AuthenticationServices = authenticationServices;
         }
+
         public void Action()
         {
-            AuthenticationServices.Login();
+            clsConsoleUI.PrintMessage($"Login Screen");
+            string username = clsConsoleInput.GetStringInput("Enter User Name");
+            string password = clsConsoleInput.GetStringInput("Enter Password");
+
+            if (AuthenticationServices.Login(username, password))
+            {
+                clsConsoleUI.PrintMessage($"Welcome {username}");
+                clsConsoleUI.PressKeyToContinue();
+            }
+            else
+            {
+                clsConsoleUI.PrintMessage("Username or Password is invalid");
+                clsConsoleUI.PressKeyToContinue();
+            }
         }
 
     }

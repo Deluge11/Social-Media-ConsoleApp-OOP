@@ -138,7 +138,7 @@ namespace SocialApp.Controllers
         {
             AbPage currentPage = NavigationController.GetCurrentPage();
 
-            currentPage.ResetContent();
+            currentPage.ClearContent();
             currentPage.SetPageContent();
 
             var content = currentPage.ContentGrids;
@@ -205,7 +205,7 @@ namespace SocialApp.Controllers
         {
             int endContent = col + GridWidth;
 
-            int i = col + GridWidth;
+            int i = col + GridWidth + 1;
             while (i > col)
             {
                 if (Board[row][i] != ' ')

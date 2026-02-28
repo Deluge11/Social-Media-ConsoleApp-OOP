@@ -17,12 +17,17 @@ namespace SocialApp.Services
         }
         public int GetMyPostsCount(string username)
         {
-            return UsersDB[username].PostsId.Count;
+            return UsersDB.ContainsKey(username) ? UsersDB[username].PostsId.Count : 0;
         }
 
         public List<Post> GetUserPosts(string username)
         {
             List<Post> result = new();
+
+            if (!UsersDB.ContainsKey(username))
+            {
+                return result;
+            }
 
             User user = UsersDB[username];
 
@@ -34,33 +39,17 @@ namespace SocialApp.Services
             return result;
         }
 
-        public void AddNewPost(string username)
+        public void AddNewPost(string username, string post)
         {
-            Console.Clear();
-            Console.WriteLine("-----------------------------");
-            Console.WriteLine($"\tWrite New Post");
-            Console.WriteLine("-----------------------------");
-            Console.Write(" => ");
-
-            string post = Console.ReadLine()!.Trim();
-            if (post == null || post.Length < 5)
-            {
-                Console.Clear();
-                Console.WriteLine("| The post should have 5 letters atleast");
-                Console.WriteLine("| Press any key to continue");
-                Console.ReadKey();
-                return;
-            }
-
-            LastIdInfo.PostID++;
-            Post newPost = new Post(LastIdInfo.PostID, post, username, DateTime.Now);
+            Post newPost = new Post(++LastIdInfo.PostID, post, username, DateTime.Now);
             PostsDB[newPost.Id] = newPost;
             UsersDB[username].AddPost(newPost.Id);
         }
 
         public void TogglePostLike(string username, int postId)
         {
-            PostsDB[postId].Like(username);
+            if (PostsDB.ContainsKey(postId))
+                PostsDB[postId].Like(username);
         }
 
         public int GetPostsTotalLikes(string username)
@@ -68,8 +57,12 @@ namespace SocialApp.Services
             List<Post> userPosts = GetUserPosts(username);
             return userPosts.Sum(p => p.Likes.Count);
         }
+
         public List<Post> GetNewPosts(string username)
         {
+            if (!UsersDB.ContainsKey(username))
+                return [];
+
             PriorityQueue<LinkedListNode<int>, int> posts = new();
 
             LinkedListNode<int> firstPost = UsersDB[username].PostsId.First;

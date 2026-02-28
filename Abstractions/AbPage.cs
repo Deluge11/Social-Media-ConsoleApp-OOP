@@ -6,11 +6,11 @@ namespace SocialApp.Abstractions
     public abstract class AbPage
     {
         public abstract string PageName { get; }
-        protected abstract string DefaultMessage { get; } // Display When There An Odd Behavior (0 Rows , UnAuthenticated ,etc)
+        protected abstract string DefaultMessage { get; } // Display When There An Odd Behavior (0 Rows ,etc)
         public string[] ContentGrids { get; } = new string[12];
 
 
-        public void ResetContent()
+        public void ClearContent()
         {
             for (int i = 0; i < ContentGrids.Length; i++)
                 ContentGrids[i] = "";

@@ -1,5 +1,6 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Interfaces;
+using SocialApp.Model;
 using SocialApp.Services;
 using SocialApp.Structure;
 
@@ -22,8 +23,20 @@ namespace SocialApp.Pages
 
         public void Action()
         {
-            if (AppState.IsAuthenticated)
-                PostServices.AddNewPost(AppState.User.Name);
+            if (!AppState.IsAuthenticated)
+                return;
+
+            clsConsoleUI.PrintMessage("Post Screen");
+            string post = clsConsoleInput.GetStringInput("Write New Post");
+
+            if (clsInputValidation.IsValidPost(post))
+            {
+                PostServices.AddNewPost(AppState.User.Name, post);
+            }
+            else
+            {
+                clsConsoleUI.PrintMessage("The post should have 5 letters atleast");
+            }
         }
 
         protected override List<stPageRow> GetContentRows()

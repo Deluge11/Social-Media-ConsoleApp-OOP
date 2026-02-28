@@ -3,7 +3,7 @@
 
 namespace SocialApp.Services
 {
-   public class FriendServices
+    public class FriendServices
     {
         private Dictionary<string, User> UsersDB { get; }
         private Dictionary<int, Chat> MessagesDB { get; }
@@ -54,25 +54,13 @@ namespace SocialApp.Services
             {
                 if (otherUser.Name == username) continue;
 
-                if (CanSendRequestToThisUser(username, otherUser.Name))
+                if (CanSendRequestBetweenUsers(username, otherUser.Name))
                 {
                     result.Add(otherUser.Name);
                 }
             }
 
             return result;
-        }
-
-        public bool CanSendRequestToThisUser(string user1, string user2)
-        {
-            if (UsersDB[user1].Friends.Contains(user2))
-                return false;
-            if (UsersDB[user1].FriendRequests.Contains(user2))
-                return false;
-            if (UsersDB[user2].FriendRequests.Contains(user1))
-                return false;
-
-            return true;
         }
 
         public void ConnectUsers(string user1, string user2)
@@ -88,9 +76,22 @@ namespace SocialApp.Services
             UsersDB[user2].AddChat(chatId);
         }
 
-        public void AddFreindRequest(string username, string otherUsername)
+        public void AddFriendRequest(string username, string otherUsername)
         {
-            UsersDB[otherUsername].AddFriendRequest(username);
+            if (CanSendRequestBetweenUsers(username, otherUsername))
+                UsersDB[otherUsername].AddFriendRequest(username);
+        }
+
+        private bool CanSendRequestBetweenUsers(string user1, string user2)
+        {
+            if (UsersDB[user1].Friends.Contains(user2))
+                return false;
+            if (UsersDB[user1].FriendRequests.Contains(user2))
+                return false;
+            if (UsersDB[user2].FriendRequests.Contains(user1))
+                return false;
+
+            return true;
         }
     }
 }

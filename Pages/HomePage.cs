@@ -5,18 +5,12 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class HomePage : AbScrollCursor, IRootPage, IManagePages
+    public class HomePage : AbScrollCursor, IRootPage, IPageCollector
     {
         public override string PageName { get; } = "Home Page";
         protected override string DefaultMessage { get; } = "There is no pages";
         public List<AbPage> Pages { get; } = new();
-        public AppState AppState { get; }
 
-        public HomePage(AppState appState)
-        {
-            SetPageContent();
-            AppState = appState;
-        }
 
         public void AddPage(AbPage page)
         {
@@ -25,12 +19,7 @@ namespace SocialApp.Pages
 
         public AbPage Next()
         {
-            if (Pages.Count == 0)
-            {
-                return null;
-            }
-
-            return Pages[Cursor];
+            return (Pages.Count > 0 && Cursor >= 0 && Cursor < Pages.Count) ? Pages[Cursor] : null!;
         }
 
         protected override List<stPageRow> GetContentRows()

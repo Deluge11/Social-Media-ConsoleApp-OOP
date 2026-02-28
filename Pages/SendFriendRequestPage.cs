@@ -18,20 +18,16 @@ namespace SocialApp.Pages
             FriendServices = friendServices;
             AppState = appState;
         }
+
+
         public void Action()
         {
-            string username = AppState.User.Name;
-            var usersList = FriendServices.GetUnfriendsUsers(username);
+            var usersList = FriendServices.GetUnfriendsUsers(AppState.User.Name);
 
             if (usersList.Count == 0)
                 return;
 
-            var otherUsername = usersList[Cursor];
-
-            if (!FriendServices.CanSendRequestToThisUser(username, otherUsername))
-                return;
-
-            FriendServices.AddFreindRequest(username, otherUsername);
+            FriendServices.AddFriendRequest(AppState.User.Name, usersList[Cursor]);
             ScrollUp();
         }
 

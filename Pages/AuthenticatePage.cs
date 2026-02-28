@@ -5,7 +5,7 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class AuthenticatePage : AbScrollCursor, IAction, IActionPage
+    public class AuthenticatePage : AbScrollCursor, IAction, IActionCollector
     {
         public override string PageName { get; } = "Authentication Page";
         protected override string DefaultMessage { get; } = "There is no scripts";
@@ -13,15 +13,15 @@ namespace SocialApp.Pages
         public List<IAction> Actions { get; } = new();
 
 
+        public void AddAction(IAction action)
+        {
+            Actions.Add(action);
+        }
+
         public void Action()
         {
             if (Cursor >= 0 && Cursor < Actions.Count)
                 Actions[Cursor].Action();
-        }
-
-        public void AddAction(IAction action)
-        {
-            Actions.Add(action);
         }
 
         protected override List<stPageRow> GetContentRows()
@@ -35,5 +35,7 @@ namespace SocialApp.Pages
         {
             return new stPageRow(centerContent: PageName);
         }
+
+       
     }
 }
