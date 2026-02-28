@@ -16,7 +16,7 @@ namespace SocialApp.Scripts
 
         public void Action()
         {
-            clsConsoleUI.PrintMessage($"Login Screen");
+            clsConsoleUI.PrintMessage($"Register Screen");
             string username = clsConsoleInput.GetStringInput("Enter User Name");
             string password = clsConsoleInput.GetStringInput("Enter Password");
             
@@ -29,7 +29,7 @@ namespace SocialApp.Scripts
                 return;
             }
 
-            if (AuthenticationServices.Register(username, password))
+            if (!AuthenticationServices.Register(username, password))
             {
                 clsConsoleUI.PrintMessage("User Already Exists!");
                 clsConsoleUI.PressKeyToContinue();

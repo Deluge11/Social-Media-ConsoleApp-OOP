@@ -23,7 +23,7 @@ namespace SocialApp.Services
 
         public User AddUser(string username, string password)
         {
-            return Exists(username)
+            return (!Exists(username))
                ? UsersDB[username] = new User(++LastIdInfo.UserID, username, password) : null!;
         }
 

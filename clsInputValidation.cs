@@ -14,15 +14,15 @@ namespace SocialApp
         {
             if (username.Length > 10)
             {
-                return "| Username must be equal or less than 10 letters";
+                return "Username must be equal or less than 10 letters";
             }
             if (username.Length < 3)
             {
-                return "| Username must be 3 letters atleast";
+                return "Username must be 3 letters atleast";
             }
             if (password.Length < 5)
             {
-                return "| Password must be 5 letters or more";
+                return "Password must be 5 letters or more";
             }
             return string.Empty;
         }
