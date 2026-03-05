@@ -4,6 +4,6 @@ namespace SocialApp.Interfaces
 {
     public interface IRootPage
     {
-        AbPage Next();
+        absPage Next();
     }
 }

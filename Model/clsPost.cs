@@ -1,0 +1,34 @@
+﻿namespace SocialApp.Model
+{
+    public class clsPost
+    {
+        public int Id { get; private set; }
+        public string PostContent { get; set; }
+        public string PosterName { get; private set; }
+        public HashSet<string> Likes { get; set; }
+        public DateTime Date { get; private set; }
+
+        public clsPost(int id, string content, string posterName, DateTime date)
+        {
+            Id = id;
+            PostContent = content;
+            PosterName = posterName;
+            Date = date;
+            Likes = new();
+        }
+
+        public void Like(string username)
+        {
+            if (Likes.Contains(username))
+            {
+                Likes.Remove(username);
+            }
+            else
+            {
+                Likes.Add(username);
+            }
+        }
+     
+
+    }
+}

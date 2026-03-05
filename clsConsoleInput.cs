@@ -10,8 +10,7 @@ namespace SocialApp
     {
         public static string GetStringInput(string message)
         {
-            Console.WriteLine($"| {message}");
-            Console.Write(" => ");
+            Console.Write($"| {message} : ");
             string text = Console.ReadLine()!;
             return text != null ? text.Trim() : "";
         }

@@ -1,0 +1,11 @@
+﻿
+
+namespace SocialApp.Model
+{
+    public class clsLastIdInfo
+    {
+        public int UserID { get; set; } = 1;
+        public int PostID { get; set; } = 1;
+        public int ChatID { get; set; } = 1;
+    }
+}

@@ -8,7 +8,6 @@ namespace SocialApp
     {
         public static void PrintMessage(string message)
         {
-            Console.Clear();
             Console.WriteLine(new string('-', message.Length + 15));
             Console.WriteLine($"\t{message}");
             Console.WriteLine(new string('-', message.Length + 15));
