@@ -1,7 +1,4 @@
-﻿
-
-
-namespace SocialApp
+﻿namespace SocialApp.HelperTools
 {
     public static class clsValidation
     {

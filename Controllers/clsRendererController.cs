@@ -1,5 +1,6 @@
 ﻿
 using SocialApp.Abstractions;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 
 
@@ -39,9 +40,9 @@ namespace SocialApp.Controllers
             SetBoardDefault();
         }
 
-        protected void TestPrint()
+        protected void PrintPointers()
         {
-            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine("----------------------------");
             if (NavigationController.GetCurrentPage() is absScrollPage scrollPage)
             {
                 Console.WriteLine($"| Start Pointer Value: {scrollPage.Start}");
@@ -50,7 +51,7 @@ namespace SocialApp.Controllers
             {
                 Console.WriteLine($"| Cursor Pointer Value: {scrollCursor.Cursor}");
             }
-            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine("----------------------------");
         }
 
         public void Print()
@@ -60,7 +61,9 @@ namespace SocialApp.Controllers
             PrintPagesStackBox();
             PrintBoard();
             PrintControlKeys();
-            //TestPrint();
+
+            //Testing
+            PrintPointers();
         }
 
         protected void BoardProcessing()
@@ -75,13 +78,17 @@ namespace SocialApp.Controllers
         {
             var pagesName = NavigationController.GetPagesNames();
             string separator = " -> ";
+            string leftBorder = "| ";
+            string rightBorder = "  |";
 
-            int pagesNameTotalLength = GetStringListLengthWithSeparation(pagesName, separator.Length) + 5;
+            int pagesNameTotalLength = 
+                clsCalculation.GetStringListLengthWithSeparation(pagesName, separator.Length) +
+                leftBorder.Length + rightBorder.Length + separator.Length;
 
             PrintHorizontalLine(pagesNameTotalLength);
-            Console.Write("| ");
+            Console.Write(leftBorder);
             PrintPagesStackWithSeparator(pagesName, separator);
-            Console.Write("  |");
+            Console.Write(rightBorder);
             PrintHorizontalLine(pagesNameTotalLength);
         }
 
@@ -92,16 +99,6 @@ namespace SocialApp.Controllers
                 Console.Write(separator);
                 Console.Write(pagesName[i]);
             }
-        }
-
-        protected int GetStringListLengthWithSeparation(List<string> array, int separate)
-        {
-            int total = separate * array.Count;
-            for (int i = 0; i < array.Count; i++)
-            {
-                total += array[i].Length;
-            }
-            return total;
         }
 
         protected void PrintControlKeys()
@@ -196,7 +193,7 @@ namespace SocialApp.Controllers
         {
             int endContent = col + GridWidth;
 
-            int i = col + GridWidth + 1;
+            int i = col + GridWidth + 2;
             while (i > col)
             {
                 if (Board[row][i] != ' ')

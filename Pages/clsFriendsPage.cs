@@ -1,39 +1,11 @@
-﻿using SocialApp.Abstractions;
-using SocialApp.Interfaces;
-using SocialApp.Structure;
+﻿
 
+using SocialApp.Abstractions;
 
 namespace SocialApp.Pages
 {
-    public class clsFriendsPage : absScrollCursor, IRootPage, IPageCollector
+    public class clsFriendsPage : absMainPage
     {
         public override string PageName { get; } = "Friends Page";
-        protected override string EmptyRowsMessage { get; } = "There is no pages";
-        public List<absPage> Pages { get; } = new();
-
-
-        public void AddSubPage(absPage page)
-        {
-            Pages.Add(page);
-        }
-
-        public absPage Next()
-        {
-            return (Pages.Count > 0 && Cursor >= 0 && Cursor < Pages.Count) ? Pages[Cursor] : null!;
-        }
-
-        protected override List<stPageRow> GetContentRows()
-        {
-            return Pages
-                .Select(p => new stPageRow(p.PageName))
-                .ToList();
-        }
-
-        protected override stPageRow GetPageHeader()
-        {
-            return new stPageRow(centerContent: PageName);
-        }
-
-       
     }
 }

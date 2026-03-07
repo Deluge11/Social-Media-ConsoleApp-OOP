@@ -1,4 +1,5 @@
-﻿using SocialApp.Model;
+﻿using SocialApp.Data;
+using SocialApp.Model;
 
 
 namespace SocialApp.Services

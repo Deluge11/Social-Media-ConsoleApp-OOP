@@ -23,9 +23,7 @@ namespace SocialApp.Pages
         public void Execute()
         {
             var postsIdList = Services.PostService.GetNewPosts(AppState.User.Name);
-
             if (postsIdList.Count == 0) return;
-
             Services.PostService.TogglePostLike(AppState.User.Name, postsIdList[Cursor].Id);
         }
 

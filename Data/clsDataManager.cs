@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 
 
-namespace SocialApp
+namespace SocialApp.Data
 {
     public class clsDataManager
     {
@@ -22,7 +22,6 @@ namespace SocialApp
             LoadDataFromJsonFiles();
         }
 
-
         public void PushDataToJsonFiles()
         {
             string IdsJsonString = JsonConvert.SerializeObject(LastIdInfo, Formatting.Indented);
@@ -37,7 +36,8 @@ namespace SocialApp
             string PostsJsonString = JsonConvert.SerializeObject(PostsDB, Formatting.Indented);
             File.WriteAllText(PostsFile, PostsJsonString);
         }
-        private void LoadDataFromJsonFiles()
+
+        public void LoadDataFromJsonFiles()
         {
             if (File.Exists(UsersFile))
             {

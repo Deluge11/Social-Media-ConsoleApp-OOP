@@ -69,7 +69,7 @@ namespace SocialApp.Controllers
 
         public absPage PopPageFromCurrentStack()
         {
-            return GetCurrentStack().Count > 0 ?
+            return GetCurrentStack().Count > 1 ?
                 GetCurrentStack().Pop() : null!;
         }
 

@@ -3,6 +3,7 @@ using SocialApp.Pages;
 using SocialApp.Scripts;
 using SocialApp.Controllers;
 using SocialApp.Actions;
+using SocialApp.Data;
 
 clsAppState appState = new clsAppState();
 clsDataManager dataManager = new clsDataManager();
