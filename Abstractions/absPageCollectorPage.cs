@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Abstractions
 {
-    public abstract class absMainPage : absScrollCursor, IRootPage
+    public abstract class absPageCollectorPage : absScrollCursor, IRootPage
     {
         protected override string EmptyRowsMessage { get; } = "There is no pages";
         public List<absPage> Pages { get; } = new List<absPage>();

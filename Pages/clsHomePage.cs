@@ -4,7 +4,7 @@ using SocialApp.Abstractions;
 
 namespace SocialApp.Pages
 {
-    public class clsHomePage : absMainPage
+    public class clsHomePage : absPageCollectorPage
     {
         public override string PageName { get; } = "Home Page";
     }
