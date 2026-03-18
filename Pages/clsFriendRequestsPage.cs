@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.Interfaces;
 using SocialApp.Structure;
 
@@ -12,6 +13,10 @@ namespace SocialApp.Pages
         public string ActionName { get; } = "Accept friend request";
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
+        public enPermission ActionPermission => enPermission.None;
+        public override enPermission AccessPermission => enPermission.None;
+
 
         public clsFriendRequestsPage(clsAppState appState, clsServiceCollection services)
         {
@@ -37,7 +42,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow(centerContent: PageName);
         }

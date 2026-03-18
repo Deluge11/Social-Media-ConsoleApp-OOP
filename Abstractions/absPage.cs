@@ -1,4 +1,5 @@
 ﻿
+using SocialApp.Enums;
 using SocialApp.Structure;
 
 namespace SocialApp.Abstractions
@@ -7,31 +8,23 @@ namespace SocialApp.Abstractions
     {
         public abstract string PageName { get; }
         public string[] ContentGrids { get; } = new string[12];
+        public abstract enPermission AccessPermission { get; }
 
 
-        public void SetPageContent()
+        public abstract void SetContent();
+
+        public void ResetContent()
         {
             ClearContent();
-            SetPageBody();
-            SetPageHeader();
-        }
-
-        protected void SetPageHeader()
-        {
-            stPageRow headers = GetPageHeader();
-            ContentGrids[0] = headers.LeftContent;
-            ContentGrids[1] = headers.CenterContent;
-            ContentGrids[2] = headers.RightContent;
+            SetContent();
         }
 
         private void ClearContent()
         {
             for (int i = 0; i < ContentGrids.Length; i++)
+            {
                 ContentGrids[i] = "";
+            }
         }
-
-        protected abstract stPageRow GetPageHeader();
-        protected abstract void SetPageBody();
-
     }
 }

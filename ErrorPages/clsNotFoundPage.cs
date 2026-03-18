@@ -1,19 +1,17 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.Structure;
 
 namespace SocialApp.ErrorPages
 {
     public class clsNotFoundPage : absPage
     {
-        public override string PageName => "Error 404";
+        public override string PageName => "Error Page";
+        public override enPermission AccessPermission => enPermission.None;
 
-        protected override stPageRow GetPageHeader()
+        public override void SetContent()
         {
-            return new stPageRow(centerContent: PageName);
-        }
-
-        protected override void SetPageBody()
-        {
+            ContentGrids[1] = "Error 404";
             ContentGrids[4] = "Page Not Found!";
         }
     }

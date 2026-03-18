@@ -63,7 +63,7 @@ namespace SocialApp.Controllers
         {
             if (page is absScrollPage scrollPage)
             {
-                scrollPage.Reset();
+                scrollPage.ResetPointers();
             }
         }
 
@@ -73,16 +73,16 @@ namespace SocialApp.Controllers
                 GetCurrentStack().Pop() : null!;
         }
 
+        public absPage GetCurrentPage()
+        {
+            return GetCurrentStack().Count > 0 ?
+                GetCurrentStack().Peek() : null!;
+        }
+
         protected Stack<absPage> GetCurrentStack()
         {
             return _appState.IsAuthenticated() || _appState.IsGuest ?
                 _appPageStack : _authenticatePageStack;
-        }
-
-        public absPage GetCurrentPage()
-        {
-            return GetCurrentStack().Count > 0 ?
-                GetCurrentStack().Peek() : new clsNotFoundPage();
         }
 
         public int GetCurrentStackCount()

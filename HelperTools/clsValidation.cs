@@ -1,4 +1,7 @@
-﻿namespace SocialApp.HelperTools
+﻿using SocialApp.Enums;
+using SocialApp.Model;
+
+namespace SocialApp.HelperTools
 {
     public static class clsValidation
     {
@@ -34,5 +37,14 @@
             return subWordIndex == subWord.Length;
         }
 
+        public static bool HasPermission(this clsUser user, enPermission permission)
+        {
+            if (permission == enPermission.None) 
+                return true;
+            if (user == null)
+                return false;
+
+            return (user.Permissions & (int)permission) == (int)permission;
+        }
     }
 }

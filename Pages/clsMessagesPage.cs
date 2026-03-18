@@ -1,7 +1,7 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.HelperTools;
 using SocialApp.Interfaces;
-using SocialApp.Services;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages
@@ -15,6 +15,10 @@ namespace SocialApp.Pages
         public int ChatId { get; }
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
+        public enPermission ActionPermission => enPermission.None;
+        public override enPermission AccessPermission => enPermission.None;
+
 
         public clsMessagesPage(clsAppState appState, clsServiceCollection services, int chatId, string friendName)
         {
@@ -31,12 +35,14 @@ namespace SocialApp.Pages
             string newMessage = clsConsoleInput.GetStringInput("Write New Message");
 
             Services.MessageService.AddMessage(ChatId, AppState.User.Id, newMessage);
-            Reset();
+            ResetPointers();
         }
 
-        public override void Reset()
+        public override void ResetPointers()
         {
-            Start = GetContentRows().Count - PAGE_ROWS_LIMIT;
+            int count = Services.MessageService.GetChatMessages(ChatId).Count();
+
+            Start = count - PAGE_ROWS_LIMIT;
             if (Start < 0)
                 Start = 0;
         }
@@ -53,11 +59,13 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
+            int count = Services.MessageService.GetChatMessages(ChatId).Count();
+
             return new stPageRow(
                 $"--={{ `You` }}=--",
-                $"Messages Count {clsCustomTags.LineBreak}{clsCustomTags.LineBreak} ---=( {GetContentRows().Count.ToString()} )=---",
+                $"Messages Count {clsCustomTags.LineBreak}{clsCustomTags.LineBreak} ---=( {count} )=---",
                 $"--={{ {FriendName} }}=--"
             );
         }

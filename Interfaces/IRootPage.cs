@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 
 namespace SocialApp.Interfaces
 {

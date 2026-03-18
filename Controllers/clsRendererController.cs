@@ -42,7 +42,12 @@ namespace SocialApp.Controllers
 
         protected void PrintPointers()
         {
-            Console.WriteLine("----------------------------");
+            if (NavigationController.GetCurrentPage() is not absScrollPage)
+            {
+                return;
+            }
+
+            Console.WriteLine("*---------------------------");
             if (NavigationController.GetCurrentPage() is absScrollPage scrollPage)
             {
                 Console.WriteLine($"| Start Pointer Value: {scrollPage.Start}");
@@ -51,7 +56,7 @@ namespace SocialApp.Controllers
             {
                 Console.WriteLine($"| Cursor Pointer Value: {scrollCursor.Cursor}");
             }
-            Console.WriteLine("----------------------------");
+            Console.WriteLine("*---------------------------");
         }
 
         public void Print()
@@ -63,7 +68,7 @@ namespace SocialApp.Controllers
             PrintControlKeys();
 
             //Testing
-            PrintPointers();
+            //PrintPointers();
         }
 
         protected void BoardProcessing()
@@ -81,7 +86,7 @@ namespace SocialApp.Controllers
             string leftBorder = "| ";
             string rightBorder = "  |";
 
-            int pagesNameTotalLength = 
+            int pagesNameTotalLength =
                 clsCalculation.GetStringListLengthWithSeparation(pagesName, separator.Length) +
                 leftBorder.Length + rightBorder.Length + separator.Length;
 
@@ -135,7 +140,7 @@ namespace SocialApp.Controllers
         {
             absPage currentPage = NavigationController.GetCurrentPage();
 
-            currentPage.SetPageContent();
+            currentPage.ResetContent();
 
             string[] content = currentPage.ContentGrids;
 
@@ -218,21 +223,22 @@ namespace SocialApp.Controllers
             int startWidth = width;
             int startHeight = height;
             int maxWidth = width + GridWidth;
+            int maxHeight = height + GridHeight;
 
             string[] words = content.Split(' ');
 
             for (int i = 0; i < words.Length; i++)
             {
-                RenderWord(words[i], ref width, ref height, startHeight, startWidth, maxWidth);
+                RenderWord(words[i], ref width, ref height, startHeight, startWidth, maxWidth, maxHeight);
 
                 if (i < words.Length - 1 && width < maxWidth)
                 {
-                    RenderWord(" ", ref width, ref height, startHeight, startWidth, maxWidth);
+                    RenderWord(" ", ref width, ref height, startHeight, startWidth, maxWidth, maxHeight);
                 }
             }
         }
 
-        protected void RenderWord(string word, ref int x, ref int y, int startY, int startX, int maxX)
+        protected void RenderWord(string word, ref int x, ref int y, int startY, int startX, int maxX, int maxY)
         {
             if (ShouldWrapToNextLine(word, x, maxX))
             {
@@ -241,8 +247,16 @@ namespace SocialApp.Controllers
             }
 
             int wordIndex = 0;
-            while (wordIndex < word.Length && (y - startY) < GridHeight)
+
+            while (wordIndex < word.Length && y < maxY)
             {
+                while (IsLineStartWithSpace(x, startX, word[wordIndex]))
+                {
+                    wordIndex++;
+
+                    if (wordIndex == word.Length) return;
+                }
+
                 if (HandleSpecialTags(word, ref wordIndex, ref x, ref y, startX))
                 {
                     continue;
@@ -250,7 +264,7 @@ namespace SocialApp.Controllers
 
                 HandleLongWordHyphen(ref x, ref y, startX, maxX, word, wordIndex);
 
-                if (y - startY < GridHeight)
+                if (y < maxY)
                 {
                     Board[y][x] = word[wordIndex];
                     x++;
@@ -263,6 +277,13 @@ namespace SocialApp.Controllers
                     x = startX;
                 }
             }
+
+            HandleGridExceed(y, maxY, maxX);
+        }
+
+        protected bool IsLineStartWithSpace(int currentX, int startX, char currentChar)
+        {
+            return currentX == startX && currentChar == ' ';
         }
 
         protected bool ShouldWrapToNextLine(string word, int currentX, int maxX)
@@ -294,14 +315,19 @@ namespace SocialApp.Controllers
             }
         }
 
-        private bool IsNearingLimit(int x, int y, int startY, int maxX, int remainingChars)
+        private void HandleGridExceed(int y, int maxY, int maxX)
         {
-            const int ellipsisThreshold = 5;
-            bool isLastLine = (y - startY) == GridHeight - 1;
-            bool isCloseToEdge = maxX < x + ellipsisThreshold;
-            bool characterOverflow = (maxX - x) < remainingChars;
+            if (y >= maxY)
+            {
+                SetDotsOnLastOfGrid(maxX, maxY);
+            }
+        }
 
-            return isLastLine && isCloseToEdge && characterOverflow;
+        private void SetDotsOnLastOfGrid(int maxX, int maxY)
+        {
+            Board[maxY - 1][maxX - 1] = '.';
+            Board[maxY - 1][maxX - 2] = '.';
+            Board[maxY - 1][maxX - 3] = '.';
         }
 
         protected void PrintHorizontalLine(int length)

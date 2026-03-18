@@ -11,10 +11,17 @@ namespace SocialApp.Abstractions
         public int Start { get; protected set; }
 
 
-
+        protected abstract stPageRow GetHeaderRow();
         protected abstract List<stPageRow> GetContentRows();
 
-        public virtual void Reset()
+
+        public sealed override void SetContent()
+        {
+            SetHeader();
+            SetBody();
+        }
+
+        public virtual void ResetPointers()
         {
             Start = 0;
         }
@@ -31,7 +38,17 @@ namespace SocialApp.Abstractions
                 Start--;
         }
 
-        protected sealed override void SetPageBody()
+
+        protected void SetHeader()
+        {
+            stPageRow headers = GetHeaderRow();
+
+            ContentGrids[0] = headers.LeftContent;
+            ContentGrids[1] = headers.CenterContent;
+            ContentGrids[2] = headers.RightContent;
+        }
+
+        protected void SetBody()
         {
             List<stPageRow> content = GetContentRows();
 

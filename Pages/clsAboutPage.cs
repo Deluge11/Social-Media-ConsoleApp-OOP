@@ -1,6 +1,5 @@
 ﻿using SocialApp.Abstractions;
-using SocialApp.Interfaces;
-using SocialApp.Scripts;
+using SocialApp.Enums;
 using SocialApp.Structure;
 
 
@@ -10,6 +9,7 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "About";
         protected override string EmptyRowsMessage { get; } = "There is No Content";
+        public override enPermission AccessPermission => enPermission.None;
 
 
         List<string> content =
@@ -36,7 +36,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow(centerContent: PageName);
         }

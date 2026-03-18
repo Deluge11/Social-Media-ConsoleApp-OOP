@@ -1,6 +1,6 @@
-﻿using SocialApp.HelperTools;
+﻿using SocialApp.Enums;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
-using SocialApp.Services;
 
 
 namespace SocialApp.Scripts
@@ -9,6 +9,8 @@ namespace SocialApp.Scripts
     {
         public string ActionName { get; } = "Login";
         public clsServiceCollection Services { get; }
+
+        public enPermission ActionPermission => enPermission.None;
 
         public clsLoginAction(clsServiceCollection services)
         {

@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.Interfaces;
 using SocialApp.Structure;
 
@@ -10,6 +11,7 @@ namespace SocialApp.Pages
         protected override string EmptyRowsMessage { get; } = "You have no friends";
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+        public override enPermission AccessPermission => enPermission.None;
 
         public clsChatListPage(clsAppState appState, clsServiceCollection services)
         {
@@ -40,9 +42,9 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
-            return new stPageRow(centerContent: PageName);
+            return new stPageRow(centerContent: $"Choose Friend {clsCustomTags.LineBreak} To Chat With");
         }
     }
 }

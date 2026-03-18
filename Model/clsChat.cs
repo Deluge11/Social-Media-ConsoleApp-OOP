@@ -2,9 +2,9 @@
 
 namespace SocialApp.Model
 {
-   public class clsChat
+    public class clsChat
     {
-        public int ChatID { get; }
+        public int ChatID { get; set; }
         public List<clsMessage> messagesList { get; }
 
         public clsChat(int cid)

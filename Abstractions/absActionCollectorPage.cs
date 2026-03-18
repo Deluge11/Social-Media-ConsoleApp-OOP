@@ -1,6 +1,7 @@
 ﻿
 
 
+using SocialApp.Enums;
 using SocialApp.Interfaces;
 using SocialApp.Structure;
 
@@ -10,7 +11,12 @@ namespace SocialApp.Abstractions
     {
         protected override string EmptyRowsMessage => "There Is No Scripts";
         public string ActionName => Actions.Count > 0 ? Actions[Cursor].ActionName : "Take action";
+
+        public enPermission ActionPermission => Actions[Cursor].ActionPermission;
+        public override enPermission AccessPermission => enPermission.None;
+
         public List<IAction> Actions { get; } = new();
+
 
         public void AddAction(IAction action)
         {
@@ -30,7 +36,7 @@ namespace SocialApp.Abstractions
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow(centerContent: PageName);
         }

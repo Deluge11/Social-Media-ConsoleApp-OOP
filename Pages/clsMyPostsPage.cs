@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Structure;
@@ -13,6 +14,9 @@ namespace SocialApp.Pages
         public string ActionName { get; } = "Add new post";
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
+        public enPermission ActionPermission => enPermission.None;
+        public override enPermission AccessPermission => enPermission.None;
 
         public clsMyPostsPage(clsAppState appState, clsServiceCollection services)
         {
@@ -34,6 +38,7 @@ namespace SocialApp.Pages
             else
             {
                 clsConsoleUI.PrintMessage("The post should have 5 letters atleast");
+                clsConsoleUI.PressKeyToContinue();
             }
         }
 
@@ -48,7 +53,7 @@ namespace SocialApp.Pages
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow("Content", "Likes", "Created Date");
         }

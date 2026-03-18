@@ -1,19 +1,17 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.Structure;
 
 namespace SocialApp.ErrorPages
 {
     public class clsNotAuthenticatedPage : absPage
     {
-        public override string PageName => "Error 401";
+        public override string PageName => "Error Page";
+        public override enPermission AccessPermission => enPermission.None;
 
-        protected override stPageRow GetPageHeader()
+        public override void SetContent()
         {
-            return new stPageRow(centerContent: PageName);
-        }
-
-        protected override void SetPageBody()
-        {
+            ContentGrids[1] = "Error 401";
             ContentGrids[4] = "You Are Not Authenticated!";
             ContentGrids[7] = $"You Have To{clsCustomTags.LineBreak}Sign Up / Login";
         }

@@ -1,4 +1,5 @@
-﻿using SocialApp.HelperTools;
+﻿using SocialApp.Enums;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Services;
 
@@ -9,6 +10,8 @@ namespace SocialApp.Scripts
     {
         public string ActionName { get; } = "Register";
         public clsServiceCollection Services { get; }
+
+        public enPermission ActionPermission => enPermission.None;
 
         public clsRegisterAction(clsServiceCollection services)
         {

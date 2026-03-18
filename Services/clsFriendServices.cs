@@ -48,7 +48,7 @@ namespace SocialApp.Services
             return result;
         }
 
-        public List<string> GetUserWhoCanSendFriendRequest(string username)
+        public List<string> GetUsersWhoCanSendFriendRequest(string username)
         {
             List<string> result = new();
 

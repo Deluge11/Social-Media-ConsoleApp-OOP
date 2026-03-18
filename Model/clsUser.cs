@@ -2,15 +2,16 @@
 
 namespace SocialApp.Model
 {
-  public  class clsUser
+    public class clsUser
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Password { get; private set; }
-        public LinkedList<int> PostsId { get; private set; }
-        public HashSet<string> Friends { get; private set; }
-        public HashSet<string> FriendRequests { get; private set; }
-        public HashSet<int> ChatID { get; private set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public LinkedList<int> PostsId { get; set; }
+        public HashSet<string> Friends { get; set; }
+        public HashSet<string> FriendRequests { get; set; }
+        public HashSet<int> ChatID { get; set; }
+        public int Permissions { get; set; }
 
         public clsUser(int id, string name, string password)
         {

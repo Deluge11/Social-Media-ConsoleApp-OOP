@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Enums;
 using SocialApp.Interfaces;
 using SocialApp.Structure;
 
@@ -12,6 +13,10 @@ namespace SocialApp.Pages
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
 
+        public enPermission ActionPermission => enPermission.None;
+        public override enPermission AccessPermission => enPermission.None;
+
+
         public clsSendFriendRequestPage(clsAppState appState, clsServiceCollection services)
         {
             AppState = appState;
@@ -21,7 +26,7 @@ namespace SocialApp.Pages
 
         public void Execute()
         {
-            var usersList = Services.FriendService.GetUserWhoCanSendFriendRequest(AppState.User.Name);
+            var usersList = Services.FriendService.GetUsersWhoCanSendFriendRequest(AppState.User.Name);
 
             if (usersList.Count == 0) return;
 
@@ -32,12 +37,12 @@ namespace SocialApp.Pages
         protected override List<stPageRow> GetContentRows()
         {
             return Services.FriendService
-                .GetUserWhoCanSendFriendRequest(AppState.User.Name)
+                .GetUsersWhoCanSendFriendRequest(AppState.User.Name)
                 .Select(u => new stPageRow(u))
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow(centerContent: PageName);
         }

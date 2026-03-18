@@ -1,6 +1,7 @@
 ﻿using SocialApp.Abstractions;
 using SocialApp.Enums;
 using SocialApp.ErrorPages;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Services;
 
@@ -69,9 +70,33 @@ namespace SocialApp.Controllers
         private void HandleSpecialAction(absPage page)
         {
             if (page is IAction actionPage)
-                actionPage.Execute();
+            {
+                if (AppState.User.HasPermission(actionPage.ActionPermission))
+                {
+                    actionPage.Execute();
+                }
+                else
+                {
+                    Console.Clear();
+                    clsConsoleUI.PrintMessage($"You don't have permission to execute `{actionPage.ActionName}`");
+                    clsConsoleUI.PressKeyToContinue();
+                }
+            }
             else if (page is IRootPage rootPage)
-                NavigationController.PushPageToCurrentStack(rootPage.Next());
+            {
+                absPage nextPage = rootPage.Next();
+
+                if (AppState.User.HasPermission(nextPage.AccessPermission))
+                {
+                    NavigationController.PushPageToCurrentStack(nextPage);
+                }
+                else
+                {
+                    Console.Clear();
+                    clsConsoleUI.PrintMessage($"You don't have permission to access `{nextPage.PageName}`");
+                    clsConsoleUI.PressKeyToContinue();
+                }
+            }
         }
 
         private void PerformLogout()
@@ -82,5 +107,6 @@ namespace SocialApp.Controllers
                 NavigationController.ResetNavigation();
             }
         }
+
     }
 }

@@ -1,9 +1,9 @@
 ﻿using SocialApp;
+using SocialApp.Data;
 using SocialApp.Pages;
 using SocialApp.Scripts;
-using SocialApp.Controllers;
 using SocialApp.Actions;
-using SocialApp.Data;
+using SocialApp.Controllers;
 
 clsAppState appState = new clsAppState();
 clsDataManager dataManager = new clsDataManager();
@@ -17,14 +17,16 @@ clsAuthenticatePage authenticationPage = new clsAuthenticatePage();
 clsChatListPage chatPage = new clsChatListPage(appState, serviceCollection);
 clsMyPostsPage myPostsPage = new clsMyPostsPage(appState, serviceCollection);
 clsProfilePage profilePage = new clsProfilePage(appState, serviceCollection);
-clsNewPostsPage newPostsPage = new clsNewPostsPage(appState, serviceCollection);
+clsGeneralPostsPage generalPostsPage = new clsGeneralPostsPage(serviceCollection);
 clsMyFriendsPage myFriendsPage = new clsMyFriendsPage(appState, serviceCollection);
 clsFriendRequestsPage friendRequestPage = new clsFriendRequestsPage(appState, serviceCollection);
+clsConnectionPostsPage connectionPostsPage = new clsConnectionPostsPage(appState, serviceCollection);
 clsSendFriendRequestPage sendFriendRequestPage = new clsSendFriendRequestPage(appState, serviceCollection);
 
 clsLoginAction loginAction = new clsLoginAction(serviceCollection);
 clsRegisterAction registerAction = new clsRegisterAction(serviceCollection);
 clsVisitAsGuestAction visitAsGuestAction = new clsVisitAsGuestAction(serviceCollection);
+
 
 homePage.AddSubPage(profilePage);
 homePage.AddSubPage(postPage);
@@ -32,8 +34,9 @@ homePage.AddSubPage(friendPage);
 homePage.AddSubPage(chatPage);
 homePage.AddSubPage(aboutPage);
 
+postPage.AddSubPage(generalPostsPage);
 postPage.AddSubPage(myPostsPage);
-postPage.AddSubPage(newPostsPage);
+postPage.AddSubPage(connectionPostsPage);
 
 friendPage.AddSubPage(myFriendsPage);
 friendPage.AddSubPage(sendFriendRequestPage);
@@ -42,6 +45,7 @@ friendPage.AddSubPage(friendRequestPage);
 authenticationPage.AddAction(loginAction);
 authenticationPage.AddAction(registerAction);
 authenticationPage.AddAction(visitAsGuestAction);
+
 
 clsNavigationController navigationController = new clsNavigationController(appState);
 clsRendererController renderController = new clsRendererController(appState, navigationController);

@@ -16,9 +16,16 @@ namespace SocialApp.Services
             PostsDB = dataManager.PostsDB;
             LastIdInfo = dataManager.LastIdInfo;
         }
+
+
         public int GetMyPostsCount(string username)
         {
             return UsersDB.ContainsKey(username) ? UsersDB[username].PostsId.Count : 0;
+        }
+
+        public List<clsPost> GetAllPosts()
+        {
+            return PostsDB.Values.ToList();
         }
 
         public List<clsPost> GetUserPosts(string username)

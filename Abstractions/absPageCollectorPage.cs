@@ -1,4 +1,5 @@
-﻿using SocialApp.Interfaces;
+﻿using SocialApp.Enums;
+using SocialApp.Interfaces;
 using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace SocialApp.Abstractions
     {
         protected override string EmptyRowsMessage { get; } = "There is no pages";
         public List<absPage> Pages { get; } = new List<absPage>();
+        public override enPermission AccessPermission => enPermission.None;
 
         public void AddSubPage(absPage page)
         {
@@ -31,7 +33,7 @@ namespace SocialApp.Abstractions
                 .ToList();
         }
 
-        protected override stPageRow GetPageHeader()
+        protected override stPageRow GetHeaderRow()
         {
             return new stPageRow(centerContent: PageName);
         }
