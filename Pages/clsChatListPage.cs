@@ -5,13 +5,17 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class clsChatListPage : absScrollCursor, IRootPage, INeedAuthentication
+    public class clsChatListPage : absScrollSelection, IRootPage, INeedAuthentication
     {
         public override string PageName { get; } = "Chat Page";
         protected override string EmptyRowsMessage { get; } = "You have no friends";
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
         public clsChatListPage(clsAppState appState, clsServiceCollection services)
         {
@@ -19,19 +23,19 @@ namespace SocialApp.Pages
             Services = services;
         }
 
-        public absPage Next()
+        public absBasePage Next()
         {
             var friendsList = Services.FriendService.GetUserFriends(AppState.User.Name);
 
             if (friendsList.Count == 0)
                 return null!;
 
-            int chatId = Services.MessageService.GetChatId(AppState.User.Name, friendsList[Cursor]);
+            int chatId = Services.MessageService.GetChatId(AppState.User.Name, friendsList[SelectionCursor]);
 
             if (chatId == -1)
                 return null!;
 
-            return new clsMessagesPage(AppState, Services, chatId, friendsList[Cursor]);
+            return new clsMessagesPage(AppState, Services, chatId, friendsList[SelectionCursor]);
         }
 
         protected override List<stPageRow> GetContentRows()

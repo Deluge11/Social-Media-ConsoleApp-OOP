@@ -27,7 +27,9 @@ clsLoginAction loginAction = new clsLoginAction(serviceCollection);
 clsRegisterAction registerAction = new clsRegisterAction(serviceCollection);
 clsVisitAsGuestAction visitAsGuestAction = new clsVisitAsGuestAction(serviceCollection);
 
+TestPage page = new TestPage();
 
+homePage.AddSubPage(page);
 homePage.AddSubPage(profilePage);
 homePage.AddSubPage(postPage);
 homePage.AddSubPage(friendPage);

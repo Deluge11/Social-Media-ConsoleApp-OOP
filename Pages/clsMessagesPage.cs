@@ -9,15 +9,18 @@ namespace SocialApp.Pages
     public class clsMessagesPage : absScrollPage, IAction, INeedAuthentication
     {
         public override string PageName { get; } = "Messages Page";
-        protected override string EmptyRowsMessage { get; } = "Break the silence";
         public string ActionName { get; } = "Add new message";
-        public string FriendName { get; }
+        protected override string EmptyRowsMessage { get; } = "Break the silence";
+
         public int ChatId { get; }
+        public string FriendName { get; }
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
 
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Down;
 
 
         public clsMessagesPage(clsAppState appState, clsServiceCollection services, int chatId, string friendName)
@@ -35,16 +38,7 @@ namespace SocialApp.Pages
             string newMessage = clsConsoleInput.GetStringInput("Write New Message");
 
             Services.MessageService.AddMessage(ChatId, AppState.User.Id, newMessage);
-            ResetPointers();
-        }
-
-        public override void ResetPointers()
-        {
-            int count = Services.MessageService.GetChatMessages(ChatId).Count();
-
-            Start = count - PAGE_ROWS_LIMIT;
-            if (Start < 0)
-                Start = 0;
+            ResetCursors();
         }
 
         protected override List<stPageRow> GetContentRows()

@@ -18,7 +18,7 @@ Unlike traditional CLI applications, it uses a custom Grid Rendering Engine and 
 
 ## 📸 Demo
 
-<img src="./demo/DemoPic2.PNG" width="700" alt="test">
+<img src="./demo/DemoPic4.PNG" width="700" alt="test">
 
 -----
 

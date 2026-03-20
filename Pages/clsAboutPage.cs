@@ -9,7 +9,10 @@ namespace SocialApp.Pages
     {
         public override string PageName { get; } = "About";
         protected override string EmptyRowsMessage { get; } = "There is No Content";
+        
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
 
         List<string> content =

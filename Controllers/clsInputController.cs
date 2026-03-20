@@ -48,10 +48,18 @@ namespace SocialApp.Controllers
                     return;
 
                 case enCommand.Exit:
-                    NavigationController.ClearStack();
+                    HandleExit();
                     return;
             }
 
+        }
+
+        private void HandleExit()
+        {
+            NavigationController.ClearStack();
+
+            Console.Clear();
+            clsConsoleUI.PrintMessage("Program End!");
         }
 
         private enCommand GetCommand()
@@ -67,7 +75,7 @@ namespace SocialApp.Controllers
             }
         }
 
-        private void HandleSpecialAction(absPage page)
+        private void HandleSpecialAction(absBasePage page)
         {
             if (page is IAction actionPage)
             {
@@ -84,7 +92,7 @@ namespace SocialApp.Controllers
             }
             else if (page is IRootPage rootPage)
             {
-                absPage nextPage = rootPage.Next();
+                absBasePage nextPage = rootPage.Next();
 
                 if (AppState.User.HasPermission(nextPage.AccessPermission))
                 {

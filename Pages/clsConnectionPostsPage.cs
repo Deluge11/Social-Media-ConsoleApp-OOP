@@ -5,15 +5,19 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class clsConnectionPostsPage : absScrollCursor, IAction, INeedAuthentication
+    public class clsConnectionPostsPage : absScrollSelection, IAction, INeedAuthentication
     {
         public override string PageName { get; } = "Connection Posts";
         protected override string EmptyRowsMessage { get; } = "There is no posts! Add new post/friend";
         public string ActionName { get; } = "Like";
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
         public override enPermission AccessPermission => enPermission.None;
         public enPermission ActionPermission => enPermission.Post_Like;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
         public clsConnectionPostsPage(clsAppState appState, clsServiceCollection services)
         {
@@ -28,7 +32,7 @@ namespace SocialApp.Pages
             if (postsIdList.Count == 0)
                 return;
 
-            Services.PostService.TogglePostLike(AppState.User.Name, postsIdList[Cursor].Id);
+            Services.PostService.TogglePostLike(AppState.User.Name, postsIdList[SelectionCursor].Id);
         }
 
         protected override List<stPageRow> GetContentRows()

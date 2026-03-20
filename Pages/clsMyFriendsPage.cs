@@ -5,14 +5,16 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class clsMyFriendsPage : absScrollCursor, INeedAuthentication
+    public class clsMyFriendsPage : absScrollPage, INeedAuthentication
     {
         public override string PageName { get; } = "My Friends";
         protected override string EmptyRowsMessage { get; } = "You have no friends";
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
 
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
 
         public clsMyFriendsPage(clsAppState appState, clsServiceCollection services)
         {

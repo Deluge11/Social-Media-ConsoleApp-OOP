@@ -17,12 +17,13 @@ namespace SocialApp.Controllers
         private const int Row3 = 14;
         private const int Row4 = 20;
 
-        private const int Width = 75;
+        private const int Width = 80;
+        private const int BoarderWidth = 76;
 
         private const int GridWidth = 20;
         private const int GridHeight = 5;
 
-        private char[][] Board = new char[26][];
+        private char[][] Board = new char[27][];
 
         public clsAppState AppState { get; }
         public clsNavigationController NavigationController { get; }
@@ -50,11 +51,11 @@ namespace SocialApp.Controllers
             Console.WriteLine("*---------------------------");
             if (NavigationController.GetCurrentPage() is absScrollPage scrollPage)
             {
-                Console.WriteLine($"| Start Pointer Value: {scrollPage.Start}");
+                Console.WriteLine($"| Start Cursor Value: {scrollPage.StartCursor}");
             }
-            if (NavigationController.GetCurrentPage() is absScrollCursor scrollCursor)
+            if (NavigationController.GetCurrentPage() is absScrollSelection scrollCursor)
             {
-                Console.WriteLine($"| Cursor Pointer Value: {scrollCursor.Cursor}");
+                Console.WriteLine($"| Selection Cursor Value: {scrollCursor.SelectionCursor}");
             }
             Console.WriteLine("*---------------------------");
         }
@@ -76,6 +77,7 @@ namespace SocialApp.Controllers
             SetBoardDefault();
             SetPageContentOnBoardGrids();
             SetCursorOnBoard();
+            SetScrollBarOnBoard();
             SetHorizontalLineOnBoard(6);
         }
 
@@ -108,7 +110,7 @@ namespace SocialApp.Controllers
 
         protected void PrintControlKeys()
         {
-            absPage currentPage = NavigationController.GetCurrentPage();
+            absBasePage currentPage = NavigationController.GetCurrentPage();
 
             if (currentPage is absScrollPage)
             {
@@ -138,7 +140,7 @@ namespace SocialApp.Controllers
 
         protected void SetPageContentOnBoardGrids()
         {
-            absPage currentPage = NavigationController.GetCurrentPage();
+            absBasePage currentPage = NavigationController.GetCurrentPage();
 
             currentPage.ResetContent();
 
@@ -169,9 +171,58 @@ namespace SocialApp.Controllers
             }
         }
 
+        protected void SetScrollBarOnBoard()
+        {
+            if (NavigationController.GetCurrentPage() is not absScrollPage scrollPage)
+            {
+                return;
+            }
+
+            int rowCount = scrollPage.GetRowCount();
+
+            if (rowCount == 0)
+            {
+                return;
+            }
+
+            int scrollBarLength = absScrollPage.PAGE_ROWS_LIMIT * 15 / rowCount;
+            int scrollBarStartFromLength = scrollPage.StartCursor * (15 + scrollBarLength) / rowCount;
+
+            if (scrollBarLength >= 15)
+                return;
+
+            SetScrollBarBoxOnBoard();
+
+            scrollBarLength = scrollBarLength < 3 ? 3 : scrollBarLength;
+            scrollBarStartFromLength = scrollBarStartFromLength > 14 ? 14 : scrollBarStartFromLength;
+
+            int i = 8 + scrollBarStartFromLength;
+
+            while (i < 25 && scrollBarLength-- > 0)
+            {
+                Board[i][78] = '=';
+                i++;
+            }
+
+        }
+
+        protected void SetScrollBarBoxOnBoard()
+        {
+            SetVerticalLineOnBoard(77, 7, 25);
+            SetVerticalLineOnBoard(79, 7, 25);
+            Board[7][78] = '-';
+            Board[25][78] = '-';
+
+            Board[7][77] = '+';
+            Board[7][79] = '+';
+
+            Board[25][77] = '+';
+            Board[25][79] = '+';
+        }
+
         protected void SetCursorOnBoard()
         {
-            if (NavigationController.GetCurrentPage() is absScrollCursor)
+            if (NavigationController.GetCurrentPage() is absScrollSelection)
             {
                 SetCursorOnBoard(GetRowByCursorPosition(GetCursorPosition()), 1);
             }
@@ -179,9 +230,9 @@ namespace SocialApp.Controllers
 
         protected int GetCursorPosition()
         {
-            if (NavigationController.GetCurrentPage() is absScrollCursor dynamicPage)
+            if (NavigationController.GetCurrentPage() is absScrollSelection dynamicPage)
             {
-                return dynamicPage.Cursor - dynamicPage.Start + 1;
+                return dynamicPage.SelectionCursor - dynamicPage.StartCursor + 1;
             }
             return -1;
         }
@@ -198,7 +249,7 @@ namespace SocialApp.Controllers
         {
             int endContent = col + GridWidth;
 
-            int i = col + GridWidth + 2;
+            int i = col + GridWidth + 3;
             while (i > col)
             {
                 if (Board[row][i] != ' ')
@@ -278,7 +329,7 @@ namespace SocialApp.Controllers
                 }
             }
 
-            HandleGridExceed(y, maxY, maxX);
+            //HandleGridExceed(y, maxY, maxX);
         }
 
         protected bool IsLineStartWithSpace(int currentX, int startX, char currentChar)
@@ -315,20 +366,26 @@ namespace SocialApp.Controllers
             }
         }
 
-        private void HandleGridExceed(int y, int maxY, int maxX)
-        {
-            if (y >= maxY)
-            {
-                SetDotsOnLastOfGrid(maxX, maxY);
-            }
-        }
+        //private void HandleGridExceed(int y, int maxY, int maxX)
+        //{
+        //    if (y >= maxY)
+        //    {
+        //        SetDotsOnLastOfGrid(maxX, maxY);
+        //    }
+        //}
 
-        private void SetDotsOnLastOfGrid(int maxX, int maxY)
-        {
-            Board[maxY - 1][maxX - 1] = '.';
-            Board[maxY - 1][maxX - 2] = '.';
-            Board[maxY - 1][maxX - 3] = '.';
-        }
+        //private void SetDotsOnLastOfGrid(int maxX, int maxY)
+        //{
+        //    int startIndex = maxX;
+        //    while (Board[maxY - 1][startIndex] == ' ')
+        //    {
+        //        startIndex--;
+        //    }
+
+        //    Board[maxY - 1][startIndex] = '.';
+        //    Board[maxY - 1][startIndex + 1] = '.';
+        //    Board[maxY - 1][startIndex + 2] = '.';
+        //}
 
         protected void PrintHorizontalLine(int length)
         {
@@ -347,9 +404,24 @@ namespace SocialApp.Controllers
             Console.WriteLine();
         }
 
+        protected void SetVerticalLineOnBoard(int col, int startRow, int endRow)
+        {
+            for (int i = startRow; i <= endRow; i++)
+            {
+                if (Board[i][col] == '-')
+                {
+                    Board[i][col] = '*';
+                }
+                else
+                {
+                    Board[i][col] = '|';
+                }
+            }
+        }
+
         protected void SetHorizontalLineOnBoard(int row)
         {
-            for (int i = 0; i < Board[row].Length; i++)
+            for (int i = 0; i < BoarderWidth; i++)
             {
                 if (Board[row][i] == '|')
                 {
@@ -370,16 +442,16 @@ namespace SocialApp.Controllers
                 {
                     if (h == 0 || h == Board.Length - 1)
                     {
-                        if (w == 0 || w == Width - 1)
+                        if (w == 0 || w == BoarderWidth - 1)
                         {
                             Console.Write('*');
                         }
-                        else
+                        else if(w > 0 && w < BoarderWidth - 1)
                         {
                             Console.Write('-');
                         }
                     }
-                    else if (w == 0 || w == Width - 1)
+                    else if (w == 0 || w == BoarderWidth - 1)
                     {
                         Console.Write('|');
                     }

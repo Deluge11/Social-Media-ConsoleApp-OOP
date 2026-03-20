@@ -9,21 +9,25 @@ using System.Threading.Tasks;
 
 namespace SocialApp.Abstractions
 {
-    public abstract class absPageCollectorPage : absScrollCursor, IRootPage
+    public abstract class absPageCollectorPage : absScrollSelection, IRootPage
     {
         protected override string EmptyRowsMessage { get; } = "There is no pages";
-        public List<absPage> Pages { get; } = new List<absPage>();
-        public override enPermission AccessPermission => enPermission.None;
 
-        public void AddSubPage(absPage page)
+        public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
+        public List<absBasePage> Pages { get; } = new List<absBasePage>();
+
+
+        public void AddSubPage(absBasePage page)
         {
             if (page != null)
                 Pages.Add(page);
         }
 
-        public absPage Next()
+        public absBasePage Next()
         {
-            return Pages.Count > 0 ? Pages[Cursor] : null!;
+            return Pages.Count > 0 ? Pages[SelectionCursor] : null!;
         }
 
         protected override List<stPageRow> GetContentRows()

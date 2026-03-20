@@ -7,13 +7,15 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class clsProfilePage : absPage, INeedAuthentication
+    public class clsProfilePage : absBasePage, INeedAuthentication
     {
         public override string PageName { get; } = "Profile Page";
+
         public override enPermission AccessPermission => enPermission.None;
 
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
+
 
         public clsProfilePage(clsAppState appState, clsServiceCollection services)
         {

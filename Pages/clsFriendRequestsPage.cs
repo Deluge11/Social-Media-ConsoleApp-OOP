@@ -6,16 +6,19 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class clsFriendRequestsPage : absScrollCursor, IAction, INeedAuthentication
+    public class clsFriendRequestsPage : absScrollSelection, IAction, INeedAuthentication
     {
         public override string PageName { get; } = "Friend Requests";
         protected override string EmptyRowsMessage { get; } = "There Is No Requests, Check Again Later";
         public string ActionName { get; } = "Accept friend request";
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
 
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
 
         public clsFriendRequestsPage(clsAppState appState, clsServiceCollection services)
@@ -30,7 +33,7 @@ namespace SocialApp.Pages
 
             if (usersList.Count == 0) return;
 
-            Services.FriendService.ConnectUsers(AppState.User.Name, usersList[Cursor]);
+            Services.FriendService.ConnectUsers(AppState.User.Name, usersList[SelectionCursor]);
             ScrollUp();
         }
 

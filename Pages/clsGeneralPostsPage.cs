@@ -9,9 +9,12 @@ namespace SocialApp.Pages
     {
         public override string PageName => "General Posts";
         protected override string EmptyRowsMessage => "There is no posts";
+
         public clsServiceCollection Services { get; }
 
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
         public clsGeneralPostsPage(clsServiceCollection services)
         {

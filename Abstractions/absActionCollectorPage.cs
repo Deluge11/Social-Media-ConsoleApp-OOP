@@ -7,16 +7,18 @@ using SocialApp.Structure;
 
 namespace SocialApp.Abstractions
 {
-    public abstract class absActionCollectorPage : absScrollCursor, IAction
+    public abstract class absActionCollectorPage : absScrollSelection, IAction
     {
         protected override string EmptyRowsMessage => "There Is No Scripts";
-        public string ActionName => Actions.Count > 0 ? Actions[Cursor].ActionName : "Take action";
+        public string ActionName => Actions.Count > 0 ? 
+            Actions[SelectionCursor].ActionName : "`Unknown`";
 
-        public enPermission ActionPermission => Actions[Cursor].ActionPermission;
+        public enPermission ActionPermission => Actions.Count > 0 ?
+            Actions[SelectionCursor].ActionPermission : enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
         public override enPermission AccessPermission => enPermission.None;
-
+       
         public List<IAction> Actions { get; } = new();
-
 
         public void AddAction(IAction action)
         {
@@ -26,7 +28,7 @@ namespace SocialApp.Abstractions
         public void Execute()
         {
             if (Actions.Count > 0)
-                Actions[Cursor].Execute();
+                Actions[SelectionCursor].Execute();
         }
 
         protected override List<stPageRow> GetContentRows()

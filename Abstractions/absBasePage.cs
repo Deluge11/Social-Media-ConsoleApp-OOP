@@ -4,7 +4,7 @@ using SocialApp.Structure;
 
 namespace SocialApp.Abstractions
 {
-    public abstract class absPage
+    public abstract class absBasePage
     {
         public abstract string PageName { get; }
         public string[] ContentGrids { get; } = new string[12];

@@ -1,80 +1,100 @@
 ﻿
+using SocialApp.Enums;
 using SocialApp.Structure;
 
 
 namespace SocialApp.Abstractions
 {
-    public abstract class absScrollPage : absPage
+    public abstract class absScrollPage : absBasePage
     {
-        protected const int PAGE_ROWS_LIMIT = 3;
-        protected abstract string EmptyRowsMessage { get; }
-        public int Start { get; protected set; }
+        public static int PAGE_ROWS_LIMIT => 3;
 
+        public int StartCursor { get; protected set; }
+        protected abstract string EmptyRowsMessage { get; }
+        protected abstract enResetCursor CursorResetCommand { get; }
 
         protected abstract stPageRow GetHeaderRow();
         protected abstract List<stPageRow> GetContentRows();
 
-
-        public sealed override void SetContent()
+        public virtual void ResetCursors()
         {
-            SetHeader();
-            SetBody();
+            switch (CursorResetCommand)
+            {
+                case enResetCursor.Up:
+                    MoveCursorUp();
+                    return;
+
+                case enResetCursor.Down:
+                    MoveCursorDown();
+                    return;
+
+                default:
+                    MoveCursorUp();
+                    return;
+            }
         }
 
-        public virtual void ResetPointers()
+        public int GetRowCount()
         {
-            Start = 0;
+            return GetContentRows().Count();
+        }
+
+        protected virtual void MoveCursorUp()
+        {
+            StartCursor = 0;
+        }
+
+        protected virtual void MoveCursorDown()
+        {
+            StartCursor = GetRowCount() - PAGE_ROWS_LIMIT;
+            if (StartCursor < 0)
+                StartCursor = 0;
         }
 
         public virtual void ScrollDown()
         {
-            if (Start + PAGE_ROWS_LIMIT < GetContentRows().Count)
-                Start++;
+            if (StartCursor + PAGE_ROWS_LIMIT < GetRowCount())
+                StartCursor++;
         }
 
         public virtual void ScrollUp()
         {
-            if (Start > 0)
-                Start--;
+            if (StartCursor > 0)
+                StartCursor--;
         }
 
-
-        protected void SetHeader()
+        public sealed override void SetContent()
         {
             stPageRow headers = GetHeaderRow();
+            List<stPageRow> content = GetContentRows();
 
             ContentGrids[0] = headers.LeftContent;
             ContentGrids[1] = headers.CenterContent;
             ContentGrids[2] = headers.RightContent;
-        }
-
-        protected void SetBody()
-        {
-            List<stPageRow> content = GetContentRows();
 
             if (content.Count == 0)
             {
                 ContentGrids[4] = EmptyRowsMessage;
             }
 
-            if (Start < content.Count)
+            if (StartCursor < content.Count)
             {
-                ContentGrids[3] = content[Start].LeftContent;
-                ContentGrids[4] = content[Start].CenterContent;
-                ContentGrids[5] = content[Start].RightContent;
+                ContentGrids[3] = content[StartCursor].LeftContent;
+                ContentGrids[4] = content[StartCursor].CenterContent;
+                ContentGrids[5] = content[StartCursor].RightContent;
             }
-            if (Start + 1 < content.Count)
+            if (StartCursor + 1 < content.Count)
             {
-                ContentGrids[6] = content[Start + 1].LeftContent;
-                ContentGrids[7] = content[Start + 1].CenterContent;
-                ContentGrids[8] = content[Start + 1].RightContent;
+                ContentGrids[6] = content[StartCursor + 1].LeftContent;
+                ContentGrids[7] = content[StartCursor + 1].CenterContent;
+                ContentGrids[8] = content[StartCursor + 1].RightContent;
 
             }
-            if (Start + 2 < content.Count)
+            if (StartCursor + 2 < content.Count)
             {
-                ContentGrids[9] = content[Start + 2].LeftContent;
-                ContentGrids[10] = content[Start + 2].CenterContent;
-                ContentGrids[11] = content[Start + 2].RightContent;
+                ContentGrids[9] = content[StartCursor + 2].LeftContent;
+                ContentGrids[10] = content[StartCursor + 2].CenterContent;
+                ContentGrids[11] = content[StartCursor + 2].RightContent;
             }
         }
     }

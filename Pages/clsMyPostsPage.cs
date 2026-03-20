@@ -12,11 +12,14 @@ namespace SocialApp.Pages
         public override string PageName { get; } = "My Posts";
         protected override string EmptyRowsMessage { get; } = "You have no posts!";
         public string ActionName { get; } = "Add new post";
+
         public clsAppState AppState { get; }
         public clsServiceCollection Services { get; }
 
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
+        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
+
 
         public clsMyPostsPage(clsAppState appState, clsServiceCollection services)
         {

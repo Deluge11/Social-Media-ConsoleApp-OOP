@@ -6,8 +6,8 @@ namespace SocialApp.Controllers
 {
     public class clsNavigationController
     {
-        protected Stack<absPage> _authenticatePageStack { get; } = new();
-        protected Stack<absPage> _appPageStack { get; } = new();
+        protected Stack<absBasePage> _authenticatePageStack { get; } = new();
+        protected Stack<absBasePage> _appPageStack { get; } = new();
         protected clsAppState _appState { get; }
 
         public clsNavigationController(clsAppState appState)
@@ -16,25 +16,25 @@ namespace SocialApp.Controllers
         }
 
 
-        public void SetMainPage(absPage page)
+        public void SetMainPage(absBasePage page)
         {
             SetStackDefaultPage(_appPageStack, page);
 
         }
 
-        public void SetAuthenticationPage(absPage page)
+        public void SetAuthenticationPage(absBasePage page)
         {
             SetStackDefaultPage(_authenticatePageStack, page);
         }
 
-        public void SetStackDefaultPage(Stack<absPage> stack, absPage page)
-        {
+        public void SetStackDefaultPage(Stack<absBasePage> stack, absBasePage page)
+        { 
             stack.Clear();
             stack.Push(page);
             ResetPagePointers(page);
         }
 
-        public void PushPageToCurrentStack(absPage nextPage)
+        public void PushPageToCurrentStack(absBasePage nextPage)
         {
             var targetPage = nextPage ?? new clsNotFoundPage();
 
@@ -45,7 +45,7 @@ namespace SocialApp.Controllers
             ResetPagePointers(targetPage);
         }
 
-        private absPage ResolveAuthorizedPage(absPage page)
+        private absBasePage ResolveAuthorizedPage(absBasePage page)
         {
             if (page is INeedAuthentication && !_appState.IsAuthenticated())
             {
@@ -54,32 +54,32 @@ namespace SocialApp.Controllers
             return page;
         }
 
-        private void ExecuteNavigation(absPage page)
+        private void ExecuteNavigation(absBasePage page)
         {
             GetCurrentStack().Push(page);
         }
 
-        private void ResetPagePointers(absPage page)
+        private void ResetPagePointers(absBasePage page)
         {
             if (page is absScrollPage scrollPage)
             {
-                scrollPage.ResetPointers();
+                scrollPage.ResetCursors();
             }
         }
 
-        public absPage PopPageFromCurrentStack()
+        public absBasePage PopPageFromCurrentStack()
         {
             return GetCurrentStack().Count > 1 ?
                 GetCurrentStack().Pop() : null!;
         }
 
-        public absPage GetCurrentPage()
+        public absBasePage GetCurrentPage()
         {
             return GetCurrentStack().Count > 0 ?
                 GetCurrentStack().Peek() : null!;
         }
 
-        protected Stack<absPage> GetCurrentStack()
+        protected Stack<absBasePage> GetCurrentStack()
         {
             return _appState.IsAuthenticated() || _appState.IsGuest ?
                 _appPageStack : _authenticatePageStack;
@@ -106,7 +106,7 @@ namespace SocialApp.Controllers
             ResetStack(_authenticatePageStack);
         }
 
-        private void ResetStack(Stack<absPage> stack)
+        private void ResetStack(Stack<absBasePage> stack)
         {
             while (stack.Count > 1)
             {

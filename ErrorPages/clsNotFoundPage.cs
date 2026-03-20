@@ -4,7 +4,7 @@ using SocialApp.Structure;
 
 namespace SocialApp.ErrorPages
 {
-    public class clsNotFoundPage : absPage
+    public class clsNotFoundPage : absBasePage
     {
         public override string PageName => "Error Page";
         public override enPermission AccessPermission => enPermission.None;
