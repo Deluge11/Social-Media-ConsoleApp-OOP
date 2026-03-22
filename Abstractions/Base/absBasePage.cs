@@ -1,8 +1,6 @@
-﻿
-using SocialApp.Enums;
-using SocialApp.Structure;
+﻿using SocialApp.Enums;
 
-namespace SocialApp.Abstractions
+namespace SocialApp.Abstractions.Base
 {
     public abstract class absBasePage
     {

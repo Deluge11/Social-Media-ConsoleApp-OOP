@@ -15,8 +15,6 @@ namespace SocialApp.Abstractions
 
         public enPermission ActionPermission => Actions.Count > 0 ?
             Actions[SelectionCursor].ActionPermission : enPermission.None;
-        protected override enResetCursor CursorResetCommand => enResetCursor.Up;
-        public override enPermission AccessPermission => enPermission.None;
        
         public List<IAction> Actions { get; } = new();
 

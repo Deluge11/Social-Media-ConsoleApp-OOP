@@ -15,7 +15,7 @@ namespace SocialApp.Pages
         public clsServiceCollection Services { get; }
 
         public override enPermission AccessPermission => enPermission.None;
-        public enPermission ActionPermission => enPermission.Post_Like;
+        public enPermission ActionPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Up;
 
 
@@ -29,8 +29,7 @@ namespace SocialApp.Pages
         {
             var postsIdList = Services.PostService.GetNewPosts(AppState.User.Name);
 
-            if (postsIdList.Count == 0)
-                return;
+            if (postsIdList.Count == 0) return;
 
             Services.PostService.TogglePostLike(AppState.User.Name, postsIdList[SelectionCursor].Id);
         }

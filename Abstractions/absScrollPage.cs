@@ -1,4 +1,5 @@
 ﻿
+using SocialApp.Abstractions.Base;
 using SocialApp.Enums;
 using SocialApp.Structure;
 
@@ -75,6 +76,7 @@ namespace SocialApp.Abstractions
             if (content.Count == 0)
             {
                 ContentGrids[4] = EmptyRowsMessage;
+                return;
             }
 
             if (StartCursor < content.Count)

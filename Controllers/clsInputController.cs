@@ -1,4 +1,5 @@
 ﻿using SocialApp.Abstractions;
+using SocialApp.Abstractions.Base;
 using SocialApp.Enums;
 using SocialApp.ErrorPages;
 using SocialApp.HelperTools;

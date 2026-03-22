@@ -1,4 +1,4 @@
-﻿using SocialApp.Abstractions;
+﻿using SocialApp.Abstractions.Base;
 using SocialApp.Enums;
 
 namespace SocialApp.Interfaces

@@ -1,5 +1,6 @@
 ﻿
 using SocialApp.Abstractions;
+using SocialApp.Abstractions.Base;
 using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 
@@ -17,7 +18,7 @@ namespace SocialApp.Controllers
         private const int Row3 = 14;
         private const int Row4 = 20;
 
-        private const int Width = 80;
+        private const int Width = 82;
         private const int BoarderWidth = 76;
 
         private const int GridWidth = 20;
@@ -185,26 +186,52 @@ namespace SocialApp.Controllers
                 return;
             }
 
-            int scrollBarLength = absScrollPage.PAGE_ROWS_LIMIT * 15 / rowCount;
-            int scrollBarStartFromLength = scrollPage.StartCursor * (15 + scrollBarLength) / rowCount;
+            //int scrollBarLength = absScrollPage.PAGE_ROWS_LIMIT * 17 / rowCount;
+            //int scrollBarStartFromLength = scrollPage.StartCursor * (17) / rowCount;
 
-            if (scrollBarLength >= 15)
+            //if (scrollBarLength >= 17)
+            //    return;
+
+            //SetScrollBarBoxOnBoard();
+
+            //scrollBarLength = scrollBarLength < 3 ? 3 : scrollBarLength;
+            //scrollBarStartFromLength = scrollBarStartFromLength > 14 ? 14 : scrollBarStartFromLength;
+
+            //int i = 8 + scrollBarStartFromLength;
+
+            //while (i < 25 && scrollBarLength-- > 0)
+            //{
+            //    Board[i][78] = '=';
+            //    i++;
+            //}
+
+            int trackSize = 17;
+            int visible = absScrollPage.PAGE_ROWS_LIMIT;
+            int total = rowCount;
+
+            int scrollBarLength = trackSize * visible / total;
+            scrollBarLength = Math.Max(scrollBarLength, 3);
+
+            if (scrollBarLength >= trackSize)
                 return;
 
             SetScrollBarBoxOnBoard();
 
-            scrollBarLength = scrollBarLength < 3 ? 3 : scrollBarLength;
-            scrollBarStartFromLength = scrollBarStartFromLength > 14 ? 14 : scrollBarStartFromLength;
+            int maxStartCursor = Math.Max(total - visible, 1);
+            int maxOffset = trackSize - scrollBarLength;
+
+            int scrollBarStartFromLength = scrollPage.StartCursor * maxOffset / maxStartCursor;
 
             int i = 8 + scrollBarStartFromLength;
-
-            while (i < 25 && scrollBarLength-- > 0)
+            while (i < 8 + trackSize && scrollBarLength-- > 0)
             {
                 Board[i][78] = '=';
                 i++;
             }
 
         }
+
+
 
         protected void SetScrollBarBoxOnBoard()
         {
@@ -218,6 +245,14 @@ namespace SocialApp.Controllers
 
             Board[25][77] = '+';
             Board[25][79] = '+';
+
+            char[] text = { 'S', 'C', 'R', 'O', 'L', 'L', ' ', 'B', 'A', 'R' };
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                Board[11 + i][81] = text[i];
+            }
+
         }
 
         protected void SetCursorOnBoard()
@@ -282,7 +317,7 @@ namespace SocialApp.Controllers
             {
                 RenderWord(words[i], ref width, ref height, startHeight, startWidth, maxWidth, maxHeight);
 
-                if (i < words.Length - 1 && width < maxWidth)
+                if (i < words.Length - 1)
                 {
                     RenderWord(" ", ref width, ref height, startHeight, startWidth, maxWidth, maxHeight);
                 }
@@ -446,7 +481,7 @@ namespace SocialApp.Controllers
                         {
                             Console.Write('*');
                         }
-                        else if(w > 0 && w < BoarderWidth - 1)
+                        else if (w > 0 && w < BoarderWidth - 1)
                         {
                             Console.Write('-');
                         }
