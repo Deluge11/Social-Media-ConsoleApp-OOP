@@ -1,4 +1,5 @@
-﻿using SocialApp.Structure;
+﻿using SocialApp.Grids.Abstractions;
+using SocialApp.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

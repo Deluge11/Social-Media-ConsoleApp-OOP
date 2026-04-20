@@ -1,7 +1,6 @@
-﻿using SocialApp.Abstractions;
-using SocialApp.Interfaces;
-using SocialApp.ErrorPages;
-using SocialApp.Abstractions.Base;
+﻿using SocialApp.Interfaces;
+using SocialApp.Pages;
+using SocialApp.Pages.Abstractions;
 
 namespace SocialApp.Controllers
 {

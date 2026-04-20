@@ -1,7 +1,7 @@
-﻿using SocialApp.Abstractions.Base;
-using SocialApp.Enums;
+﻿using SocialApp.Enums;
 using SocialApp.Interfaces;
 using SocialApp.Model;
+using SocialApp.Pages.Abstractions;
 using SocialApp.Structure;
 
 

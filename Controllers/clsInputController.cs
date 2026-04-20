@@ -1,9 +1,7 @@
-﻿using SocialApp.Abstractions;
-using SocialApp.Abstractions.Base;
-using SocialApp.Enums;
-using SocialApp.ErrorPages;
+﻿using SocialApp.Enums;
 using SocialApp.HelperTools;
 using SocialApp.Interfaces;
+using SocialApp.Pages.Abstractions;
 using SocialApp.Services;
 
 

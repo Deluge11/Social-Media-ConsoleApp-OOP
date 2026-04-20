@@ -1,6 +1,4 @@
-﻿
-
-namespace SocialApp.Abstractions
+﻿namespace SocialApp.Pages.Abstractions
 {
     public abstract class absScrollSelection : absScrollPage
     {

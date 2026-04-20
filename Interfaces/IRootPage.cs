@@ -1,5 +1,5 @@
-﻿using SocialApp.Abstractions.Base;
-using SocialApp.Enums;
+﻿using SocialApp.Enums;
+using SocialApp.Pages.Abstractions;
 
 namespace SocialApp.Interfaces
 {

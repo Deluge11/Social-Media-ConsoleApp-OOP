@@ -1,4 +1,6 @@
-﻿namespace SocialApp.Grids
+﻿using SocialApp.Grids.Abstractions;
+
+namespace SocialApp.Grids
 {
     public class clsHorizontalScrollBarGrid : absScrollBarGrid
     {

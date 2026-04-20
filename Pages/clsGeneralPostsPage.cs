@@ -1,6 +1,5 @@
-﻿
-using SocialApp.Abstractions;
-using SocialApp.Enums;
+﻿using SocialApp.Enums;
+using SocialApp.Pages.Abstractions;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages

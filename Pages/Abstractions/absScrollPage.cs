@@ -1,10 +1,8 @@
-﻿
-using SocialApp.Abstractions.Base;
-using SocialApp.Enums;
+﻿using SocialApp.Enums;
 using SocialApp.Structure;
 
 
-namespace SocialApp.Abstractions
+namespace SocialApp.Pages.Abstractions
 {
     public abstract class absScrollPage : absBasePage
     {

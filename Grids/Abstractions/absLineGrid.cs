@@ -1,9 +1,6 @@
-﻿
+﻿using SocialApp.Structure;
 
-using SocialApp.Abstractions.Base;
-using SocialApp.Structure;
-
-namespace SocialApp.Grids
+namespace SocialApp.Grids.Abstractions
 {
     public abstract class absLineGrid : absBaseGrid
     {

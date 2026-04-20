@@ -1,5 +1,7 @@
 ﻿
 
+using SocialApp.Grids.Abstractions;
+
 namespace SocialApp.Grids
 {
     public class clsVerticalLineGrid : absLineGrid

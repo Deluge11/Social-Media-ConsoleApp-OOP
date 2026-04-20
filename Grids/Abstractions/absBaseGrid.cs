@@ -2,7 +2,7 @@
 using SocialApp.Interfaces;
 using SocialApp.Structure;
 
-namespace SocialApp.Abstractions.Base
+namespace SocialApp.Grids.Abstractions
 {
     public abstract class absBaseGrid
     {

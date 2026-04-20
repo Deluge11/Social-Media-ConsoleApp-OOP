@@ -1,4 +1,4 @@
-﻿using SocialApp.Abstractions.Base;
+﻿using SocialApp.Grids.Abstractions;
 
 namespace SocialApp.Structure
 {

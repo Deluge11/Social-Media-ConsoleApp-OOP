@@ -1,10 +1,10 @@
 ﻿
 using SocialApp;
-using SocialApp.Abstractions;
-using SocialApp.Abstractions.Base;
 using SocialApp.Enums;
 using SocialApp.Grids;
+using SocialApp.Grids.Abstractions;
 using SocialApp.Interfaces;
+using SocialApp.Pages.Abstractions;
 using SocialApp.Structure;
 
 
@@ -34,7 +34,7 @@ namespace SocialApp.Controllers
         clsGridManager centerGrid = new clsGridManager(80, 31, new stPaddingInfo(1, 1, 1, 1));
 
 
-        clsTextGrid[] contentGrids = new clsTextGrid[12];
+        clsTextGrid[] ContentGrids = new clsTextGrid[12];
 
         clsVerticalScrollBarGrid pageScrollBar = new clsVerticalScrollBarGrid(2, 19, '=');
         clsVerticalContentGrid scrollBarText = new clsVerticalContentGrid(17);
@@ -43,38 +43,61 @@ namespace SocialApp.Controllers
 
         public clsRendererController(clsAppState appState, clsNavigationController navigationController)
         {
-
-            for (int i = 0; i < contentGrids.Length; i++)
+            for (int i = 0; i < ContentGrids.Length; i++)
             {
-                contentGrids[i] = new clsTextGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
+                ContentGrids[i] = new clsTextGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
             }
+
+            pageGridManager.AddGrid(new stGridInfo(line, new stPoint(0, 7)));
+            Print(centerGrid);
 
             for (int row = 0, count = 0; row < Rows.Length; row++)
             {
                 for (int col = 0; col < Cols.Length; col++, count++)
                 {
-                    pageGridManager.AddGrid(new stGridInfo(contentGrids[count], new stPoint(Cols[col], Rows[row])));
+
+                    Print(pageGridManager);
+                    pageGridManager.AddGrid(new stGridInfo(ContentGrids[count], new stPoint(Cols[col], Rows[row])));
                 }
             }
+            Print(pageGridManager);
 
 
-            pageScrollBar.SetScrollBarInformation(10, 2, 8);
-
+            pageScrollBar.SetScrollBarInformation(0, 0, 0);
             appNameContentGrid.Text = "Social App";
             scrollBarText.Text = $"S C R O L L {clsCustomTags.InvisibleChar} B A R";
 
-
             centerGrid.AddGrid(new stGridInfo(pageGridManager, new stPoint(0, 0)));
+            Print(centerGrid);
+
             centerGrid.AddGrid(new stGridInfo(scrollBarManager, new stPoint(72, 8)));
+            Print(centerGrid);
 
             scrollBarManager.AddGrid(new stGridInfo(pageScrollBar, new stPoint(0, 0)));
+            Print(centerGrid);
+
             scrollBarManager.AddGrid(new stGridInfo(scrollBarText, new stPoint(5, 4)));
+            Print(centerGrid);
 
             headerBarManager.AddGrid(new stGridInfo(appNameContentGrid, new stPoint(0, 0)));
             headerBarManager.AddGrid(new stGridInfo(pageStackContentGrid, new stPoint(16, 0)));
+            Print(headerBarManager,350);
 
-            pageGridManager.AddGrid(new stGridInfo(line, new stPoint(0, 7)));
+            Console.Clear();
+            headerBarManager.Print();
+            centerGrid.Print();
 
+            Thread.Sleep(150);
+            Console.WriteLine("| Press ? To `???`'");
+            Thread.Sleep(150);
+            Console.WriteLine("| Press ? To `???`'");
+            Thread.Sleep(150);   
+            Console.WriteLine("| Press ? To `???`'");
+            Thread.Sleep(150);
+            Console.WriteLine("| Press ? To `???`'");
+            Thread.Sleep(150);
+            Console.WriteLine("| Press ? To `???`'");
+            Thread.Sleep(800);
 
 
             ResetGrids();
@@ -84,13 +107,20 @@ namespace SocialApp.Controllers
             AppState = appState;
         }
 
+        private void Print(absBaseGrid grid,int sleepMS = 160)
+        {
+            Console.Clear();
+            grid.Print();
+            Thread.Sleep(sleepMS);
+        }
+
         protected void ResetGrids()
         {
             for (int row = 0, count = 0; row < Rows.Length; row++)
             {
                 for (int col = 0; col < Cols.Length; col++, count++)
                 {
-                    contentGrids[count].BorderShape = enBorderShape.None;
+                    ContentGrids[count].BorderShape = enBorderShape.None;
                 }
             }
         }
@@ -183,7 +213,7 @@ namespace SocialApp.Controllers
             {
                 for (int c = 0; c < Cols.Length; c++, count++)
                 {
-                    contentGrids[count].Text = content[count];
+                    ContentGrids[count].Text = content[count];
                 }
             }
         }
@@ -204,27 +234,16 @@ namespace SocialApp.Controllers
 
         protected void SetCursorOnBoard()
         {
-            if (NavigationController.GetCurrentPage() is absScrollSelection page)
-            {
-                if(page.GetRowCount() > 0)
-                {
-                    SetCursorOnBoard(GetCursorPosition(), 1);
-                }
-            }
-        }
+            if (NavigationController.GetCurrentPage() is not absScrollSelection page) return;
+            if (page.GetRowCount() == 0) return;
 
-        protected int GetCursorPosition()
-        {
-            if (NavigationController.GetCurrentPage() is absScrollSelection dynamicPage)
-            {
-                return dynamicPage.SelectionCursor - dynamicPage.StartCursor + 1;
-            }
-            return -1;
-        }
+            int curserRowNumber = page.SelectionCursor - page.StartCursor + 1;
+            ConvertBorderShapeToDash(curserRowNumber, 1);
 
-        protected void SetCursorOnBoard(int row, int col)
+        }
+        protected void ConvertBorderShapeToDash(int row, int col)
         {
-            contentGrids[(row * 3) * col].BorderShape = enBorderShape.Dash;
+            ContentGrids[(row * 3) * col].BorderShape = enBorderShape.Dash;
         }
 
     }

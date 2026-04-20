@@ -1,7 +1,6 @@
-﻿using SocialApp.Abstractions.Base;
-using SocialApp.Structure;
+﻿using SocialApp.Structure;
 
-namespace SocialApp.Grids
+namespace SocialApp.Grids.Abstractions
 {
     public abstract class absScrollBarGrid : absBaseGrid
     {

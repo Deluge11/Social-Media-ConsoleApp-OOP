@@ -1,8 +1,8 @@
-﻿using SocialApp.Abstractions.Base;
-using SocialApp.Enums;
+﻿using SocialApp.Enums;
+using SocialApp.Pages.Abstractions;
 using SocialApp.Structure;
 
-namespace SocialApp.ErrorPages
+namespace SocialApp.Pages
 {
     public class clsNotFoundPage : absBasePage
     {
