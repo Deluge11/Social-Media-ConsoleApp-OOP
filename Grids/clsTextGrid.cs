@@ -1,15 +1,22 @@
 ﻿using SocialApp.Abstractions.Base;
 using SocialApp.HelperTools;
+using SocialApp.Structure;
 
 namespace SocialApp.Grids
 {
-    public abstract class absTextGrid : absBaseGrid
+    public class clsTextGrid : absBaseGrid
     {
-        public abstract string Content { get; set; }
+        public string Text { get; set; } = "";
+
+        public clsTextGrid(int width, int height, stPaddingInfo padding) 
+            : base(width, height, padding, new stBoarderInfo('-', '|', '*'))
+        {
+
+        }
 
         protected override void SetContent()
         {
-            SetTextOnContentBoard(Content);
+            SetTextOnContentBoard(Text);
         }
 
         private void SetTextOnContentBoard(string content)

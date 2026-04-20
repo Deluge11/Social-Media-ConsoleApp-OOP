@@ -47,7 +47,7 @@ namespace SocialApp.Pages
                 .GetChatMessages(ChatId)
                 .Select(message => new stPageRow(
                     message.UserId == AppState.User.Id ? message.MessageString : "",
-                    message.Date.ToString("yyy/MM/dd | HH:mm"),
+                    clsCustomTags.LineBreak + message.Date.ToString("yyy/MM/dd | HH:mm"),
                     message.UserId != AppState.User.Id ? message.MessageString : ""
                     ))
                 .ToList();

@@ -5,12 +5,23 @@ namespace SocialApp.Grids
 {
     public abstract class absScrollBarGrid : absBaseGrid
     {
-        protected override stBoarderInfo BoarderInfo => new stBoarderInfo('-', '|', '+');
-        protected override stPaddingInfo PaddingInfo => new stPaddingInfo(1, 1, 1, 1);
+        protected abstract int ScrollBarBoxLength { get; }
+        protected abstract int ScrollBarBoxWidth { get; }
+
+        protected bool IsVisibleLessThanTotal => VisibleItems < TotalItems;
+
+        protected abstract char ScrollBarShape { get; }
+
 
         private int _skippedItems = 0;
         private int _totalItems = 1;
         private int _visibleItems = 1;
+
+        protected absScrollBarGrid(int width, int height) 
+            : base(width, height, new stPaddingInfo(1, 1, 1, 1), new stBoarderInfo('-', '|', '+'))
+        {
+
+        }
 
         public int SkippedItems
         {
@@ -38,18 +49,22 @@ namespace SocialApp.Grids
             SkippedItems = skippedItems;
         }
 
-        protected int GetScrollBarLength(int boxLength)
+        protected int GetBarLength()
         {
-            int scrollBarLength = boxLength * VisibleItems / TotalItems;
+            int scrollBarLength = ScrollBarBoxLength * VisibleItems / Math.Max(TotalItems, 1);
             return Math.Max(scrollBarLength, 3);
         }
 
-        protected int GetSkippedLength(int boxLength)
+        protected int GetSkippedLength()
         {
             int maxStartCursor = Math.Max(TotalItems - VisibleItems, 1);
-            int maxOffset = boxLength - GetScrollBarLength(boxLength);
+            int maxOffset = ScrollBarBoxLength - GetBarLength();
             return SkippedItems * maxOffset / maxStartCursor;
         }
 
+        public bool IsScrollBarNeeded()
+        {
+            return TotalItems > VisibleItems;
+        }
     }
 }

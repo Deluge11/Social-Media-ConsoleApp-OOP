@@ -1,21 +1,31 @@
-﻿using SocialApp.Structure;
+﻿using SocialApp.Enums;
+using SocialApp.Interfaces;
+using SocialApp.Structure;
 
 namespace SocialApp.Abstractions.Base
 {
     public abstract class absBaseGrid
     {
-        protected abstract int ContentBoardHeight { get; }
-        protected abstract int ContentBoardWidth { get; }
-        protected abstract stBoarderInfo BoarderInfo { get; }
-        protected abstract stPaddingInfo PaddingInfo { get; }
+        public int ContentBoardHeight { get; protected set; }
+        public int ContentBoardWidth { get; protected set; }
+        protected stBoarderInfo BorderInfo { get; set; }
+        protected stPaddingInfo PaddingInfo { get; set; }
+        public enBorderShape BorderShape { get; set; } = enBorderShape.Full;
         protected char[][] ContentBoard { get; }
         public char[][] BaseBoard { get; }
+        public bool Visible { get; set; } = true;
 
         protected abstract void SetContent();
 
 
-        public absBaseGrid()
+        public absBaseGrid(int width, int height, stPaddingInfo padding, stBoarderInfo border)
         {
+            PaddingInfo = padding;
+            BorderInfo = border;
+
+            ContentBoardHeight = height;
+            ContentBoardWidth = width;
+
             int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
             int baseBoardWidth = ContentBoardWidth + PaddingInfo.Left + PaddingInfo.Right;
 
@@ -24,46 +34,29 @@ namespace SocialApp.Abstractions.Base
 
             ClearContent(ContentBoard);
             ClearContent(BaseBoard);
-
-            SetBorderOnBaseGrid();
         }
 
-
-        public void ResetContent()
-        {
-            ClearContent(ContentBoard);
-            SetContent();
-            SetContentBoardOnBaseBoard();
-        }
 
         public void Print()
         {
+            UpdateBoard();
+
             int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
-            int baseBoardWidth = ContentBoardWidth + PaddingInfo.Left + PaddingInfo.Right;
 
             for (int height = 0; height < baseBoardHeight; height++)
             {
-                for (int width = 0; width < baseBoardWidth; width++)
-                {
-                    Console.Write(BaseBoard[height][width]);
-                }
-
-                Console.WriteLine();
+                Console.WriteLine(new string(BaseBoard[height]));
             }
         }
 
-        public void PrintContentBoard()
+        public void UpdateBoard()
         {
+            ClearContent(BaseBoard);
+            ClearContent(ContentBoard);
 
-            for (int height = 0; height < ContentBoardHeight; height++)
-            {
-                for (int width = 0; width < ContentBoardWidth; width++)
-                {
-                    Console.Write(ContentBoard[height][width]);
-                }
-
-                Console.WriteLine();
-            }
+            SetBorderOnBaseGrid();
+            SetContent();
+            SetContentBoardOnBaseBoard();
         }
 
         private void ClearContent(char[][] board)
@@ -90,26 +83,63 @@ namespace SocialApp.Abstractions.Base
 
         private void SetBorderOnBaseGrid()
         {
+            switch (BorderShape)
+            {
+                case enBorderShape.Dash:
+                    SetDashBorderOnBoard();
+                    break;
+
+                case enBorderShape.Full:
+                    SetFullBorderOnBoard();
+                    return;
+            }
+        }
+
+        private void SetFullBorderOnBoard()
+        {
             int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
             int baseBoardWidth = ContentBoardWidth + PaddingInfo.Left + PaddingInfo.Right;
 
-
             for (int height = 0; height < baseBoardHeight; height++)
             {
-                BaseBoard[height][0] = BoarderInfo.Vertical;
-                BaseBoard[height][baseBoardWidth - 1] = BoarderInfo.Vertical;
+                BaseBoard[height][0] = BorderInfo.Vertical;
+                BaseBoard[height][baseBoardWidth - 1] = BorderInfo.Vertical;
 
             }
             for (int width = 0; width < baseBoardWidth; width++)
             {
-                BaseBoard[0][width] = BoarderInfo.Horizontal;
-                BaseBoard[baseBoardHeight - 1][width] = BoarderInfo.Horizontal;
+                BaseBoard[0][width] = BorderInfo.Horizontal;
+                BaseBoard[baseBoardHeight - 1][width] = BorderInfo.Horizontal;
             }
 
-            BaseBoard[0][0] = BoarderInfo.Corner;
-            BaseBoard[0][baseBoardWidth - 1] = BoarderInfo.Corner;
-            BaseBoard[baseBoardHeight - 1][0] = BoarderInfo.Corner;
-            BaseBoard[baseBoardHeight - 1][baseBoardWidth - 1] = BoarderInfo.Corner;
+            BaseBoard[0][0] = BorderInfo.Corner;
+            BaseBoard[0][baseBoardWidth - 1] = BorderInfo.Corner;
+            BaseBoard[baseBoardHeight - 1][0] = BorderInfo.Corner;
+            BaseBoard[baseBoardHeight - 1][baseBoardWidth - 1] = BorderInfo.Corner;
+        }
+
+        private void SetDashBorderOnBoard()
+        {
+            int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
+            int baseBoardWidth = ContentBoardWidth + PaddingInfo.Left + PaddingInfo.Right;
+
+            bool toggle = true;
+
+            for (int height = 1; height < baseBoardHeight - 1; height++, toggle = !toggle)
+            {
+                if (!toggle) continue;
+
+                BaseBoard[height][0] = BorderInfo.Vertical;
+                BaseBoard[height][baseBoardWidth - 1] = BorderInfo.Vertical;
+            }
+
+            for (int width = 1; width < baseBoardWidth - 1; width++, toggle = !toggle)
+            {
+                if (!toggle) continue;
+
+                BaseBoard[0][width] = BorderInfo.Horizontal;
+                BaseBoard[baseBoardHeight - 1][width] = BorderInfo.Horizontal;
+            }
         }
 
         private char[][] InitBoard(int width, int height)
@@ -120,6 +150,11 @@ namespace SocialApp.Abstractions.Base
                 board[i] = new char[width];
             }
             return board;
+        }
+
+        protected bool IsExceedBoard(int width, int height)
+        {
+            return height >= ContentBoardHeight || width >= ContentBoardWidth || height < 0 || width < 0;
         }
 
     }
