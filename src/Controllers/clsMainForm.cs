@@ -115,14 +115,8 @@ namespace SocialApp.Forms
                 return;
 
             int curserRowNumber = page.SelectionCursor - page.StartCursor + 1;
-            ConvertBorderShapeToDash(curserRowNumber, 1);
 
+            ContentGrids[curserRowNumber * 3].BorderShape = enBorderShape.Dash;
         }
-
-        protected void ConvertBorderShapeToDash(int row, int col)
-        {
-            ContentGrids[(row * 3) * col].BorderShape = enBorderShape.Dash;
-        }
-
     }
 }
