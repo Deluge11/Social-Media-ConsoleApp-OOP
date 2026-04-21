@@ -20,9 +20,9 @@ Unlike traditional CLI applications, it uses a custom Grid Rendering Engine and 
 
 <img src="src/demo/Skeleton.PNG" width="700" alt="test">
 
-## 📸 Live
+## 📸 Loaded
 
-<img src="src/demo/Live.PNG" width="700" alt="test">
+<img src="src/demo/Loaded.PNG" width="700" alt="test">
 
 -----
 
