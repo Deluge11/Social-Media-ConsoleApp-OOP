@@ -1,6 +1,7 @@
 ﻿
 
 using SocialApp.Enums;
+using SocialApp.Forms;
 using SocialApp.Interfaces;
 
 namespace SocialApp.Controllers
@@ -9,7 +10,7 @@ namespace SocialApp.Controllers
     {
         public clsPageController(
             clsNavigationController navigationController,
-            clsRendererController rendererController,
+            clsMainForm rendererController,
             clsInputController inputController
             )
         {
@@ -19,7 +20,7 @@ namespace SocialApp.Controllers
         }
 
         protected clsNavigationController NavigationController { get; }
-        protected clsRendererController RendererController { get; }
+        protected clsMainForm RendererController { get; }
         protected clsInputController InputController { get; }
 
         public void Start()

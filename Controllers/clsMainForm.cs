@@ -1,30 +1,30 @@
-﻿
-using SocialApp.Enums;
-using SocialApp.Forms;
+﻿using Grids;
+using SocialApp.Controllers;
 using SocialApp.Interfaces;
 using SocialApp.Pages.Abstractions;
 
 
-namespace SocialApp.Controllers
+namespace SocialApp.Forms
 {
-    public class clsRendererController
+    public partial class clsMainForm
     {
         public clsAppState AppState { get; }
         public clsNavigationController NavigationController { get; }
-        public clsMainForm Form { get; } = new clsMainForm();
 
-
-        public clsRendererController(clsAppState appState, clsNavigationController navigationController)
+        public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
             NavigationController = navigationController;
             AppState = appState;
+
+            InitializeForm();
         }
 
         public void Print()
         {
             Console.Clear();
             RefreshForm();
-            Form.Print();
+            HeaderBarManager.Print();
+            CenterGridManager.Print();
             PrintControlKeys();
         }
 
@@ -40,8 +40,7 @@ namespace SocialApp.Controllers
 
         protected void UpdatePagesStackGrid()
         {
-            var pagesName = NavigationController.GetPagesNames();
-            Form.PageStackContentGrid.Text = "Pages: " + string.Join(" -> ", pagesName);
+            PageStackContentGrid.Text = "Pages: " + string.Join(" -> ", NavigationController.GetPagesNames());
         }
 
         protected void PrintControlKeys()
@@ -76,9 +75,9 @@ namespace SocialApp.Controllers
 
         protected void DisableContentGridsBorder()
         {
-            for (int i = 0; i < Form.ContentGrids.Length; i++)
+            for (int i = 0; i < ContentGrids.Length; i++)
             {
-                Form.ContentGrids[i].BorderShape = enBorderShape.None;
+                ContentGrids[i].BorderShape = enBorderShape.None;
             }
         }
 
@@ -88,22 +87,22 @@ namespace SocialApp.Controllers
             currentPage.ResetContent();
             string[] content = currentPage.ContentGrids;
 
-            for (int i = 0; i < Form.ContentGrids.Length; i++)
+            for (int i = 0; i < ContentGrids.Length; i++)
             {
-                Form.ContentGrids[i].Text = content[i];
+                ContentGrids[i].Text = content[i];
             }
         }
 
         protected void UpdateScrollBar()
         {
-            Form.ScrollBarManager.Visible = false;
+            ScrollBarManager.Visible = false;
 
             if (NavigationController.GetCurrentPage() is not absScrollPage scrollPage)
                 return;
 
-            Form.PageScrollBar.SetScrollBarInformation(scrollPage.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, scrollPage.StartCursor);
+            PageScrollBar.SetScrollBarInformation(scrollPage.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, scrollPage.StartCursor);
 
-            Form.ScrollBarManager.Visible = Form.PageScrollBar.IsScrollBarNeeded();
+            ScrollBarManager.Visible = PageScrollBar.IsScrollBarNeeded();
         }
 
         protected void UpdateSelectedContentGrid()
@@ -121,7 +120,7 @@ namespace SocialApp.Controllers
 
         protected void ConvertBorderShapeToDash(int row, int col)
         {
-            Form.ContentGrids[(row * 3) * col].BorderShape = enBorderShape.Dash;
+            ContentGrids[(row * 3) * col].BorderShape = enBorderShape.Dash;
         }
 
     }

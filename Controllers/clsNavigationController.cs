@@ -97,7 +97,7 @@ namespace SocialApp.Controllers
 
         public List<string> GetPagesNames()
         {
-            return GetCurrentStack().Select(p => p.PageName).ToList();
+            return GetCurrentStack().Select(p => p.PageName).Reverse().ToList();
         }
 
         public void ResetNavigation()
