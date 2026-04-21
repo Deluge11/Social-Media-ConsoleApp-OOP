@@ -32,48 +32,53 @@ namespace SocialApp.Forms
         {
             IsLazyLoading = isLazyLoading;
 
+
+            HeaderBarManager.AddGrid(new stGridInfo(AppNameContentGrid, new stPoint(0, 0)));
+            Print([HeaderBarManager]);
+
+            HeaderBarManager.AddGrid(new stGridInfo(PageStackContentGrid, new stPoint(16, 0)));
+            Print([HeaderBarManager]);
+
+            AppNameContentGrid.Text = "Social App";
+            Print([HeaderBarManager]);
+
             for (int i = 0; i < ContentGrids.Length; i++)
             {
                 ContentGrids[i] = new clsTextGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
             }
 
             PageGridManager.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
-            Print(CenterGridManager);
+
+            Print([HeaderBarManager, CenterGridManager]);
+
+            CenterGridManager.AddGrid(new stGridInfo(PageGridManager, new stPoint(0, 0)));
+            Print([HeaderBarManager, CenterGridManager], 300);
 
             for (int row = 0, count = 0; row < Rows.Length; row++)
             {
                 for (int col = 0; col < Cols.Length; col++, count++)
                 {
-                    Print(PageGridManager);
+                    Print([HeaderBarManager, CenterGridManager]);
                     PageGridManager.AddGrid(new stGridInfo(ContentGrids[count], new stPoint(Cols[col], Rows[row])));
                 }
             }
-            Print(PageGridManager);
-
+            Print([HeaderBarManager, CenterGridManager]);
 
             PageScrollBar.SetScrollBarInformation(0, 0, 0);
-            AppNameContentGrid.Text = "Social App";
-            ScrollBarText.Text = $"S C R O L L {clsCustomTags.InvisibleChar} B A R";
 
-            CenterGridManager.AddGrid(new stGridInfo(PageGridManager, new stPoint(0, 0)));
-            Print(CenterGridManager, 300);
-
+ 
             CenterGridManager.AddGrid(new stGridInfo(ScrollBarManager, new stPoint(72, 8)));
-            Print(CenterGridManager, 300);
+            Print([HeaderBarManager, CenterGridManager], 300);
+
 
             ScrollBarManager.AddGrid(new stGridInfo(PageScrollBar, new stPoint(0, 0)));
-            Print(CenterGridManager, 300);
+            Print([HeaderBarManager, CenterGridManager], 300);
 
+
+            ScrollBarText.Text = $"S C R O L L {clsCustomTags.InvisibleChar} B A R";
             ScrollBarManager.AddGrid(new stGridInfo(ScrollBarText, new stPoint(5, 4)));
-            Print(CenterGridManager, 300);
+            Print([HeaderBarManager, CenterGridManager], 300);
 
-            HeaderBarManager.AddGrid(new stGridInfo(AppNameContentGrid, new stPoint(0, 0)));
-            HeaderBarManager.AddGrid(new stGridInfo(PageStackContentGrid, new stPoint(16, 0)));
-
-            Console.Clear();
-            HeaderBarManager.Print();
-            Thread.Sleep(800);
-            CenterGridManager.Print();
             Thread.Sleep(800);
 
 
@@ -84,15 +89,18 @@ namespace SocialApp.Forms
             }
           
             Thread.Sleep(800);
-
-            Console.ReadKey();
         }
 
-        private void Print(absBaseGrid grid, int sleepMS = 160)
+        private void Print(absBaseGrid[] grids, int sleepMS = 160)
         {
             if (!IsLazyLoading) return;
             Console.Clear();
-            grid.Print();
+
+            foreach(absBaseGrid grid in grids)
+            {
+                grid.Print();
+            }
+
             Thread.Sleep(sleepMS);
         }
 
