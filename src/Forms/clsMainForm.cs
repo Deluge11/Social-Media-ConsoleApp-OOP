@@ -77,10 +77,10 @@ namespace SocialApp.Forms
 
             ScrollBarText.Text = $"S C R O L L {clsCustomTags.InvisibleChar} B A R";
             ScrollBarManager.AddGrid(new stGridInfo(ScrollBarText, new stPoint(5, 4)));
-            Print([HeaderBarManager, CenterGridManager], 300);
 
+            HeaderBarManager.Print();
+            CenterGridManager.Print();
             Thread.Sleep(800);
-
 
             for(int i = 0; i < 5; i++)
             {

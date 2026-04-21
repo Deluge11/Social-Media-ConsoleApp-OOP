@@ -13,7 +13,7 @@ namespace SocialApp.Forms
 
         public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
-            InitializeForm();
+            InitializeForm(false);
 
             NavigationController = navigationController;
             AppState = appState;
