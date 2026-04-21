@@ -84,6 +84,8 @@ namespace SocialApp.Forms
             }
           
             Thread.Sleep(800);
+
+            Console.ReadKey();
         }
 
         private void Print(absBaseGrid grid, int sleepMS = 160)
