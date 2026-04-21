@@ -1,4 +1,4 @@
-﻿using Grids;
+using Grids;
 using SocialApp.Controllers;
 using SocialApp.Interfaces;
 using SocialApp.Pages.Abstractions;
@@ -13,10 +13,10 @@ namespace SocialApp.Forms
 
         public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
+            InitializeForm();
+
             NavigationController = navigationController;
             AppState = appState;
-
-            InitializeForm();
         }
 
         public void Print()
@@ -40,7 +40,8 @@ namespace SocialApp.Forms
 
         protected void UpdatePagesStackGrid()
         {
-            PageStackContentGrid.Text = "Pages: " + string.Join(" -> ", NavigationController.GetPagesNames());
+            var pagesName = NavigationController.GetPagesNames();
+            PageStackContentGrid.Text = "Pages: " + string.Join(" -> ", pagesName);
         }
 
         protected void PrintControlKeys()
