@@ -1,11 +1,11 @@
 ﻿
 namespace Grids
 {
-    public class clsTextGrid : absBaseGrid
+    public class clsTextBoxGrid : absBaseGrid
     {
         public string Text { get; set; } = "";
 
-        public clsTextGrid(int width, int height, stPaddingInfo padding) 
+        public clsTextBoxGrid(int width, int height, stPaddingInfo padding) 
             : base(width, height, padding, new stBoarderInfo('-', '|', '*'))
         {
 

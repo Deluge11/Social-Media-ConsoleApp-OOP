@@ -5,7 +5,7 @@ namespace SocialApp.Pages.Abstractions
     public abstract class absBasePage
     {
         public abstract string PageName { get; }
-        public string[] ContentGrids { get; } = new string[12];
+        public string[] ContentStrings { get; } = new string[12];
         public abstract enPermission AccessPermission { get; }
 
 
@@ -19,9 +19,9 @@ namespace SocialApp.Pages.Abstractions
 
         private void ClearContent()
         {
-            for (int i = 0; i < ContentGrids.Length; i++)
+            for (int i = 0; i < ContentStrings.Length; i++)
             {
-                ContentGrids[i] = "";
+                ContentStrings[i] = "";
             }
         }
     }

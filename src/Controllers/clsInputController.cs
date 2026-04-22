@@ -1,6 +1,6 @@
 ﻿using SocialApp.Enums;
 using SocialApp.HelperTools;
-using SocialApp.Interfaces;
+using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
 using SocialApp.Services;
 

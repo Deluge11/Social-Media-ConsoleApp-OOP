@@ -1,116 +1,122 @@
-﻿using Grids;
-using SocialApp.HelperTools;
+using Grids;
+using SocialApp.Controllers;
+using SocialApp.Interfaces.Form;
+using SocialApp.Interfaces.Page;
+using SocialApp.Pages.Abstractions;
+
 
 namespace SocialApp.Forms
 {
-    // Form Components
-    public partial class clsMainForm
+    public partial class clsMainForm : IForm
     {
-        bool IsLazyLoading;
-
-        int[] Rows = { 0, 8, 15, 22 };
-        int[] Cols = { 0, 23, 46 };
-
-        private clsTextGrid AppNameContentGrid { get; } = new clsTextGrid(11, 1, new stPaddingInfo(2, 1, 2, 1));
-        private clsTextGrid PageStackContentGrid { get; } = new clsTextGrid(62, 1, new stPaddingInfo(3, 1, 3, 1));
-
-        private clsGridManager PageGridManager { get; } = new clsGridManager(68, 29, new stPaddingInfo(1, 1, 1, 1));
-        private clsGridManager HeaderBarManager { get; } = new clsGridManager(84, 3, new stPaddingInfo(0, 0, 0, 0));
-        private clsGridManager ScrollBarManager { get; } = new clsGridManager(7, 21, new stPaddingInfo(1, 1, 1, 1));
-        private clsGridManager CenterGridManager { get; } = new clsGridManager(82, 31, new stPaddingInfo(1, 1, 1, 1));
-
-        private clsTextGrid[] ContentGrids { get; } = new clsTextGrid[12];
-
-        private clsVerticalScrollBarGrid PageScrollBar { get; } = new clsVerticalScrollBarGrid(2, 19, '=');
-        private clsVerticalContentGrid ScrollBarText { get; } = new clsVerticalContentGrid(17);
-
-        private clsHorizontalLineGrid Line { get; } = new clsHorizontalLineGrid(68);
-
-
-
-        private void InitializeComponent(bool isLazyLoading = true)
+        private clsAppState AppState { get; }
+        private clsNavigationController NavigationController { get; }
+        public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
-            IsLazyLoading = isLazyLoading;
-
-            HeaderBarManager.AddGrid(new stGridInfo(AppNameContentGrid, new stPoint(0, 0)));
-            Print([HeaderBarManager]);
-
-            HeaderBarManager.AddGrid(new stGridInfo(PageStackContentGrid, new stPoint(16, 0)));
-            Print([HeaderBarManager]);
-
-            for (int i = 0; i < ContentGrids.Length; i++)
-            {
-                ContentGrids[i] = new clsTextGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
-            }
-
-            Print([HeaderBarManager, CenterGridManager]);
-
-            CenterGridManager.AddGrid(new stGridInfo(PageGridManager, new stPoint(1, 0)));
-            Print([HeaderBarManager, CenterGridManager]);
-
-            PageGridManager.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
-            Print([HeaderBarManager, CenterGridManager]);
-
-            for (int row = 0, count = 0; row < Rows.Length; row++)
-            {
-                for (int col = 0; col < Cols.Length; col++, count++)
-                {
-                    PageGridManager.AddGrid(new stGridInfo(ContentGrids[count], new stPoint(Cols[col], Rows[row])));
-                    Print([HeaderBarManager, CenterGridManager]);
-                }
-            }
-
-            PageScrollBar.SetScrollBarInformation(0, 0, 0);
-
-
-            CenterGridManager.AddGrid(new stGridInfo(ScrollBarManager, new stPoint(72, 8)));
-            Print([HeaderBarManager, CenterGridManager]);
-
-            ScrollBarManager.AddGrid(new stGridInfo(ScrollBarText, new stPoint(5, 4)));
-            ScrollBarManager.AddGrid(new stGridInfo(PageScrollBar, new stPoint(0, 0)));
-
-
-            if (isLazyLoading)
-            {
-                PrintFinalSkeleton();
-            }
-
-            AfterComponentInitialization();
+            InitializeComponent();
+            SetDefaultValues();
+            NavigationController = navigationController;
+            AppState = appState;
         }
 
-        private void Print(absBaseGrid[] grids)
+        private void SetDefaultValues()
         {
-            if (!IsLazyLoading) return;
-            Console.Clear();
-
-            foreach (absBaseGrid grid in grids)
-            {
-                grid.Print();
-            }
-
-            Thread.Sleep(300);
+            tbAppName.Text = "Social App";
+            tbScrollBarText.Text = $"SCROLL {clsCustomTags.InvisibleChar} BAR";
         }
 
-        private void PrintFinalSkeleton()
+        private void UpdateComponents()
         {
-            Console.Clear();
-            HeaderBarManager.Print();
-            CenterGridManager.Print();
-            Thread.Sleep(800);
-
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine("| Press ? To `???`");
-                Thread.Sleep(200);
-            }
-
-            Thread.Sleep(800);
+            DisableContentGridsBorder();
+            UpdateControlKeys();
+            UpdatePagesNavigation();
+            UpdateContentGrids();
+            UpdateSelectedContentGrid();
+            UpdateScrollBar();
         }
 
-        private void PrintComponents()
+        private void UpdatePagesNavigation()
         {
-            HeaderBarManager.Print();
-            CenterGridManager.Print();
+            tbPageNavigation.Text = "Pages: " + string.Join(" -> ", NavigationController.GetPagesNames());
+        }
+
+        private void UpdateControlKeys()
+        {
+            tbControlKeys.Text = "";
+
+            absBasePage currentPage = NavigationController.GetCurrentPage();
+
+            if (currentPage is absScrollPage)
+            {
+                tbControlKeys.Text += "| Press W To Scroll Up" + clsCustomTags.LineBreak;
+                tbControlKeys.Text += "| Press S To Scroll Down" + clsCustomTags.LineBreak;
+            }
+            if (currentPage is IAction action)
+            {
+                tbControlKeys.Text += $"| Press X To {action.ActionName}" + clsCustomTags.LineBreak;
+            }
+            else if (currentPage is IRootPage)
+            {
+                tbControlKeys.Text += $"| Press X To Go Next page" + clsCustomTags.LineBreak;
+            }
+            if (NavigationController.GetCurrentStackCount() > 1)
+            {
+                tbControlKeys.Text += $"| Press B To Back Previous Page" + clsCustomTags.LineBreak;
+            }
+            if (AppState.IsAuthenticated() || AppState.IsGuest)
+            {
+                tbControlKeys.Text += $"| Press L To Logout" + clsCustomTags.LineBreak;
+            }
+            {
+                tbControlKeys.Text += $"| Press E to Save and Exit" + clsCustomTags.LineBreak;
+            }
+        }
+
+        private void DisableContentGridsBorder()
+        {
+            for (int i = 0; i < tbPageContents.Length; i++)
+            {
+                tbPageContents[i].BorderShape = enBorderShape.None;
+            }
+        }
+
+        private void UpdateContentGrids()
+        {
+            absBasePage currentPage = NavigationController.GetCurrentPage();
+            currentPage.ResetContent();
+            string[] content = currentPage.ContentStrings;
+
+            for (int i = 0; i < tbPageContents.Length; i++)
+            {
+                tbPageContents[i].Text = content[i];
+            }
+        }
+
+        private void UpdateScrollBar()
+        {
+            if (NavigationController.GetCurrentPage() is absScrollPage scrollPage)
+            {
+                vsbPageScrollBar.SetScrollBarInformation(scrollPage.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, scrollPage.StartCursor);
+
+                gmScrollBarContainer.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+            }
+            else
+            {
+                gmScrollBarContainer.Visible = false;
+            }
+        }
+
+        private void UpdateSelectedContentGrid()
+        {
+            if (NavigationController.GetCurrentPage() is not absScrollSelection page)
+                return;
+
+            if (page.GetRowCount() == 0)
+                return;
+
+            int curserRowNumber = page.SelectionCursor - page.StartCursor + 1;
+
+            tbPageContents[curserRowNumber * 3].BorderShape = enBorderShape.Dash;
         }
     }
 }

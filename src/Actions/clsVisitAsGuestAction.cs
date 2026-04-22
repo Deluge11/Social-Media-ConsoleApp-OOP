@@ -1,6 +1,6 @@
 ﻿
 using SocialApp.Enums;
-using SocialApp.Interfaces;
+using SocialApp.Interfaces.Page;
 
 namespace SocialApp.Actions
 {

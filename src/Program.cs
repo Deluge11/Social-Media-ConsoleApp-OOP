@@ -5,6 +5,7 @@ using SocialApp.Scripts;
 using SocialApp.Actions;
 using SocialApp.Controllers;
 using SocialApp.Forms;
+using SocialApp.Interfaces.Form;
 
 clsAppState appState = new clsAppState();
 clsDataManager dataManager = new clsDataManager();
@@ -48,9 +49,8 @@ authenticationPage.AddAction(registerAction);
 authenticationPage.AddAction(visitAsGuestAction);
 
 clsNavigationController navigationController = new clsNavigationController(appState);
-IForm form = new clsMainForm(appState, navigationController);
 clsInputController inputController = new clsInputController(appState, navigationController, serviceCollection);
-clsPageController pageController = new clsPageController(form, inputController, navigationController);
+clsPageController pageController = new clsPageController(new clsMainForm(appState, navigationController), inputController, navigationController);
 
 navigationController.SetMainPage(homePage);
 navigationController.SetAuthenticationPage(authenticationPage);

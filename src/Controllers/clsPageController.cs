@@ -1,8 +1,8 @@
 ﻿
 
 using SocialApp.Enums;
-using SocialApp.Forms;
 using SocialApp.Interfaces;
+using SocialApp.Interfaces.Form;
 
 namespace SocialApp.Controllers
 {
@@ -27,6 +27,7 @@ namespace SocialApp.Controllers
         {
             while (NavigationController.GetCurrentStackCount() > 0)
             {
+                Console.Clear();
                 Form.Print();
                 InputController.TakeAction();
             }

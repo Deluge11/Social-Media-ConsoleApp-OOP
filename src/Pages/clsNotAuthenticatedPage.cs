@@ -11,9 +11,9 @@ namespace SocialApp.Pages
 
         public override void SetContent()
         {
-            ContentGrids[1] = "Error 401";
-            ContentGrids[4] = "You Are Not Authenticated!";
-            ContentGrids[7] = $"You Have To{clsCustomTags.LineBreak}Sign Up / Login";
+            ContentStrings[1] = "Error 401";
+            ContentStrings[4] = "You Are Not Authenticated!";
+            ContentStrings[7] = $"You Have To{clsCustomTags.LineBreak}Sign Up / Login";
         }
     }
 }

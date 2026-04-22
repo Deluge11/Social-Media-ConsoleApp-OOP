@@ -27,12 +27,12 @@ namespace SocialApp.Pages
         {
             clsUser user = AppState.User;
 
-            ContentGrids[1] = PageName;
-            ContentGrids[4] = $"Username : {user.Name}";
-            ContentGrids[6] = $"Friends Count : {user.Friends.Count}";
-            ContentGrids[8] = $"Friend Requests: {Services.FriendService.GetFriendRequestsUsers(user.Name).Count}";
-            ContentGrids[9] = $"Posts Count : {user.PostsId.Count}";
-            ContentGrids[11] = $"Posts Likes : {Services.PostService.GetPostsTotalLikes(user.Name)}";
+            ContentStrings[1] = PageName;
+            ContentStrings[4] = $"Username : {user.Name}";
+            ContentStrings[6] = $"Friends Count : {user.Friends.Count}";
+            ContentStrings[8] = $"Friend Requests: {Services.FriendService.GetFriendRequestsUsers(user.Name).Count}";
+            ContentStrings[9] = $"Posts Count : {user.PostsId.Count}";
+            ContentStrings[11] = $"Posts Likes : {Services.PostService.GetPostsTotalLikes(user.Name)}";
         }
     }
 }

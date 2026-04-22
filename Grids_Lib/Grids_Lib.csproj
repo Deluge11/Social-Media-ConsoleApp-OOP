@@ -10,15 +10,4 @@
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\SocialAppUsingGridSystem\Grids_Lib\License.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\SocialAppUsingGridSystem\Grids_Lib\readme.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>

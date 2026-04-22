@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialApp.Forms
+namespace SocialApp.Interfaces.Form
 {
     public interface IForm
     {

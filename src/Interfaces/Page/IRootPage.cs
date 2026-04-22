@@ -1,7 +1,7 @@
 ﻿using SocialApp.Enums;
 using SocialApp.Pages.Abstractions;
 
-namespace SocialApp.Interfaces
+namespace SocialApp.Interfaces.Page
 {
     public interface IRootPage
     {

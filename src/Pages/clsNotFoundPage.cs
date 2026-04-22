@@ -11,8 +11,8 @@ namespace SocialApp.Pages
 
         public override void SetContent()
         {
-            ContentGrids[1] = "Error 404";
-            ContentGrids[4] = "Page Not Found!";
+            ContentStrings[1] = "Error 404";
+            ContentStrings[4] = "Page Not Found!";
         }
     }
 }

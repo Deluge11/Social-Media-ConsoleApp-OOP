@@ -1,6 +1,6 @@
 ﻿using SocialApp.Enums;
 
-namespace SocialApp.Interfaces
+namespace SocialApp.Interfaces.Page
 {
     public interface IAction
     {

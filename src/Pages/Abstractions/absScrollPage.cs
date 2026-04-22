@@ -67,34 +67,34 @@ namespace SocialApp.Pages.Abstractions
             stPageRow headers = GetHeaderRow();
             List<stPageRow> content = GetContentRows();
 
-            ContentGrids[0] = headers.LeftContent;
-            ContentGrids[1] = headers.CenterContent;
-            ContentGrids[2] = headers.RightContent;
+            ContentStrings[0] = headers.LeftContent;
+            ContentStrings[1] = headers.CenterContent;
+            ContentStrings[2] = headers.RightContent;
 
             if (content.Count == 0)
             {
-                ContentGrids[4] = EmptyRowsMessage;
+                ContentStrings[4] = EmptyRowsMessage;
                 return;
             }
 
             if (StartCursor < content.Count)
             {
-                ContentGrids[3] = content[StartCursor].LeftContent;
-                ContentGrids[4] = content[StartCursor].CenterContent;
-                ContentGrids[5] = content[StartCursor].RightContent;
+                ContentStrings[3] = content[StartCursor].LeftContent;
+                ContentStrings[4] = content[StartCursor].CenterContent;
+                ContentStrings[5] = content[StartCursor].RightContent;
             }
             if (StartCursor + 1 < content.Count)
             {
-                ContentGrids[6] = content[StartCursor + 1].LeftContent;
-                ContentGrids[7] = content[StartCursor + 1].CenterContent;
-                ContentGrids[8] = content[StartCursor + 1].RightContent;
+                ContentStrings[6] = content[StartCursor + 1].LeftContent;
+                ContentStrings[7] = content[StartCursor + 1].CenterContent;
+                ContentStrings[8] = content[StartCursor + 1].RightContent;
 
             }
             if (StartCursor + 2 < content.Count)
             {
-                ContentGrids[9] = content[StartCursor + 2].LeftContent;
-                ContentGrids[10] = content[StartCursor + 2].CenterContent;
-                ContentGrids[11] = content[StartCursor + 2].RightContent;
+                ContentStrings[9] = content[StartCursor + 2].LeftContent;
+                ContentStrings[10] = content[StartCursor + 2].CenterContent;
+                ContentStrings[11] = content[StartCursor + 2].RightContent;
             }
         }
     }
