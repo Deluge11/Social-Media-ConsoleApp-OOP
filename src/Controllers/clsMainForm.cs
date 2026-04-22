@@ -6,14 +6,13 @@ using SocialApp.Pages.Abstractions;
 
 namespace SocialApp.Forms
 {
-    public partial class clsMainForm
+    public partial class clsMainForm : IForm
     {
-        public clsAppState AppState { get; }
-        public clsNavigationController NavigationController { get; }
-
+        private clsAppState AppState { get; }
+        private clsNavigationController NavigationController { get; }
         public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
-            InitializeForm(false);
+            InitializeComponent();
 
             NavigationController = navigationController;
             AppState = appState;
@@ -22,13 +21,22 @@ namespace SocialApp.Forms
         public void Print()
         {
             Console.Clear();
-            RefreshForm();
-            HeaderBarManager.Print();
-            CenterGridManager.Print();
+            RefreshComponents();
+            PrintComponents();
             PrintControlKeys();
         }
+        private void AfterComponentInitialization()
+        {
+            SetDefaultValues();
+        }
 
-        protected void RefreshForm()
+        private void SetDefaultValues()
+        {
+            AppNameContentGrid.Text = "Social App";
+            ScrollBarText.Text = $"SCROLL {clsCustomTags.InvisibleChar} BAR";
+        }
+
+        private void RefreshComponents()
         {
             DisableContentGridsBorder();
 
@@ -38,13 +46,13 @@ namespace SocialApp.Forms
             UpdateScrollBar();
         }
 
-        protected void UpdatePagesStackGrid()
+        private void UpdatePagesStackGrid()
         {
             var pagesName = NavigationController.GetPagesNames();
             PageStackContentGrid.Text = "Pages: " + string.Join(" -> ", pagesName);
         }
 
-        protected void PrintControlKeys()
+        private void PrintControlKeys()
         {
             absBasePage currentPage = NavigationController.GetCurrentPage();
 
@@ -74,7 +82,7 @@ namespace SocialApp.Forms
             }
         }
 
-        protected void DisableContentGridsBorder()
+        private void DisableContentGridsBorder()
         {
             for (int i = 0; i < ContentGrids.Length; i++)
             {
@@ -82,7 +90,7 @@ namespace SocialApp.Forms
             }
         }
 
-        protected void UpdateContentGrids()
+        private void UpdateContentGrids()
         {
             absBasePage currentPage = NavigationController.GetCurrentPage();
             currentPage.ResetContent();
@@ -94,7 +102,7 @@ namespace SocialApp.Forms
             }
         }
 
-        protected void UpdateScrollBar()
+        private void UpdateScrollBar()
         {
             ScrollBarManager.Visible = false;
 
@@ -106,7 +114,7 @@ namespace SocialApp.Forms
             ScrollBarManager.Visible = PageScrollBar.IsScrollBarNeeded();
         }
 
-        protected void UpdateSelectedContentGrid()
+        private void UpdateSelectedContentGrid()
         {
             if (NavigationController.GetCurrentPage() is not absScrollSelection page)
                 return;

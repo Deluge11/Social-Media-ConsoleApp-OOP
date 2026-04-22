@@ -1,4 +1,5 @@
 ﻿using Grids;
+using SocialApp.HelperTools;
 
 namespace SocialApp.Forms
 {
@@ -10,28 +11,26 @@ namespace SocialApp.Forms
         int[] Rows = { 0, 8, 15, 22 };
         int[] Cols = { 0, 23, 46 };
 
-        public clsTextGrid AppNameContentGrid { get; } = new clsTextGrid(11, 1, new stPaddingInfo(2, 1, 2, 1));
-        public clsTextGrid PageStackContentGrid { get; } = new clsTextGrid(60, 1, new stPaddingInfo(3, 1, 3, 1));
+        private clsTextGrid AppNameContentGrid { get; } = new clsTextGrid(11, 1, new stPaddingInfo(2, 1, 2, 1));
+        private clsTextGrid PageStackContentGrid { get; } = new clsTextGrid(62, 1, new stPaddingInfo(3, 1, 3, 1));
 
-        clsHorizontalLineGrid Line = new clsHorizontalLineGrid(68);
+        private clsGridManager PageGridManager { get; } = new clsGridManager(68, 29, new stPaddingInfo(1, 1, 1, 1));
+        private clsGridManager HeaderBarManager { get; } = new clsGridManager(84, 3, new stPaddingInfo(0, 0, 0, 0));
+        private clsGridManager ScrollBarManager { get; } = new clsGridManager(7, 21, new stPaddingInfo(1, 1, 1, 1));
+        private clsGridManager CenterGridManager { get; } = new clsGridManager(82, 31, new stPaddingInfo(1, 1, 1, 1));
+
+        private clsTextGrid[] ContentGrids { get; } = new clsTextGrid[12];
+
+        private clsVerticalScrollBarGrid PageScrollBar { get; } = new clsVerticalScrollBarGrid(2, 19, '=');
+        private clsVerticalContentGrid ScrollBarText { get; } = new clsVerticalContentGrid(17);
+
+        private clsHorizontalLineGrid Line { get; } = new clsHorizontalLineGrid(68);
 
 
-        public clsGridManager PageGridManager { get; } = new clsGridManager(68, 29, new stPaddingInfo(1, 1, 1, 1));
-        public clsGridManager HeaderBarManager { get; } = new clsGridManager(82, 3, new stPaddingInfo(0, 0, 0, 0));
-        public clsGridManager ScrollBarManager { get; } = new clsGridManager(6, 21, new stPaddingInfo(1, 1, 1, 1));
-        public clsGridManager CenterGridManager { get; } = new clsGridManager(80, 31, new stPaddingInfo(1, 1, 1, 1));
 
-        public clsTextGrid[] ContentGrids { get; } = new clsTextGrid[12];
-
-        public clsVerticalScrollBarGrid PageScrollBar { get; } = new clsVerticalScrollBarGrid(2, 19, '=');
-        public clsVerticalContentGrid ScrollBarText { get; } = new clsVerticalContentGrid(17);
-
-      
-
-        private void InitializeForm(bool isLazyLoading = true)
+        private void InitializeComponent(bool isLazyLoading = true)
         {
             IsLazyLoading = isLazyLoading;
-
 
             HeaderBarManager.AddGrid(new stGridInfo(AppNameContentGrid, new stPoint(0, 0)));
             Print([HeaderBarManager]);
@@ -39,70 +38,79 @@ namespace SocialApp.Forms
             HeaderBarManager.AddGrid(new stGridInfo(PageStackContentGrid, new stPoint(16, 0)));
             Print([HeaderBarManager]);
 
-            AppNameContentGrid.Text = "Social App";
-            Print([HeaderBarManager]);
-
             for (int i = 0; i < ContentGrids.Length; i++)
             {
                 ContentGrids[i] = new clsTextGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
             }
 
-            PageGridManager.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
-
             Print([HeaderBarManager, CenterGridManager]);
 
-            CenterGridManager.AddGrid(new stGridInfo(PageGridManager, new stPoint(0, 0)));
-            Print([HeaderBarManager, CenterGridManager], 300);
+            CenterGridManager.AddGrid(new stGridInfo(PageGridManager, new stPoint(1, 0)));
+            Print([HeaderBarManager, CenterGridManager]);
+
+            PageGridManager.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
+            Print([HeaderBarManager, CenterGridManager]);
 
             for (int row = 0, count = 0; row < Rows.Length; row++)
             {
                 for (int col = 0; col < Cols.Length; col++, count++)
                 {
-                    Print([HeaderBarManager, CenterGridManager]);
                     PageGridManager.AddGrid(new stGridInfo(ContentGrids[count], new stPoint(Cols[col], Rows[row])));
+                    Print([HeaderBarManager, CenterGridManager]);
                 }
             }
-            Print([HeaderBarManager, CenterGridManager]);
 
             PageScrollBar.SetScrollBarInformation(0, 0, 0);
 
- 
+
             CenterGridManager.AddGrid(new stGridInfo(ScrollBarManager, new stPoint(72, 8)));
-            Print([HeaderBarManager, CenterGridManager], 300);
+            Print([HeaderBarManager, CenterGridManager]);
 
-
-            ScrollBarManager.AddGrid(new stGridInfo(PageScrollBar, new stPoint(0, 0)));
-            Print([HeaderBarManager, CenterGridManager], 300);
-
-
-            ScrollBarText.Text = $"S C R O L L {clsCustomTags.InvisibleChar} B A R";
             ScrollBarManager.AddGrid(new stGridInfo(ScrollBarText, new stPoint(5, 4)));
+            ScrollBarManager.AddGrid(new stGridInfo(PageScrollBar, new stPoint(0, 0)));
 
-            HeaderBarManager.Print();
-            CenterGridManager.Print();
-            Thread.Sleep(800);
 
-            for(int i = 0; i < 5; i++)
+            if (isLazyLoading)
             {
-                Console.WriteLine("| Press ? To `???`");
-                Thread.Sleep(200);
+                PrintFinalSkeleton();
             }
-          
-            Thread.Sleep(800);
+
+            AfterComponentInitialization();
         }
 
-        private void Print(absBaseGrid[] grids, int sleepMS = 160)
+        private void Print(absBaseGrid[] grids)
         {
             if (!IsLazyLoading) return;
             Console.Clear();
 
-            foreach(absBaseGrid grid in grids)
+            foreach (absBaseGrid grid in grids)
             {
                 grid.Print();
             }
 
-            Thread.Sleep(sleepMS);
+            Thread.Sleep(300);
         }
 
+        private void PrintFinalSkeleton()
+        {
+            Console.Clear();
+            HeaderBarManager.Print();
+            CenterGridManager.Print();
+            Thread.Sleep(800);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine("| Press ? To `???`");
+                Thread.Sleep(200);
+            }
+
+            Thread.Sleep(800);
+        }
+
+        private void PrintComponents()
+        {
+            HeaderBarManager.Print();
+            CenterGridManager.Print();
+        }
     }
 }

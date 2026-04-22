@@ -9,25 +9,25 @@ namespace SocialApp.Controllers
     public class clsPageController
     {
         public clsPageController(
-            clsNavigationController navigationController,
-            clsMainForm mainForm,
-            clsInputController inputController
+            IForm mainForm,
+            clsInputController inputController,
+            clsNavigationController navigationController
             )
         {
-            NavigationController = navigationController;
-            MainForm = mainForm;
+            Form = mainForm;
             InputController = inputController;
+            NavigationController = navigationController;
         }
 
-        protected clsNavigationController NavigationController { get; }
-        protected clsMainForm MainForm { get; }
+        protected IForm Form { get; }
         protected clsInputController InputController { get; }
+        protected clsNavigationController NavigationController { get; }
 
         public void Start()
         {
             while (NavigationController.GetCurrentStackCount() > 0)
             {
-                MainForm.Print();
+                Form.Print();
                 InputController.TakeAction();
             }
         }

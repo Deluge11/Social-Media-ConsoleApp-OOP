@@ -48,9 +48,9 @@ authenticationPage.AddAction(registerAction);
 authenticationPage.AddAction(visitAsGuestAction);
 
 clsNavigationController navigationController = new clsNavigationController(appState);
-clsMainForm renderController = new clsMainForm(appState, navigationController);
+IForm form = new clsMainForm(appState, navigationController);
 clsInputController inputController = new clsInputController(appState, navigationController, serviceCollection);
-clsPageController pageController = new clsPageController(navigationController, renderController, inputController);
+clsPageController pageController = new clsPageController(form, inputController, navigationController);
 
 navigationController.SetMainPage(homePage);
 navigationController.SetAuthenticationPage(authenticationPage);

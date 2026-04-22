@@ -58,7 +58,7 @@ namespace Grids
                     continue;
                 }
 
-                HandleLongWordHyphen(ref currentWidth, ref currentHeight, word, wordIndex);
+               // HandleLongWordHyphen(ref currentWidth, ref currentHeight, word, wordIndex);
 
                 if (currentHeight < ContentBoardHeight)
                 {
@@ -99,18 +99,18 @@ namespace Grids
             return false;
         }
 
-        private void HandleLongWordHyphen(ref int currentWidth, ref int currentHeight, string word, int wordIndex)
-        {
-            if (currentWidth + 1 == ContentBoardWidth && wordIndex + 1 < word.Length && word[wordIndex] != ' ')
-            {
-                if (wordIndex > 0)
-                {
-                    ContentBoard[currentHeight][currentWidth] = '-';
-                }
+        //private void HandleLongWordHyphen(ref int currentWidth, ref int currentHeight, string word, int wordIndex)
+        //{
+        //    if (currentWidth + 1 == ContentBoardWidth && wordIndex + 1 < word.Length && word[wordIndex] != ' ')
+        //    {
+        //        if (wordIndex > 0)
+        //        {
+        //            ContentBoard[currentHeight][currentWidth] = '-';
+        //        }
 
-                StartFromNextLine(ref currentWidth, ref currentHeight);
-            }
-        }
+        //        StartFromNextLine(ref currentWidth, ref currentHeight);
+        //    }
+        //}
 
         private void StartFromNextLine(ref int currentWidth, ref int currentHeight)
         {
