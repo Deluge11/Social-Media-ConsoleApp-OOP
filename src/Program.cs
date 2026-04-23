@@ -5,7 +5,7 @@ using SocialApp.Scripts;
 using SocialApp.Actions;
 using SocialApp.Controllers;
 using SocialApp.Forms;
-using SocialApp.Interfaces.Form;
+
 
 clsAppState appState = new clsAppState();
 clsDataManager dataManager = new clsDataManager();
@@ -30,6 +30,7 @@ clsLoginAction loginAction = new clsLoginAction(serviceCollection);
 clsRegisterAction registerAction = new clsRegisterAction(serviceCollection);
 clsVisitAsGuestAction visitAsGuestAction = new clsVisitAsGuestAction(serviceCollection);
 
+homePage.AddSubPage(new TestPage());
 homePage.AddSubPage(profilePage);
 homePage.AddSubPage(postPage);
 homePage.AddSubPage(friendPage);

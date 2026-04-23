@@ -78,10 +78,17 @@ namespace SocialApp.Services
             UsersDB[user2].AddChat(chatId);
         }
 
-        public void AddFriendRequest(string username, string otherUsername)
+        public bool AddFriendRequest(string username, string otherUsername)
         {
             if (CanSendRequestBetweenUsers(username, otherUsername))
+            {
                 UsersDB[otherUsername].AddFriendRequest(username);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool CanSendRequestBetweenUsers(string user1, string user2)

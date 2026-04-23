@@ -38,8 +38,16 @@ namespace SocialApp.Pages
             clsConsoleUI.PrintMessage("Message Screen");
             string newMessage = clsConsoleInput.GetStringInput("Write New Message");
 
-            Services.MessageService.AddMessage(ChatId, AppState.User.Id, newMessage);
-            ResetCursors();
+            if(Services.MessageService.AddMessage(ChatId, AppState.User.Name, newMessage))
+            {
+                ResetCursors();
+            }
+            else
+            {
+                Console.Clear();
+                clsConsoleUI.PrintMessage("Send Message Failed");
+                clsConsoleUI.PressKeyToContinue();
+            }
         }
 
         protected override List<stPageRow> GetContentRows()

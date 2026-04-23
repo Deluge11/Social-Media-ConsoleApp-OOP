@@ -43,11 +43,13 @@ namespace SocialApp.Forms
             {
                 InitializeComponentQuick();
             }
+
+            FormOnLoad();
         }
 
         private void Print(absBaseGrid[] grids)
         {
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
 
             foreach (absBaseGrid grid in grids)
             {
@@ -96,7 +98,7 @@ namespace SocialApp.Forms
             gmScrollBarContainer.AddGrid(new stGridInfo(tbScrollBarText, new stPoint(5, 4)));
             gmScrollBarContainer.AddGrid(new stGridInfo(vsbPageScrollBar, new stPoint(0, 0)));
 
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             gmHeaderBar.Print();
             gmCenter.Print();
             Thread.Sleep(800);
@@ -114,23 +116,18 @@ namespace SocialApp.Forms
         {
             gmHeaderBar.AddGrid(new stGridInfo(tbAppName, new stPoint(0, 0)));
             gmHeaderBar.AddGrid(new stGridInfo(tbPageNavigation, new stPoint(16, 0)));
-            gmCenter.AddGrid(new stGridInfo(gmPageContentContainer, new stPoint(1, 0)));
             gmPageContentContainer.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
+            gmCenter.AddGrid(new stGridInfo(gmPageContentContainer, new stPoint(1, 0)));
             gmCenter.AddGrid(new stGridInfo(gmScrollBarContainer, new stPoint(72, 8)));
             gmScrollBarContainer.AddGrid(new stGridInfo(tbScrollBarText, new stPoint(5, 4)));
             gmScrollBarContainer.AddGrid(new stGridInfo(vsbPageScrollBar, new stPoint(0, 0)));
 
             for (int i = 0; i < tbPageContents.Length; i++)
-            {
                 tbPageContents[i] = new clsTextBoxGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
-            }
+
             for (int row = 0, count = 0; row < Rows.Length; row++)
-            {
                 for (int col = 0; col < Cols.Length; col++, count++)
-                {
                     gmPageContentContainer.AddGrid(new stGridInfo(tbPageContents[count], new stPoint(Cols[col], Rows[row])));
-                }
-            }
         }
 
     }

@@ -25,26 +25,18 @@ namespace SocialApp.Services
 
         public List<clsPost> GetAllPosts()
         {
-            return PostsDB.Values.ToList();
+            return PostsDB.Values.Reverse().ToList();
         }
 
         public List<clsPost> GetUserPosts(string username)
         {
             List<clsPost> result = new();
 
-            if (!UsersDB.ContainsKey(username))
-            {
-                return result;
-            }
-
-            clsUser user = UsersDB[username];
-
-            foreach (int pId in user.PostsId)
-            {
-                result.Add(PostsDB[pId]);
-            }
-
-            return result;
+            return UsersDB.ContainsKey(username) 
+                ? 
+                PostsDB.Values.Where(p => UsersDB[username].PostsId.Contains(p.Id)).Reverse().ToList() 
+                :
+                new List<clsPost>();
         }
 
         public void AddNewPost(string username, string post)

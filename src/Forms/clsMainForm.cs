@@ -13,10 +13,15 @@ namespace SocialApp.Forms
         private clsNavigationController NavigationController { get; }
         public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
-            InitializeComponent();
-            SetDefaultValues();
+            InitializeComponent(true);
+
             NavigationController = navigationController;
             AppState = appState;
+        }
+
+        private void FormOnLoad()
+        {
+            SetDefaultValues();
         }
 
         private void SetDefaultValues()
@@ -28,11 +33,12 @@ namespace SocialApp.Forms
         private void UpdateComponents()
         {
             DisableContentGridsBorder();
-            UpdateControlKeys();
-            UpdatePagesNavigation();
-            UpdateContentGrids();
-            UpdateSelectedContentGrid();
+
             UpdateScrollBar();
+            UpdateControlKeys();
+            UpdateContentGrids();
+            UpdatePagesNavigation();
+            UpdateSelectedContentGrid();
         }
 
         private void UpdatePagesNavigation()

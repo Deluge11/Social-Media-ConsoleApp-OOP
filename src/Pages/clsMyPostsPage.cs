@@ -38,12 +38,14 @@ namespace SocialApp.Pages
             if (clsValidation.IsValidPost(post))
             {
                 Services.PostService.AddNewPost(AppState.User.Name, post);
+                clsConsoleUI.PrintMessage("Post Added Successfully");
+                ResetCursors();
             }
             else
             {
                 clsConsoleUI.PrintMessage("The post should have 5 letters atleast");
-                clsConsoleUI.PressKeyToContinue();
             }
+            clsConsoleUI.PressKeyToContinue();
         }
 
         protected override List<stPageRow> GetContentRows()

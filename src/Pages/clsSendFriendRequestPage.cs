@@ -1,4 +1,5 @@
 ﻿using SocialApp.Enums;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
@@ -33,8 +34,20 @@ namespace SocialApp.Pages
 
             if (usersList.Count == 0) return;
 
-            Services.FriendService.AddFriendRequest(AppState.User.Name, usersList[SelectionCursor]);
-            ScrollUp();
+            if (Services.FriendService.AddFriendRequest(AppState.User.Name, usersList[SelectionCursor]))
+            {
+                Console.Clear();
+                clsConsoleUI.PrintMessage($"Friend Request Sent Successfully To {usersList[SelectionCursor]}");
+                clsConsoleUI.PressKeyToContinue();
+                ScrollUp();
+            }
+            else
+            {
+                Console.Clear();
+                clsConsoleUI.PrintMessage($"Send Request Failed!");
+                clsConsoleUI.PressKeyToContinue();
+            }
+
         }
 
         protected override List<stPageRow> GetContentRows()

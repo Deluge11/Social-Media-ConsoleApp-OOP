@@ -37,13 +37,17 @@ namespace SocialApp.Services
             return -1;
         }
 
-        public void AddMessage(int chatId, int userId, string message)
+        public bool AddMessage(int chatId, string userName, string message)
         {
-            if (message.Length < 1 || !MessagesDB.ContainsKey(chatId))
-                return;
+            if (message.Length < 1 || !MessagesDB.ContainsKey(chatId) || !UsersDB[userName].ChatID.Contains(chatId))
+            {
+                return false;
+            }
 
-            clsMessage newMessage = new clsMessage(userId, message, DateTime.Now);
+            clsMessage newMessage = new clsMessage(UsersDB[userName].Id, message, DateTime.Now);
             MessagesDB[chatId].AddMsg(newMessage);
+            return true;
+
         }
 
     }

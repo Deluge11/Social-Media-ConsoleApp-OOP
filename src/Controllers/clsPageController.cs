@@ -1,6 +1,7 @@
 ﻿
 
 using SocialApp.Enums;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Form;
 
@@ -25,9 +26,13 @@ namespace SocialApp.Controllers
 
         public void Start()
         {
+            Console.Clear();
+            clsConsoleUI.PrintMessage("System Loading!");
+            Thread.Sleep(2000);
+
             while (NavigationController.GetCurrentStackCount() > 0)
             {
-                Console.Clear();
+                Console.SetCursorPosition(0, 0);
                 Form.Print();
                 InputController.TakeAction();
             }
