@@ -32,13 +32,22 @@ namespace SocialApp.Forms
 
         private void UpdateComponents()
         {
+            ResetPageContent();
+
             DisableContentGridsBorder();
 
             UpdateScrollBar();
             UpdateControlKeys();
             UpdateContentGrids();
+            UpdateRowCountText();
             UpdatePagesNavigation();
+            UpdateScrollingRangeText();
             UpdateSelectedContentGrid();
+        }
+
+        private void ResetPageContent()
+        {
+            NavigationController.GetCurrentPage().ResetContent();
         }
 
         private void UpdatePagesNavigation()
@@ -88,9 +97,7 @@ namespace SocialApp.Forms
 
         private void UpdateContentGrids()
         {
-            absBasePage currentPage = NavigationController.GetCurrentPage();
-            currentPage.ResetContent();
-            string[] content = currentPage.ContentStrings;
+            string[] content = NavigationController.GetCurrentPage().ContentStrings;
 
             for (int i = 0; i < tbPageContents.Length; i++)
             {
@@ -100,15 +107,40 @@ namespace SocialApp.Forms
 
         private void UpdateScrollBar()
         {
-            if (NavigationController.GetCurrentPage() is absScrollPage scrollPage)
+            if (NavigationController.GetCurrentPage() is absScrollPage page)
             {
-                vsbPageScrollBar.SetScrollBarInformation(scrollPage.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, scrollPage.StartCursor);
-
+                vsbPageScrollBar.SetScrollBarInformation(page.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, page.StartCursor);
                 gmScrollBarContainer.Visible = vsbPageScrollBar.IsScrollBarNeeded();
             }
             else
             {
                 gmScrollBarContainer.Visible = false;
+            }
+        }
+
+        private void UpdateScrollingRangeText()
+        {
+            if (NavigationController.GetCurrentPage() is absScrollPage page)
+            {
+                tbScrollingRange.Text = $"[{page.StartCursor + 1}]{clsCustomTags.LineBreak}[{page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT}]";
+                tbScrollingRange.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+            }
+            else
+            {
+                tbScrollingRange.Visible = false;
+            }
+        }
+
+        private void UpdateRowCountText()
+        {
+            if (NavigationController.GetCurrentPage() is absScrollPage page)
+            {
+                tbPageRowCount.Text = $"Rows{clsCustomTags.LineBreak}({page.GetRowCount()})";
+                tbPageRowCount.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+            }
+            else
+            {
+                tbPageRowCount.Visible = false;
             }
         }
 

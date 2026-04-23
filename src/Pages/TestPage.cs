@@ -30,7 +30,7 @@ namespace SocialApp.Pages
 
         public void Execute()
         {
-            this.Rows.Add(new stPageRow("Row Number: " + Rows.Count));
+            this.Rows.Add(new stPageRow("Row Number: " + (Rows.Count + 1)));
             this.ResetCursors();
         }
     }

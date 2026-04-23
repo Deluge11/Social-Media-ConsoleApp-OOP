@@ -8,9 +8,7 @@ namespace SocialApp.Pages.Abstractions
         public string[] ContentStrings { get; } = new string[12];
         public abstract enPermission AccessPermission { get; }
 
-
         public abstract void SetContent();
-
         public void ResetContent()
         {
             ClearContent();
@@ -24,5 +22,6 @@ namespace SocialApp.Pages.Abstractions
                 ContentStrings[i] = "";
             }
         }
+
     }
 }
