@@ -1,5 +1,6 @@
 using Grids;
 using SocialApp.Controllers;
+using SocialApp.HelperTools;
 using SocialApp.Interfaces.Form;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
@@ -13,7 +14,7 @@ namespace SocialApp.Forms
         private clsNavigationController NavigationController { get; }
         public clsMainForm(clsAppState appState, clsNavigationController navigationController)
         {
-            InitializeComponent(true);
+            InitializeComponent();
 
             NavigationController = navigationController;
             AppState = appState;
@@ -27,7 +28,7 @@ namespace SocialApp.Forms
         private void SetDefaultValues()
         {
             tbAppName.Text = "Social App";
-            tbScrollBarText.Text = $"SCROLL {clsCustomTags.InvisibleChar} BAR";
+            tbScrollBarText.Text = $"SCROLL=BAR";
         }
 
         private void UpdateComponents()
@@ -109,8 +110,11 @@ namespace SocialApp.Forms
         {
             if (NavigationController.GetCurrentPage() is absScrollPage page)
             {
-                vsbPageScrollBar.SetScrollBarInformation(page.GetRowCount(), absScrollPage.PAGE_ROWS_LIMIT, page.StartCursor);
-                gmScrollBarContainer.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+                vsbPageScrollBar.VisibleItems = absScrollPage.PAGE_ROWS_LIMIT;
+                vsbPageScrollBar.TotalItems = page.GetRowCount();
+                vsbPageScrollBar.SkippedItems = page.StartCursor;
+
+                gmScrollBarContainer.Visible = vsbPageScrollBar.IsScrollBarNeeded;
             }
             else
             {
@@ -120,10 +124,20 @@ namespace SocialApp.Forms
 
         private void UpdateScrollingRangeText()
         {
-            if (NavigationController.GetCurrentPage() is absScrollPage page)
+            int rowCount;
+            if (NavigationController.GetCurrentPage() is absScrollPage page && (rowCount = page.GetRowCount()) > 0)
             {
-                tbScrollingRange.Text = $"[{page.StartCursor + 1}]{clsCustomTags.LineBreak}[{page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT}]";
-                tbScrollingRange.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+                string startRow = clsCalculation.FormatNumberAtSize(page.StartCursor + 1, 3);
+
+                int lastVisibleRow =
+                    page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT < rowCount ?
+                    page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT :
+                    rowCount;
+
+                string endRow = clsCalculation.FormatNumberAtSize(lastVisibleRow, 3);
+
+                tbScrollingRange.Text = $"[{startRow}]{clsCustomTags.LineBreak}[{endRow}]";
+                tbScrollingRange.Visible = true;
             }
             else
             {
@@ -135,8 +149,10 @@ namespace SocialApp.Forms
         {
             if (NavigationController.GetCurrentPage() is absScrollPage page)
             {
-                tbPageRowCount.Text = $"Rows{clsCustomTags.LineBreak}({page.GetRowCount()})";
-                tbPageRowCount.Visible = vsbPageScrollBar.IsScrollBarNeeded();
+                string rowCount = clsCalculation.FormatNumberAtSize(page.GetRowCount(), 3);
+
+                tbPageRowCount.Text = $"Rows{clsCustomTags.LineBreak}({rowCount})";
+                tbPageRowCount.Visible = true;
             }
             else
             {

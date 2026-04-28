@@ -30,7 +30,8 @@ clsLoginAction loginAction = new clsLoginAction(serviceCollection);
 clsRegisterAction registerAction = new clsRegisterAction(serviceCollection);
 clsVisitAsGuestAction visitAsGuestAction = new clsVisitAsGuestAction(serviceCollection);
 
-homePage.AddSubPage(new TestPage());
+homePage.AddSubPage(new PageWithAccessPermission());
+homePage.AddSubPage(new PageWithActionPermission());
 homePage.AddSubPage(profilePage);
 homePage.AddSubPage(postPage);
 homePage.AddSubPage(friendPage);

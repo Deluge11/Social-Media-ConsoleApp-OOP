@@ -3,9 +3,20 @@ namespace Grids
 {
     public class clsTextBoxGrid : absBaseGrid
     {
-        public string Text { get; set; } = "";
+        private string _text = "";
 
-        public clsTextBoxGrid(int width, int height, stPaddingInfo padding) 
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                if (_text == value) return;
+                _text = value;
+                UpdateBoard();
+            }
+        }
+
+        public clsTextBoxGrid(int width, int height, stPaddingInfo padding)
             : base(width, height, padding, new stBoarderInfo('-', '|', '*'))
         {
 
@@ -13,14 +24,9 @@ namespace Grids
 
         protected override void SetContent()
         {
-            SetTextOnContentBoard(Text);
-        }
+            if (string.IsNullOrWhiteSpace(Text)) return;
 
-        private void SetTextOnContentBoard(string content)
-        {
-            if (string.IsNullOrWhiteSpace(content)) return;
-
-            string[] words = content.Split(' ');
+            string[] words = Text.Split(' ');
 
             int currentHeight = 0;
             int currentWidth = 0;
@@ -58,7 +64,7 @@ namespace Grids
                     continue;
                 }
 
-               // HandleLongWordHyphen(ref currentWidth, ref currentHeight, word, wordIndex);
+                // HandleLongWordHyphen(ref currentWidth, ref currentHeight, word, wordIndex);
 
                 if (currentHeight < ContentBoardHeight)
                 {

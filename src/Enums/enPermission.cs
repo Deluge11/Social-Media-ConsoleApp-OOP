@@ -7,6 +7,7 @@ namespace SocialApp.Enums
         Post_Create = 1,
         Post_Like = 2,
         Friend_SendFriendRequest = 4,
-        Chat_AddMessage = 8
+        Chat_AddMessage = 8,
+        Test = 16
     }
 }

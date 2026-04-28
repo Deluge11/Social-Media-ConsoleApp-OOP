@@ -3,7 +3,7 @@ namespace Grids
 {
     public class clsGridManager : absBaseGrid
     {
-        protected List<stGridInfo> Grids { get; set; } = new List<stGridInfo>();
+        private List<stGridInfo> Grids { get; set; } = new List<stGridInfo>();
 
         public clsGridManager(int width, int height, stPaddingInfo padding) : base(width, height, padding, new stBoarderInfo('-', '|', '*'))
         {
@@ -12,15 +12,18 @@ namespace Grids
 
         public void AddGrid(stGridInfo gridInfo)
         {
+            // If Inner Component Get Updated Then Update This Grid
+            gridInfo.Grid.OnGridUpdateEvent += UpdateBoard;
             Grids.Add(gridInfo);
-            Grids.Sort((a, b) => a.Point.Z.CompareTo(b.Point.Z));
+
+            SortGrids();
+            UpdateBoard();
         }
 
         protected override void SetContent()
         {
             foreach (stGridInfo gridInfo in Grids)
             {
-                gridInfo.Grid.UpdateBoard();
                 SetGridContentOnBoard(gridInfo);
             }
         }
@@ -48,6 +51,6 @@ namespace Grids
             }
         }
 
-
+        public void SortGrids() => Grids.Sort((a, b) => a.Point.Z.CompareTo(b.Point.Z));
     }
 }

@@ -4,14 +4,39 @@ namespace Grids
 {
     public abstract class absBaseGrid
     {
+        public delegate void OnContentUpdate();
+
+        public event OnContentUpdate? OnGridUpdateEvent;
         public int ContentBoardHeight { get; protected set; }
         public int ContentBoardWidth { get; protected set; }
         protected stBoarderInfo BorderInfo { get; set; }
         protected stPaddingInfo PaddingInfo { get; set; }
-        public enBorderShape BorderShape { get; set; } = enBorderShape.Full;
+
         protected char[][] ContentBoard { get; }
         public char[][] BaseBoard { get; }
-        public bool Visible { get; set; } = true;
+
+        private enBorderShape _borderShape = enBorderShape.Full;
+
+        private bool _visible = true;
+
+        public enBorderShape BorderShape
+        {
+            get => _borderShape;
+            set
+            {
+                _borderShape = value;
+                UpdateBoard();
+            }
+        }
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                _visible = value;
+                UpdateBoard();
+            }
+        }
 
         protected abstract void SetContent();
 
@@ -32,12 +57,16 @@ namespace Grids
 
             ClearContent(ContentBoard);
             ClearContent(BaseBoard);
+
         }
 
 
         public void Print()
         {
-            UpdateBoard();
+            // UpdateBoard();
+
+            if (!Visible)
+                return;
 
             int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
 
@@ -47,7 +76,7 @@ namespace Grids
             }
         }
 
-        public void UpdateBoard()
+        protected void UpdateBoard()
         {
             ClearContent(BaseBoard);
             ClearContent(ContentBoard);
@@ -55,6 +84,8 @@ namespace Grids
             SetBorderOnBaseGrid();
             SetContent();
             SetContentBoardOnBaseBoard();
+
+            OnGridUpdateEvent?.Invoke();
         }
 
         private void ClearContent(char[][] board)
@@ -121,19 +152,34 @@ namespace Grids
             int baseBoardHeight = ContentBoardHeight + PaddingInfo.Top + PaddingInfo.Bottom;
             int baseBoardWidth = ContentBoardWidth + PaddingInfo.Left + PaddingInfo.Right;
 
-            bool toggle = true;
+            short maxVerticalLine = 1;
+            short maxHorizontalLine = 3;
 
-            for (int height = 1; height < baseBoardHeight - 1; height++, toggle = !toggle)
+            short count = 0;
+
+            for (int height = 1; height < baseBoardHeight - 1; height++)
             {
-                if (!toggle) continue;
+                if (count == maxVerticalLine)
+                {
+                    count = 0;
+                    continue;
+                }
+                count++;
 
                 BaseBoard[height][0] = BorderInfo.Vertical;
                 BaseBoard[height][baseBoardWidth - 1] = BorderInfo.Vertical;
             }
 
-            for (int width = 1; width < baseBoardWidth - 1; width++, toggle = !toggle)
+            count = 0;
+
+            for (int width = 1; width < baseBoardWidth - 1; width++)
             {
-                if (!toggle) continue;
+                if (count == maxHorizontalLine)
+                {
+                    count = 0;
+                    continue;
+                }
+                count++;
 
                 BaseBoard[0][width] = BorderInfo.Horizontal;
                 BaseBoard[baseBoardHeight - 1][width] = BorderInfo.Horizontal;

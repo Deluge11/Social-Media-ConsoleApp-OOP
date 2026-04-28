@@ -12,6 +12,7 @@ namespace Grids
         public clsHorizontalLineGrid(int length) : base(length, 1)
         {
             Length = length;
+            UpdateBoard();
         }
 
         protected override void SetContent()
@@ -21,5 +22,7 @@ namespace Grids
                 ContentBoard[0][i] = '-';
             }
         }
+
+
     }
 }

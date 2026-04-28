@@ -6,7 +6,10 @@ namespace Grids
         public abstract int Length { get; }
         public absLineGrid(int width, int height) : base(width, height, new stPaddingInfo(0, 0, 0, 0), new stBoarderInfo(' ', ' ', ' '))
         {
+            
         }
+
+
 
     }
 }

@@ -5,14 +5,14 @@ using SocialApp.Structure;
 
 namespace SocialApp.Pages
 {
-    public class TestPage : absScrollPage, IAction
+    public class PageWithAccessPermission : absScrollPage, IAction
     {
-        public override string PageName => "Test Page";
+        public override string PageName => "Page With Access Permission";
         protected override string EmptyRowsMessage => "There is no Rows";
         public string ActionName => "Add New Row";
 
         public enPermission ActionPermission => enPermission.None;
-        public override enPermission AccessPermission => enPermission.None;
+        public override enPermission AccessPermission => enPermission.Test;
         protected override enResetCursor CursorResetCommand => enResetCursor.Down;
 
 

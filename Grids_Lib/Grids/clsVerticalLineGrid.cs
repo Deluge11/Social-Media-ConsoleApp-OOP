@@ -8,6 +8,7 @@ namespace Grids
         public clsVerticalLineGrid(int length) : base(1, length)
         {
             Length = length;
+            UpdateBoard();
         }
 
         protected override void SetContent()

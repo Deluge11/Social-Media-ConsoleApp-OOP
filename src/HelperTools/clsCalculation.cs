@@ -20,5 +20,11 @@ namespace SocialApp.HelperTools
             }
             return total;
         }
+
+        public static string FormatNumberAtSize(int number, int size)
+        {
+            string strNumber = number.ToString();
+            return new string('0', strNumber.Length >= size ? 0 : size - strNumber.Length) + strNumber;
+        }
     }
 }
