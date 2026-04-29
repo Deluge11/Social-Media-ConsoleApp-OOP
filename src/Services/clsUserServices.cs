@@ -4,38 +4,29 @@ using SocialApp.Model;
 
 namespace SocialApp.Services
 {
+
     public class clsUserServices
     {
-        protected Dictionary<string, clsUser> UsersDB { get; }
-        protected clsLastIdInfo LastIdInfo { get; }
-
-        public clsUserServices(clsDataManager dataManager)
+        public static clsUser GetUserByUsernameAndPassword(string username, string password)
         {
-            this.UsersDB = dataManager.UsersDB;
-            this.LastIdInfo = dataManager.LastIdInfo;
+            return (Exists(username) && clsDataManager.UsersDB[username].Password == password)
+                ? clsDataManager.UsersDB[username] : null!;
         }
 
-
-        public clsUser GetUserByUsernameAndPassword(string username, string password)
-        {
-            return (Exists(username) && UsersDB[username].Password == password)
-                ? UsersDB[username] : null!;
-        }
-
-        public clsUser AddUser(string username, string password)
+        public static clsUser AddUser(string username, string password)
         {
             return (!Exists(username))
-               ? UsersDB[username] = new clsUser(++LastIdInfo.UserID, username, password) : null!;
+               ? clsDataManager.UsersDB[username] = new clsUser(++clsDataManager.LastIdInfo.UserID, username, password) : null!;
         }
 
-        public bool Exists(string username)
+        public static bool Exists(string username)
         {
-            return UsersDB.ContainsKey(username);
+            return clsDataManager.UsersDB.ContainsKey(username);
         }
 
-        public List<string> GetAllUsernames()
+        public static List<string> GetAllUsernames()
         {
-            return UsersDB.Keys.Select(k => k).ToList();
+            return clsDataManager.UsersDB.Keys.Select(k => k).ToList();
         }
     }
 }

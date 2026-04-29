@@ -1,8 +1,7 @@
 ﻿
 
-using SocialApp.Enums;
+using SocialApp.Data;
 using SocialApp.HelperTools;
-using SocialApp.Interfaces;
 using SocialApp.Interfaces.Form;
 
 namespace SocialApp.Controllers
@@ -35,6 +34,7 @@ namespace SocialApp.Controllers
                 Console.SetCursorPosition(0, 0);
                 Form.Print();
                 InputController.TakeAction();
+                clsDataManager.PushDataToJsonFiles();
             }
         }
 

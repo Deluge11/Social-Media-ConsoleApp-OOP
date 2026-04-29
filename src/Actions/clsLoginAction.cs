@@ -1,6 +1,7 @@
 ﻿using SocialApp.Enums;
 using SocialApp.HelperTools;
 using SocialApp.Interfaces.Page;
+using SocialApp.Services;
 
 
 namespace SocialApp.Scripts
@@ -8,14 +9,8 @@ namespace SocialApp.Scripts
     public class clsLoginAction : IAction
     {
         public string ActionName { get; } = "Login";
-        public clsServiceCollection Services { get; }
-
         public enPermission ActionPermission => enPermission.None;
 
-        public clsLoginAction(clsServiceCollection services)
-        {
-            Services = services;
-        }
 
         public void Execute()
         {
@@ -25,7 +20,7 @@ namespace SocialApp.Scripts
             string password = clsConsoleInput.GetStringInput("Enter Password");
             Console.Clear();
 
-            if (Services.AuthenticationService.Login(username, password))
+            if (clsAuthenticationServices.Login(username, password))
             {
                 clsConsoleUI.PrintMessage($"Welcome {username}");
                 clsConsoleUI.PressKeyToContinue();

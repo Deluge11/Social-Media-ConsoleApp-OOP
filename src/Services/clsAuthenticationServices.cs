@@ -1,37 +1,26 @@
-﻿using SocialApp.Model;
-
-
+﻿
 namespace SocialApp.Services
 {
     public class clsAuthenticationServices
     {
-        protected clsAppState AppState { get; }
-        protected clsUserServices UserServices { get; }
-
-        public clsAuthenticationServices(clsAppState appState, clsUserServices userServices)
+        public static bool Login(string username, string password)
         {
-            AppState = appState;
-            UserServices = userServices;
+            clsAppState.User = clsUserServices.GetUserByUsernameAndPassword(username, password);
+            clsAppState.IsGuest = false;
+            return clsAppState.User != null;
         }
 
-        public bool Login(string username, string password)
+        public static bool Register(string username, string password)
         {
-            AppState.User = UserServices.GetUserByUsernameAndPassword(username, password);
-            AppState.IsGuest = false;
-            return AppState.User != null;
+            clsAppState.User = clsUserServices.AddUser(username, password);
+            clsAppState.IsGuest = false;
+            return clsAppState.User != null;
         }
 
-        public bool Register(string username, string password)
+        public static void RegisterAsGuest()
         {
-            AppState.User = UserServices.AddUser(username, password);
-            AppState.IsGuest = false;
-            return AppState.User != null;
-        }
-
-        public void RegisterAsGuest()
-        {
-            AppState.User = null!;
-            AppState.IsGuest = true;
+            clsAppState.User = null!;
+            clsAppState.IsGuest = true;
         }
 
     }

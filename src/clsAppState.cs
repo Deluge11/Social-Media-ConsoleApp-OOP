@@ -1,19 +1,18 @@
 ﻿using SocialApp.Model;
-using System.Net.NetworkInformation;
 
 namespace SocialApp
 {
-    public class clsAppState
+    public static class clsAppState
     {
-        public clsUser User { get; set; }
-        public bool IsGuest { get; set; }
+        public static clsUser User { get; set; }
+        public static bool IsGuest { get; set; }
 
-        public bool IsAuthenticated()
+        public static bool IsAuthenticated()
         {
             return User != null;
         }
 
-        public void Clear()
+        public static void Clear()
         {
             User = null!;
             IsGuest = false;

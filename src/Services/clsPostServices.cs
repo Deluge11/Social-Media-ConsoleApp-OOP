@@ -6,79 +6,67 @@ namespace SocialApp.Services
 {
     public class clsPostServices
     {
-        protected Dictionary<string, clsUser> UsersDB { get; }
-        protected Dictionary<int, clsPost> PostsDB { get; }
-        protected clsLastIdInfo LastIdInfo { get; }
-
-        public clsPostServices(clsDataManager dataManager)
+        public static int GetMyPostsCount(string username)
         {
-            UsersDB = dataManager.UsersDB;
-            PostsDB = dataManager.PostsDB;
-            LastIdInfo = dataManager.LastIdInfo;
+            return clsDataManager.UsersDB.ContainsKey(username) ? clsDataManager.UsersDB[username].PostsId.Count : 0;
         }
 
-
-        public int GetMyPostsCount(string username)
+        public static List<clsPost> GetAllPosts()
         {
-            return UsersDB.ContainsKey(username) ? UsersDB[username].PostsId.Count : 0;
+            return clsDataManager.PostsDB.Values.Reverse().ToList();
         }
 
-        public List<clsPost> GetAllPosts()
-        {
-            return PostsDB.Values.Reverse().ToList();
-        }
-
-        public List<clsPost> GetUserPosts(string username)
+        public static List<clsPost> GetUserPosts(string username)
         {
             List<clsPost> result = new();
 
-            return UsersDB.ContainsKey(username) 
-                ? 
-                PostsDB.Values.Where(p => UsersDB[username].PostsId.Contains(p.Id)).Reverse().ToList() 
+            return clsDataManager.UsersDB.ContainsKey(username)
+                ?
+                clsDataManager.PostsDB.Values.Where(p => clsDataManager.UsersDB[username].PostsId.Contains(p.Id)).Reverse().ToList()
                 :
                 new List<clsPost>();
         }
 
-        public void AddNewPost(string username, string post)
+        public static void AddNewPost(string username, string post)
         {
-            clsPost newPost = new clsPost(++LastIdInfo.PostID, post, username, DateTime.Now);
-            PostsDB[newPost.Id] = newPost;
-            UsersDB[username].AddPost(newPost.Id);
+            clsPost newPost = new clsPost(++clsDataManager.LastIdInfo.PostID, post, username, DateTime.Now);
+            clsDataManager.PostsDB[newPost.Id] = newPost;
+            clsDataManager.UsersDB[username].AddPost(newPost.Id);
         }
 
-        public void TogglePostLike(string username, int postId)
+        public static void TogglePostLike(string username, int postId)
         {
-            if (PostsDB.ContainsKey(postId))
-                PostsDB[postId].Like(username);
+            if (clsDataManager.PostsDB.ContainsKey(postId))
+                clsDataManager.PostsDB[postId].Like(username);
         }
 
-        public int GetPostsTotalLikes(string username)
+        public static int GetPostsTotalLikes(string username)
         {
             List<clsPost> userPosts = GetUserPosts(username);
             return userPosts.Sum(p => p.Likes.Count);
         }
 
-        public List<clsPost> GetNewPosts(string username)
+        public static List<clsPost> GetNewPosts(string username)
         {
-            if (!UsersDB.ContainsKey(username))
+            if (!clsDataManager.UsersDB.ContainsKey(username))
                 return [];
 
             PriorityQueue<LinkedListNode<int>, int> posts = new();
 
-            LinkedListNode<int> firstPost = UsersDB[username].PostsId.First;
+            LinkedListNode<int> firstPost = clsDataManager.UsersDB[username].PostsId.First;
 
             if (firstPost != null)
             {
-                posts.Enqueue(firstPost, -PostsDB[firstPost.Value].Id);
+                posts.Enqueue(firstPost, -clsDataManager.PostsDB[firstPost.Value].Id);
             }
 
-            foreach (string friend in UsersDB[username].Friends)
+            foreach (string friend in clsDataManager.UsersDB[username].Friends)
             {
-                firstPost = UsersDB[friend].PostsId.First;
+                firstPost = clsDataManager.UsersDB[friend].PostsId.First;
 
                 if (firstPost != null)
                 {
-                    posts.Enqueue(firstPost, -PostsDB[firstPost.Value].Id);
+                    posts.Enqueue(firstPost, -clsDataManager.PostsDB[firstPost.Value].Id);
                 }
             }
 
@@ -88,11 +76,11 @@ namespace SocialApp.Services
             {
                 LinkedListNode<int> post = posts.Dequeue();
 
-                result.Add(PostsDB[post.Value]);
+                result.Add(clsDataManager.PostsDB[post.Value]);
 
                 post = post.Next;
 
-                if (post != null) posts.Enqueue(post, -PostsDB[post.Value].Id);
+                if (post != null) posts.Enqueue(post, -clsDataManager.PostsDB[post.Value].Id);
             }
             return result;
         }

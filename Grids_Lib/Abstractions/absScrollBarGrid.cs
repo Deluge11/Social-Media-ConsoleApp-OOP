@@ -23,7 +23,7 @@ namespace Grids
 
         public int SkippedItems
         {
-            get => Math.Max(_skippedItems, 0);
+            get => _skippedItems;
             set
             {
                 _skippedItems = Math.Max(value, 0);
@@ -33,7 +33,7 @@ namespace Grids
 
         public int TotalItems
         {
-            get => Math.Max(_totalItems, 1);
+            get => _totalItems;
             set
             {
                 _totalItems = Math.Max(value, 1);
@@ -43,7 +43,7 @@ namespace Grids
 
         public int VisibleItems
         {
-            get => Math.Max(_visibleItems, 1);
+            get => _visibleItems;
             set
             {
                 _visibleItems = Math.Max(value, 1);
@@ -53,7 +53,8 @@ namespace Grids
 
         protected int GetBarLength()
         {
-            int scrollBarLength = ScrollBarBoxLength * VisibleItems / TotalItems;
+
+            int scrollBarLength = Math.Min(ScrollBarBoxLength, ScrollBarBoxLength * VisibleItems / Math.Max(TotalItems, 1));
             return Math.Max(scrollBarLength, MINIMUM_SCROLLBAR_LENGTH);
         }
 

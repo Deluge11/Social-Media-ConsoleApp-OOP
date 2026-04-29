@@ -3,6 +3,7 @@ using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
+using SocialApp.Services;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages
@@ -13,28 +14,18 @@ namespace SocialApp.Pages
         protected override string EmptyRowsMessage { get; } = "There is no users Try to check later";
         public string ActionName { get; } = "Send friend request";
 
-        public clsAppState AppState { get; }
-        public clsServiceCollection Services { get; }
-
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Up;
 
 
-        public clsSendFriendRequestPage(clsAppState appState, clsServiceCollection services)
-        {
-            AppState = appState;
-            Services = services;
-        }
-
-
         public void Execute()
         {
-            var usersList = Services.FriendService.GetUsersWhoCanSendFriendRequest(AppState.User.Name);
+            var usersList = clsFriendServices.GetUsersWhoCanSendFriendRequest(clsAppState.User.Name);
 
             if (usersList.Count == 0) return;
 
-            if (Services.FriendService.AddFriendRequest(AppState.User.Name, usersList[SelectionCursor]))
+            if (clsFriendServices.AddFriendRequest(clsAppState.User.Name, usersList[SelectionCursor]))
             {
                 Console.Clear();
                 clsConsoleUI.PrintMessage($"Friend Request Sent Successfully To {usersList[SelectionCursor]}");
@@ -52,8 +43,8 @@ namespace SocialApp.Pages
 
         protected override List<stPageRow> GetContentRows()
         {
-            return Services.FriendService
-                .GetUsersWhoCanSendFriendRequest(AppState.User.Name)
+            return clsFriendServices
+                .GetUsersWhoCanSendFriendRequest(clsAppState.User.Name)
                 .Select(u => new stPageRow(u))
                 .ToList();
         }

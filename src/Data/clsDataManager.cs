@@ -4,25 +4,20 @@ using Newtonsoft.Json;
 
 namespace SocialApp.Data
 {
-    public class clsDataManager
+    public static class clsDataManager
     {
         private const string MessageFile = "Message.json";
         private const string UsersFile = "Users.json";
         private const string IdsFile = "LastId.json";
         private const string PostsFile = "Posts.json";
 
-        public Dictionary<string, clsUser> UsersDB { get; private set; } = new();
-        public Dictionary<int, clsPost> PostsDB { get; private set; } = new();
-        public Dictionary<int, clsChat> MessagesDB { get; private set; } = new();
-        public clsLastIdInfo LastIdInfo { get; private set; } = new();
+        public static Dictionary<string, clsUser> UsersDB { get; private set; } = new();
+        public static Dictionary<int, clsPost> PostsDB { get; private set; } = new();
+        public static Dictionary<int, clsChat> MessagesDB { get; private set; } = new();
+        public static clsLastIdInfo LastIdInfo { get; private set; } = new();
 
 
-        public clsDataManager()
-        {
-            LoadDataFromJsonFiles();
-        }
-
-        public void PushDataToJsonFiles()
+        public static void PushDataToJsonFiles()
         {
             string IdsJsonString = JsonConvert.SerializeObject(LastIdInfo, Formatting.Indented);
             File.WriteAllText(IdsFile, IdsJsonString);
@@ -37,7 +32,7 @@ namespace SocialApp.Data
             File.WriteAllText(PostsFile, PostsJsonString);
         }
 
-        public void LoadDataFromJsonFiles()
+        public static void LoadDataFromJsonFiles()
         {
             if (File.Exists(UsersFile))
             {

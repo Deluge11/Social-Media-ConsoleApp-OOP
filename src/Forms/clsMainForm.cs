@@ -10,14 +10,12 @@ namespace SocialApp.Forms
 {
     public partial class clsMainForm : IForm
     {
-        private clsAppState AppState { get; }
         private clsNavigationController NavigationController { get; }
-        public clsMainForm(clsAppState appState, clsNavigationController navigationController)
+        public clsMainForm(clsNavigationController navigationController)
         {
             InitializeComponent();
 
             NavigationController = navigationController;
-            AppState = appState;
         }
 
         private void FormOnLoad()
@@ -79,7 +77,7 @@ namespace SocialApp.Forms
             {
                 tbControlKeys.Text += $"| Press B To Back Previous Page" + clsCustomTags.LineBreak;
             }
-            if (AppState.IsAuthenticated() || AppState.IsGuest)
+            if (clsAppState.IsAuthenticated() || clsAppState.IsGuest)
             {
                 tbControlKeys.Text += $"| Press L To Logout" + clsCustomTags.LineBreak;
             }
@@ -124,25 +122,26 @@ namespace SocialApp.Forms
 
         private void UpdateScrollingRangeText()
         {
-            int rowCount;
-            if (NavigationController.GetCurrentPage() is absScrollPage page && (rowCount = page.GetRowCount()) > 0)
-            {
-                string startRow = clsCalculation.FormatNumberAtSize(page.StartCursor + 1, 3);
+            tbScrollingRange.Visible = false;
 
-                int lastVisibleRow =
-                    page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT < rowCount ?
-                    page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT :
-                    rowCount;
+            if (NavigationController.GetCurrentPage() is not absScrollPage page)
+                return;
 
-                string endRow = clsCalculation.FormatNumberAtSize(lastVisibleRow, 3);
+            int rowCount = page.GetRowCount();
 
-                tbScrollingRange.Text = $"[{startRow}]{clsCustomTags.LineBreak}[{endRow}]";
-                tbScrollingRange.Visible = true;
-            }
-            else
-            {
-                tbScrollingRange.Visible = false;
-            }
+            if (rowCount <= 0)
+                return;
+
+            int lastVisibleRow =
+            page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT < rowCount ?
+            page.StartCursor + absScrollPage.PAGE_ROWS_LIMIT :
+            rowCount;
+
+            string startRow = clsCalculation.FormatNumberAtSize(page.StartCursor + 1, 3);
+            string endRow = clsCalculation.FormatNumberAtSize(lastVisibleRow, 3);
+
+            tbScrollingRange.Text = $"[{startRow}]{clsCustomTags.LineBreak}[{endRow}]";
+            tbScrollingRange.Visible = true;
         }
 
         private void UpdateRowCountText()
@@ -168,9 +167,7 @@ namespace SocialApp.Forms
             if (page.GetRowCount() == 0)
                 return;
 
-            int curserRowNumber = page.SelectionCursor - page.StartCursor + 1;
-
-            tbPageContents[curserRowNumber * 3].BorderShape = enBorderShape.Dash;
+            tbPageContents[(page.SelectionCursor - page.StartCursor + 1) * 3].BorderShape = enBorderShape.Dash;
         }
     }
 }

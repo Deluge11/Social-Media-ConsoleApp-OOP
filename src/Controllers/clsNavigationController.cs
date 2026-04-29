@@ -8,13 +8,7 @@ namespace SocialApp.Controllers
     {
         protected Stack<absBasePage> _authenticatePageStack { get; } = new();
         protected Stack<absBasePage> _appPageStack { get; } = new();
-        protected clsAppState _appState { get; }
-
-        public clsNavigationController(clsAppState appState)
-        {
-            _appState = appState;
-        }
-
+        
 
         public void SetMainPage(absBasePage page)
         {
@@ -47,7 +41,7 @@ namespace SocialApp.Controllers
 
         private absBasePage ResolveAuthorizedPage(absBasePage page)
         {
-            if (page is INeedAuthentication && !_appState.IsAuthenticated())
+            if (page is INeedAuthentication && !clsAppState.IsAuthenticated())
             {
                 return new clsNotAuthenticatedPage();
             }
@@ -81,7 +75,7 @@ namespace SocialApp.Controllers
 
         protected Stack<absBasePage> GetCurrentStack()
         {
-            return _appState.IsAuthenticated() || _appState.IsGuest ?
+            return clsAppState.IsAuthenticated() || clsAppState.IsGuest ?
                 _appPageStack : _authenticatePageStack;
         }
 

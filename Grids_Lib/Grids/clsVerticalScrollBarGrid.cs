@@ -22,7 +22,8 @@ namespace Grids
             int skippedLength = GetSkippedLength();
             int endPoint = skippedLength + barLength;
 
-            for (int length = skippedLength; length < ScrollBarBoxLength && length < endPoint; length++)
+            int drawEnd = Math.Min(skippedLength + barLength, ScrollBarBoxLength);
+            for (int length = skippedLength; length < drawEnd; length++)
             {
                 for (int width = 0; width < ScrollBarBoxWidth; width++)
                 {

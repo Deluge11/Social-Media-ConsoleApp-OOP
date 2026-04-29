@@ -1,5 +1,4 @@
 ﻿using Grids;
-using SocialApp.HelperTools;
 
 namespace SocialApp.Forms
 {
@@ -36,15 +35,15 @@ namespace SocialApp.Forms
             tbScrollBarText = new clsVerticalContentGrid(17);
             Line = new clsHorizontalLineGrid(68);
 
-            gmHeaderBar.AddGrid(new stGridInfo(tbAppName, new stPoint(0, 0)));
-            gmHeaderBar.AddGrid(new stGridInfo(tbPageNavigation, new stPoint(16, 0)));
-            gmPageContentContainer.AddGrid(new stGridInfo(Line, new stPoint(0, 7)));
-            gmCenter.AddGrid(new stGridInfo(tbPageRowCount, new stPoint(72, 0)));
-            gmCenter.AddGrid(new stGridInfo(tbScrollingRange, new stPoint(72, 4)));
-            gmCenter.AddGrid(new stGridInfo(gmPageContentContainer, new stPoint(1, 0)));
-            gmCenter.AddGrid(new stGridInfo(gmScrollBarContainer, new stPoint(72, 8)));
-            gmScrollBarContainer.AddGrid(new stGridInfo(tbScrollBarText, new stPoint(5, 4)));
-            gmScrollBarContainer.AddGrid(new stGridInfo(vsbPageScrollBar, new stPoint(0, 0)));
+            gmHeaderBar.AddGrid(tbAppName, new stPoint(0, 0));
+            gmHeaderBar.AddGrid(tbPageNavigation, new stPoint(16, 0));
+            gmPageContentContainer.AddGrid(Line, new stPoint(0, 7));
+            gmCenter.AddGrid(tbPageRowCount, new stPoint(72, 0));
+            gmCenter.AddGrid(tbScrollingRange, new stPoint(72, 4));
+            gmCenter.AddGrid(gmPageContentContainer, new stPoint(1, 0));
+            gmCenter.AddGrid(gmScrollBarContainer, new stPoint(72, 8));
+            gmScrollBarContainer.AddGrid(tbScrollBarText, new stPoint(5, 4));
+            gmScrollBarContainer.AddGrid(vsbPageScrollBar, new stPoint(0, 0));
 
             for (int i = 0; i < tbPageContents.Length; i++)
                 tbPageContents[i] = new clsTextBoxGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
@@ -54,7 +53,7 @@ namespace SocialApp.Forms
 
             for (int row = 0, count = 0; row < Rows.Length; row++)
                 for (int col = 0; col < Cols.Length; col++, count++)
-                    gmPageContentContainer.AddGrid(new stGridInfo(tbPageContents[count], new stPoint(Cols[col], Rows[row])));
+                    gmPageContentContainer.AddGrid(tbPageContents[count], new stPoint(Cols[col], Rows[row]));
 
             FormOnLoad();
         }
@@ -62,7 +61,6 @@ namespace SocialApp.Forms
         public void Print()
         {
             UpdateComponents();
-
             gmHeaderBar.Print();
             gmCenter.Print();
             tbControlKeys.Print();

@@ -1,5 +1,7 @@
 ﻿using SocialApp.Enums;
+using SocialApp.Model;
 using SocialApp.Pages.Abstractions;
+using SocialApp.Services;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages
@@ -9,21 +11,12 @@ namespace SocialApp.Pages
         public override string PageName => "General Posts";
         protected override string EmptyRowsMessage => "There is no posts";
 
-        public clsServiceCollection Services { get; }
-
         public override enPermission AccessPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Up;
 
-
-        public clsGeneralPostsPage(clsServiceCollection services)
-        {
-            Services = services;
-        }
-
-
         protected override List<stPageRow> GetContentRows()
         {
-            return Services.PostService
+            return clsPostServices
                 .GetAllPosts()
                 .Select(p => new stPageRow(
                      p.PosterName,

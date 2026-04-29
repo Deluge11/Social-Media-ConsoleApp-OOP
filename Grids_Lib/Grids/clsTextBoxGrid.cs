@@ -19,7 +19,7 @@ namespace Grids
         public clsTextBoxGrid(int width, int height, stPaddingInfo padding)
             : base(width, height, padding, new stBoarderInfo('-', '|', '*'))
         {
-
+            UpdateBoard();
         }
 
         protected override void SetContent()

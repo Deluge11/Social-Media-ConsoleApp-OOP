@@ -13,6 +13,8 @@ namespace Grids
             ScrollBarBoxWidth = scrollBarBoxWidth;
             ScrollBarBoxLength = scrollBarBoxLength;
             ScrollBarShape = scrollBarShape;
+
+            UpdateBoard();
         }
 
 

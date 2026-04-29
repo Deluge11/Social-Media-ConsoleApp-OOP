@@ -2,6 +2,7 @@
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
+using SocialApp.Services;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages
@@ -12,35 +13,25 @@ namespace SocialApp.Pages
         protected override string EmptyRowsMessage { get; } = "There is no posts! Add new post/friend";
         public string ActionName { get; } = "Like";
 
-        public clsAppState AppState { get; }
-        public clsServiceCollection Services { get; }
-
         public override enPermission AccessPermission => enPermission.None;
         public enPermission ActionPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Up;
 
-
-        public clsConnectionPostsPage(clsAppState appState, clsServiceCollection services)
-        {
-            AppState = appState;
-            Services = services;
-        }
-
         public void Execute()
         {
-            var postsIdList = Services.PostService.GetNewPosts(AppState.User.Name);
+            var postsIdList = clsPostServices.GetNewPosts(clsAppState.User.Name);
 
             if (postsIdList.Count == 0) return;
 
-            Services.PostService.TogglePostLike(AppState.User.Name, postsIdList[SelectionCursor].Id);
+            clsPostServices.TogglePostLike(clsAppState.User.Name, postsIdList[SelectionCursor].Id);
         }
 
         protected override List<stPageRow> GetContentRows()
         {
-            return Services.PostService
-                .GetNewPosts(AppState.User.Name)
+            return clsPostServices
+                .GetNewPosts(clsAppState.User.Name)
                 .Select(p => new stPageRow(
-                    p.PosterName == AppState.User.Name ? "`You`" : p.PosterName,
+                    p.PosterName == clsAppState.User.Name ? "`You`" : p.PosterName,
                     p.PostContent,
                     $"Likes: {p.Likes.Count} {clsCustomTags.LineBreak} Created At {clsCustomTags.LineBreak} {p.Date.ToShortDateString()}"
                 ))

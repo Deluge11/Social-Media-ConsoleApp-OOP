@@ -3,6 +3,7 @@ using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
+using SocialApp.Services;
 using SocialApp.Structure;
 
 namespace SocialApp.Pages
@@ -16,19 +17,14 @@ namespace SocialApp.Pages
         public int ChatId { get; }
         public string FriendName { get; }
 
-        public clsAppState AppState { get; }
-        public clsServiceCollection Services { get; }
-
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Down;
 
 
-        public clsMessagesPage(clsAppState appState, clsServiceCollection services, int chatId, string friendName)
+        public clsMessagesPage(int chatId, string friendName)
         {
             FriendName = friendName;
-            AppState = appState;
-            Services = services;
             ChatId = chatId;
         }
 
@@ -38,7 +34,7 @@ namespace SocialApp.Pages
             clsConsoleUI.PrintMessage("Message Screen");
             string newMessage = clsConsoleInput.GetStringInput("Write New Message");
 
-            if(Services.MessageService.AddMessage(ChatId, AppState.User.Name, newMessage))
+            if(clsMessageServices.AddMessage(ChatId, clsAppState.User.Name, newMessage))
             {
                 ResetCursors();
             }
@@ -52,19 +48,19 @@ namespace SocialApp.Pages
 
         protected override List<stPageRow> GetContentRows()
         {
-            return Services.MessageService
+            return clsMessageServices
                 .GetChatMessages(ChatId)
                 .Select(message => new stPageRow(
-                    message.UserId == AppState.User.Id ? message.MessageString : "",
+                    message.UserId == clsAppState.User.Id ? message.MessageString : "",
                     clsCustomTags.LineBreak + message.Date.ToString("yyy/MM/dd | HH:mm"),
-                    message.UserId != AppState.User.Id ? message.MessageString : ""
+                    message.UserId != clsAppState.User.Id ? message.MessageString : ""
                     ))
                 .ToList();
         }
 
         protected override stPageRow GetHeaderRow()
         {
-            int count = Services.MessageService.GetChatMessages(ChatId).Count();
+            int count = clsMessageServices.GetChatMessages(ChatId).Count();
 
             return new stPageRow(
                 $"--={{ `You` }}=--",

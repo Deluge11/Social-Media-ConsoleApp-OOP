@@ -3,6 +3,7 @@ using SocialApp.HelperTools;
 using SocialApp.Interfaces;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
+using SocialApp.Services;
 using SocialApp.Structure;
 
 
@@ -14,19 +15,9 @@ namespace SocialApp.Pages
         protected override string EmptyRowsMessage { get; } = "You have no posts!";
         public string ActionName { get; } = "Add new post";
 
-        public clsAppState AppState { get; }
-        public clsServiceCollection Services { get; }
-
         public enPermission ActionPermission => enPermission.None;
         public override enPermission AccessPermission => enPermission.None;
         protected override enResetCursor CursorResetCommand => enResetCursor.Up;
-
-
-        public clsMyPostsPage(clsAppState appState, clsServiceCollection services)
-        {
-            AppState = appState;
-            Services = services;
-        }
 
         public void Execute()
         {
@@ -37,7 +28,7 @@ namespace SocialApp.Pages
 
             if (clsValidation.IsValidPost(post))
             {
-                Services.PostService.AddNewPost(AppState.User.Name, post);
+                clsPostServices.AddNewPost(clsAppState.User.Name, post);
                 clsConsoleUI.PrintMessage("Post Added Successfully");
                 ResetCursors();
             }
@@ -50,8 +41,8 @@ namespace SocialApp.Pages
 
         protected override List<stPageRow> GetContentRows()
         {
-            return Services.PostService
-                .GetUserPosts(AppState.User.Name)
+            return clsPostServices
+                .GetUserPosts(clsAppState.User.Name)
                 .Select(p => new stPageRow(
                     p.PostContent,
                     p.Likes.Count.ToString(),

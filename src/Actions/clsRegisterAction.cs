@@ -9,14 +9,9 @@ namespace SocialApp.Scripts
     public class clsRegisterAction : IAction
     {
         public string ActionName { get; } = "Register";
-        public clsServiceCollection Services { get; }
 
         public enPermission ActionPermission => enPermission.None;
 
-        public clsRegisterAction(clsServiceCollection services)
-        {
-            Services = services;
-        }
 
         public void Execute()
         {
@@ -34,7 +29,7 @@ namespace SocialApp.Scripts
                 return;
             }
 
-            if (!Services.AuthenticationService.Register(username, password))
+            if (!clsAuthenticationServices.Register(username, password))
             {
                 clsConsoleUI.PrintMessage("User Already Exists!");
                 clsConsoleUI.PressKeyToContinue();

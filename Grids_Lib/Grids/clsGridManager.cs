@@ -10,12 +10,12 @@ namespace Grids
 
         }
 
-        public void AddGrid(stGridInfo gridInfo)
+        public void AddGrid(absBaseGrid grid, stPoint point)
         {
             // If Inner Component Get Updated Then Update This Grid
-            gridInfo.Grid.OnGridUpdateEvent += UpdateBoard;
-            Grids.Add(gridInfo);
+            grid.OnGridUpdateEvent += UpdateBoard;
 
+            Grids.Add(new stGridInfo(grid, point));
             SortGrids();
             UpdateBoard();
         }

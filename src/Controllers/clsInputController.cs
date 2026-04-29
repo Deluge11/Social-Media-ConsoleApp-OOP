@@ -2,22 +2,16 @@
 using SocialApp.HelperTools;
 using SocialApp.Interfaces.Page;
 using SocialApp.Pages.Abstractions;
-using SocialApp.Services;
-
 
 namespace SocialApp.Controllers
 {
     public class clsInputController
     {
         public clsNavigationController NavigationController { get; }
-        public clsServiceCollection Services { get; }
-        public clsAppState AppState { get; }
 
-        public clsInputController(clsAppState appState, clsNavigationController navigationController, clsServiceCollection services)
+        public clsInputController( clsNavigationController navigationController)
         {
             NavigationController = navigationController;
-            Services = services;
-            AppState = appState;
         }
 
         public void TakeAction()
@@ -78,7 +72,7 @@ namespace SocialApp.Controllers
         {
             if (page is IAction actionPage)
             {
-                if (AppState.User.HasPermission(actionPage.ActionPermission))
+                if (clsAppState.User.HasPermission(actionPage.ActionPermission))
                 {
                     actionPage.Execute();
                 }
@@ -93,7 +87,7 @@ namespace SocialApp.Controllers
             {
                 absBasePage nextPage = rootPage.Next();
 
-                if (AppState.User.HasPermission(nextPage.AccessPermission))
+                if (clsAppState.User.HasPermission(nextPage.AccessPermission))
                 {
                     NavigationController.PushPageToCurrentStack(nextPage);
                 }
@@ -108,9 +102,9 @@ namespace SocialApp.Controllers
 
         private void PerformLogout()
         {
-            if (AppState.IsAuthenticated() || AppState.IsGuest)
+            if (clsAppState.IsAuthenticated() || clsAppState.IsGuest)
             {
-                AppState.Clear();
+                clsAppState.Clear();
                 NavigationController.ResetNavigation();
             }
         }

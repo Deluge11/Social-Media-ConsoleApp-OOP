@@ -6,30 +6,21 @@ namespace SocialApp.Services
 {
     public class clsMessageServices
     {
-        protected Dictionary<int, clsChat> MessagesDB { get; }
-        protected Dictionary<string, clsUser> UsersDB { get; }
-
-        public clsMessageServices(clsDataManager dataManager)
+        public static List<clsMessage> GetChatMessages(int chatId)
         {
-            MessagesDB = dataManager.MessagesDB;
-            UsersDB = dataManager.UsersDB;
+            return clsDataManager.MessagesDB[chatId].messagesList;
         }
 
-        public List<clsMessage> GetChatMessages(int chatId)
+        public static int GetChatMessagesCount(int chatId)
         {
-            return MessagesDB[chatId].messagesList;
+            return clsDataManager.MessagesDB[chatId].messagesList.Count;
         }
 
-        public int GetChatMessagesCount(int chatId)
+        public static int GetChatId(string userName, string friendName)
         {
-            return MessagesDB[chatId].messagesList.Count;
-        }
-
-        public int GetChatId(string userName, string friendName)
-        {
-            foreach (int chatId in UsersDB[userName].ChatID)
+            foreach (int chatId in clsDataManager.UsersDB[userName].ChatID)
             {
-                if (UsersDB[friendName].ChatID.Contains(chatId))
+                if (clsDataManager.UsersDB[friendName].ChatID.Contains(chatId))
                 {
                     return chatId;
                 }
@@ -37,15 +28,15 @@ namespace SocialApp.Services
             return -1;
         }
 
-        public bool AddMessage(int chatId, string userName, string message)
+        public static bool AddMessage(int chatId, string userName, string message)
         {
-            if (message.Length < 1 || !MessagesDB.ContainsKey(chatId) || !UsersDB[userName].ChatID.Contains(chatId))
+            if (message.Length < 1 || !clsDataManager.MessagesDB.ContainsKey(chatId) || !clsDataManager.UsersDB[userName].ChatID.Contains(chatId))
             {
                 return false;
             }
 
-            clsMessage newMessage = new clsMessage(UsersDB[userName].Id, message, DateTime.Now);
-            MessagesDB[chatId].AddMsg(newMessage);
+            clsMessage newMessage = new clsMessage(clsDataManager.UsersDB[userName].Id, message, DateTime.Now);
+            clsDataManager.MessagesDB[chatId].AddMsg(newMessage);
             return true;
 
         }

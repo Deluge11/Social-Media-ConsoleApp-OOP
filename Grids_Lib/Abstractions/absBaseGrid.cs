@@ -57,7 +57,6 @@ namespace Grids
 
             ClearContent(ContentBoard);
             ClearContent(BaseBoard);
-
         }
 
 
