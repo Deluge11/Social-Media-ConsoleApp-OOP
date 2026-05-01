@@ -3,6 +3,7 @@ using SocialApp.Scripts;
 using SocialApp.Actions;
 using SocialApp.Controllers;
 using SocialApp.Forms;
+using SocialApp.Data;
 
 clsPageCollector homePage = new clsPageCollector("Home Page");
 clsPageCollector postPage = new clsPageCollector("Post Page");
@@ -49,5 +50,7 @@ clsPageController pageController = new clsPageController(new clsMainForm(navigat
 
 navigationController.SetMainPage(homePage);
 navigationController.SetAuthenticationPage(authenticationPage);
+
+clsDataManager.LoadDataFromJsonFiles();
 
 pageController.Start();

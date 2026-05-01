@@ -82,7 +82,7 @@ namespace SocialApp.Forms
                 tbControlKeys.Text += $"| Press L To Logout" + clsCustomTags.LineBreak;
             }
             {
-                tbControlKeys.Text += $"| Press E to Save and Exit" + clsCustomTags.LineBreak;
+                tbControlKeys.Text += $"| Press E to Exit" + clsCustomTags.LineBreak;
             }
         }
 

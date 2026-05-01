@@ -21,14 +21,17 @@ namespace SocialApp.Pages
             var friendsList = clsFriendServices.GetUserFriends(clsAppState.User.Name);
 
             if (friendsList.Count == 0)
+            {
                 return null!;
+            }
 
-            int chatId = clsMessageServices.GetChatId(clsAppState.User.Name, friendsList[SelectionCursor]);
+            if (clsMessageServices.GetChatId(clsAppState.User.Name, friendsList[SelectionCursor], out int chatId))
+            {
+                return new clsMessagesPage(chatId, friendsList[SelectionCursor]);
+            }
 
-            if (chatId == -1)
-                return null!;
+            return null!;
 
-            return new clsMessagesPage(chatId, friendsList[SelectionCursor]);
         }
 
         protected override List<stPageRow> GetContentRows()

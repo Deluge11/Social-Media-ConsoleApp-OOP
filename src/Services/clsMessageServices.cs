@@ -16,16 +16,18 @@ namespace SocialApp.Services
             return clsDataManager.MessagesDB[chatId].messagesList.Count;
         }
 
-        public static int GetChatId(string userName, string friendName)
+        public static bool GetChatId(string userName, string friendName,out int chatId)
         {
-            foreach (int chatId in clsDataManager.UsersDB[userName].ChatID)
+            chatId = -1;
+            foreach (int cID in clsDataManager.UsersDB[userName].ChatID)
             {
-                if (clsDataManager.UsersDB[friendName].ChatID.Contains(chatId))
+                if (clsDataManager.UsersDB[friendName].ChatID.Contains(cID))
                 {
-                    return chatId;
+                    chatId = cID;
+                    return true;
                 }
             }
-            return -1;
+            return false;
         }
 
         public static bool AddMessage(int chatId, string userName, string message)
