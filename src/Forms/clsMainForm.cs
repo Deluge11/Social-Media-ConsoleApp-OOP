@@ -33,8 +33,6 @@ namespace SocialApp.Forms
         {
             ResetPageContent();
 
-            DisableContentGridsBorder();
-
             UpdateScrollBar();
             UpdateControlKeys();
             UpdateContentGrids();
@@ -83,14 +81,6 @@ namespace SocialApp.Forms
             }
             {
                 tbControlKeys.Text += $"| Press E to Exit" + clsCustomTags.LineBreak;
-            }
-        }
-
-        private void DisableContentGridsBorder()
-        {
-            for (int i = 0; i < tbPageContents.Length; i++)
-            {
-                tbPageContents[i].BorderShape = enBorderShape.None;
             }
         }
 
@@ -161,6 +151,8 @@ namespace SocialApp.Forms
 
         private void UpdateSelectedContentGrid()
         {
+            DisableContentGridsBorder();
+
             if (NavigationController.GetCurrentPage() is not absScrollSelection page)
                 return;
 
@@ -168,6 +160,14 @@ namespace SocialApp.Forms
                 return;
 
             tbPageContents[(page.SelectionCursor - page.StartCursor + 1) * 3].BorderShape = enBorderShape.Dash;
+        }
+
+        private void DisableContentGridsBorder()
+        {
+            for (int i = 0; i < tbPageContents.Length; i++)
+            {
+                tbPageContents[i].BorderShape = enBorderShape.None;
+            }
         }
     }
 }

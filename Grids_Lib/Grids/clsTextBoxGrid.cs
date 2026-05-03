@@ -1,9 +1,12 @@
 ﻿
+using Grids_Lib.Enums;
+
 namespace Grids
 {
     public class clsTextBoxGrid : absBaseGrid
     {
         private string _text = "";
+        public enAlignment Alignment { get; set; } = enAlignment.Left;
 
         public string Text
         {
@@ -39,6 +42,8 @@ namespace Grids
 
                 RenderWord(" ", ref currentWidth, ref currentHeight);
             }
+
+            ApplyTextAlignment();
         }
 
         private void RenderWord(string word, ref int currentWidth, ref int currentHeight)
@@ -103,6 +108,112 @@ namespace Grids
                 return true;
             }
             return false;
+        }
+
+        private void ApplyTextAlignment()
+        {
+            for (int y = 0; y < ContentBoard.Length; y++)
+            {
+                ApplyTextAlignmentOnArray(ContentBoard[y]);
+            }
+        }
+
+        private void ApplyTextAlignmentOnArray(char[] charArr)
+        {
+            int leftGap = GetLeftGap(charArr);
+            int rightGap = GetRightGap(charArr);
+
+            switch (Alignment)
+            {
+                case enAlignment.Left:
+
+                    while (leftGap > 0)
+                    {
+                        OffsetToLeft(charArr);
+                        leftGap--;
+                    }
+
+                    break;
+
+                case enAlignment.Center:
+
+                    while (rightGap > leftGap)
+                    {
+                        OffsetToRight(charArr);
+                        rightGap--;
+                        leftGap++;
+                    }
+
+                    while (rightGap < leftGap)
+                    {
+                        OffsetToLeft(charArr);
+                        rightGap++;
+                        leftGap--;
+                    }
+
+                    break;
+
+                case enAlignment.Right:
+
+                    while (rightGap > 0)
+                    {
+                        OffsetToRight(charArr);
+                        rightGap--;
+                    }
+
+                    break;
+
+            }
+            if (Alignment == enAlignment.Right)
+            {
+
+            }
+            else if (Alignment == enAlignment.Center)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        private int GetLeftGap(char[] charArr)
+        {
+            int leftGap = 0;
+            for (int i = 0; i < charArr.Length && charArr[i] == ' '; i++)
+            {
+                leftGap++;
+            }
+            return leftGap;
+        }
+
+        private int GetRightGap(char[] charArr)
+        {
+            int rightGap = 0;
+            for (int i = charArr.Length - 1; i >= 0 && charArr[i] == ' '; i--)
+            {
+                rightGap++;
+            }
+            return rightGap;
+        }
+
+        private void OffsetToRight(char[] charArr)
+        {
+            for (int i = charArr.Length - 1; i > 0; i--)
+            {
+                charArr[i] = charArr[i - 1];
+            }
+            charArr[0] = ' ';
+        }
+
+        private void OffsetToLeft(char[] charArr)
+        {
+            for (int i = 0; i < charArr.Length - 1; i++)
+            {
+                charArr[i] = charArr[i + 1];
+            }
+            charArr[charArr.Length - 1] = ' ';
         }
 
         //private void HandleLongWordHyphen(ref int currentWidth, ref int currentHeight, string word, int wordIndex)

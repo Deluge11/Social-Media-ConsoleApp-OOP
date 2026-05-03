@@ -1,4 +1,5 @@
 ﻿using Grids;
+using Grids_Lib.Enums;
 
 namespace SocialApp.Forms
 {
@@ -47,6 +48,9 @@ namespace SocialApp.Forms
 
             for (int i = 0; i < tbPageContents.Length; i++)
                 tbPageContents[i] = new clsTextBoxGrid(20, 5, new stPaddingInfo(1, 1, 1, 1));
+
+            for (int i = 0; i < tbPageContents.Length; i++)
+                tbPageContents[i].Alignment = enAlignment.Center;
 
             int[] Rows = { 0, 8, 15, 22 };
             int[] Cols = { 1, 24, 47 };
