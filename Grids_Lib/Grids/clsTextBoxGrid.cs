@@ -6,14 +6,25 @@ namespace Grids
     public class clsTextBoxGrid : absBaseGrid
     {
         private string _text = "";
-        public enAlignment Alignment { get; set; } = enAlignment.Left;
+        private enAlignment _alignment = enAlignment.Left;
+        public enAlignment Alignment
+        {
+            get
+            {
+                return _alignment;
+            }
+            set
+            {
+                _alignment = value;
+                UpdateBoard();
+            }
+        }
 
         public string Text
         {
             get => _text;
             set
             {
-                if (_text == value) return;
                 _text = value;
                 UpdateBoard();
             }
@@ -114,11 +125,11 @@ namespace Grids
         {
             for (int y = 0; y < ContentBoard.Length; y++)
             {
-                ApplyTextAlignmentOnArray(ContentBoard[y]);
+                ApplyTextAlignment(ContentBoard[y]);
             }
         }
 
-        private void ApplyTextAlignmentOnArray(char[] charArr)
+        private void ApplyTextAlignment(char[] charArr)
         {
             int leftGap = GetLeftGap(charArr);
             int rightGap = GetRightGap(charArr);
@@ -127,53 +138,26 @@ namespace Grids
             {
                 case enAlignment.Left:
 
-                    while (leftGap > 0)
-                    {
-                        OffsetToLeft(charArr);
-                        leftGap--;
-                    }
-
+                    OffsetToLeft(charArr, leftGap);
                     break;
 
                 case enAlignment.Center:
 
-                    while (rightGap > leftGap)
+                    if (rightGap > leftGap)
                     {
-                        OffsetToRight(charArr);
-                        rightGap--;
-                        leftGap++;
+                        OffsetToRight(charArr, (rightGap - leftGap) / 2);
                     }
-
-                    while (rightGap < leftGap)
+                    else
                     {
-                        OffsetToLeft(charArr);
-                        rightGap++;
-                        leftGap--;
+                        OffsetToLeft(charArr, (leftGap - rightGap) / 2);
                     }
 
                     break;
 
                 case enAlignment.Right:
 
-                    while (rightGap > 0)
-                    {
-                        OffsetToRight(charArr);
-                        rightGap--;
-                    }
-
+                    OffsetToRight(charArr, rightGap);
                     break;
-
-            }
-            if (Alignment == enAlignment.Right)
-            {
-
-            }
-            else if (Alignment == enAlignment.Center)
-            {
-
-            }
-            else
-            {
 
             }
         }
@@ -198,22 +182,34 @@ namespace Grids
             return rightGap;
         }
 
-        private void OffsetToRight(char[] charArr)
+        private void OffsetToRight(char[] charArr, int offset)
         {
-            for (int i = charArr.Length - 1; i > 0; i--)
+            int i = charArr.Length - 1;
+            while (i >= offset)
             {
-                charArr[i] = charArr[i - 1];
+                charArr[i] = charArr[i - offset];
+                i--;
             }
-            charArr[0] = ' ';
+            while (i >= 0)
+            {
+                charArr[i] = ' ';
+                i--;
+            }
         }
 
-        private void OffsetToLeft(char[] charArr)
+        private void OffsetToLeft(char[] charArr, int offset)
         {
-            for (int i = 0; i < charArr.Length - 1; i++)
+            int i = 0;
+            while (i < charArr.Length - 1 - offset)
             {
-                charArr[i] = charArr[i + 1];
+                charArr[i] = charArr[i + offset];
+                i++;
             }
-            charArr[charArr.Length - 1] = ' ';
+            while (i < charArr.Length - 1)
+            {
+                charArr[i] = ' ';
+                i++;
+            }
         }
 
         //private void HandleLongWordHyphen(ref int currentWidth, ref int currentHeight, string word, int wordIndex)
